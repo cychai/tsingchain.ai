@@ -1,0 +1,7 @@
+# 若 Netlify 站点（tsingchain）连接本仓库，按此构建；Cloudflare Workers 走 wrangler.jsonc。
+[build]
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22.19.0"
