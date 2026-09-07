@@ -1,0 +1,38 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Claim from '@/components/Claim.astro';
+import Related from '@/components/Related.astro';
+import { cases } from '@/data/cases';
+---
+<Base title="项目案例" description="清链科技液冷与余热利用项目案例：10 MW 极端气候液冷算力中心、25 MW 城镇供热、5 MW 工业楼宇供暖、3 MW 恒温水产养殖。">
+  <PageHero eyebrow="项目案例" title="规模化落地验证" lede="自 2020 年第一代浸没式液冷以来，近 1000 MW 相关产品落地，余热供热面积超 200 万平方米。以下为可公开的代表性项目；完整项目清单与运行数据可在签署保密协议后提供。" />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c2">
+        {cases.map((c) => (
+          <div class="case">
+            <div class="kpi"><b>{c.mw}</b><span>MW · {c.type}</span></div>
+            <div class="body">
+              <span class="tag">{c.tag}</span>
+              <h3 style="margin:0">{c.title}</h3>
+              <ul style="margin:0.3rem 0 0;padding-left:1.2em;color:var(--ink-2)">{c.detail.map((d) => <li>{d}</li>)}</ul>
+            </div>
+            <div class="meta"><span>{c.year} 年</span><span>项目方名称按约定不公开</span></div>
+          </div>
+        ))}
+      </div>
+      <div style="margin-top:2.5rem;max-width:44em">
+        <Claim id="capacity-1000mw" block />
+        <Claim id="heating-2m" block />
+        <Claim id="case-10mw-extreme" block />
+      </div>
+    </div>
+  </section>
+  <section class="section alt">
+    <div class="wrap prose">
+      <p class="small muted">口径说明：以上 MW 数按 IT 侧热负荷计，供热面积按合同面积计，气温为项目所在地的极端气温记录。项目方名称按保密约定不公开；完整项目清单与运行数据可在签署保密协议后提供。</p>
+      <Related items={[{ href: '/solutions/heat-reuse', label: '余热利用与城镇供热方案', kind: 'approach' }, { href: '/tools/return-water', label: '算一算您的余热能卖给谁', kind: 'tool' }, { href: '/evidence/turnover', label: '我们交付时移交哪些记录', kind: 'evidence' }]} />
+    </div>
+  </section>
+</Base>

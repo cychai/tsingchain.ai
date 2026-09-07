@@ -1,0 +1,54 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import { getCollection } from 'astro:content';
+import { site } from '@/data/site';
+import { external } from '@/data/insightsExternal';
+const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+---
+<Base title="洞察" description="清链科技创始人李俊明关于电力、液冷与余热利用的长文。中文全文在本站，英文专栏 Every Watt Counts 同步更新。">
+  <PageHero eyebrow="洞察" title="把液冷的账算清楚" lede="关于电力、液冷与余热利用的长文。中文全文在本站发布；英文专栏 Every Watt Counts 面向海外读者，文章列表附中文提要。">
+    <div class="btn-row"><a class="btn" href={site.substack}>英文专栏 Every Watt Counts</a><a class="btn" href="/insights/rss.xml">RSS</a></div>
+  </PageHero>
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <aside class="sticky">
+          {tags.length > 0 && <><div class="eyebrow">话题</div><div style="display:flex;flex-wrap:wrap;gap:0.4rem">{tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t}</a>)}</div></>}
+          <p class="small muted" style="margin-top:1.5rem">中文全文 {posts.length} 篇，英文原文 {external.length} 篇。{site.wechat && <>微信公众号「{site.wechat}」同步。</>}</p>
+        </aside>
+        <div>
+          <div class="eyebrow">中文全文</div>
+          {posts.map((p, i) => (<>
+            {(i === 0 || posts[i - 1].data.date.getFullYear() !== p.data.date.getFullYear()) && <h2 class="year">{p.data.date.getFullYear()}</h2>}
+            <article class="post">
+              <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+              <div>
+                <h3><a href={`/insights/${p.id}`}>{p.data.title}</a></h3>
+                {p.data.subtitle && <p>{p.data.subtitle}</p>}
+                {p.data.tags.length > 0 && <div class="tags">{p.data.tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t}</a>)}</div>}
+              </div>
+            </article>
+          </>))}
+          <div class="eyebrow" style="margin-top:3rem">英文专栏 · Every Watt Counts</div>
+          <p class="small muted">尚无中文版的英文原文，发布于 Substack，点击标题跳转阅读。已有中文版的文章见上方列表。</p>
+          {external.map((e) => (
+            <article class="post">
+              <time datetime={e.date}>{e.date}</time>
+              <div>
+                <h3 style="font-size:1.05rem"><a href={e.url} rel="noopener">{e.title}</a></h3>
+                <p>{e.zh}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .year { font-size: 0.9rem; color: var(--ink-3); margin: 2rem 0 0.3rem; font-weight: 600; letter-spacing: 0.08em; }
+  .year:first-child { margin-top: 0; }
+</style>

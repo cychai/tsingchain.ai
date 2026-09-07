@@ -1,0 +1,35 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+import { platform as items } from '@/data/sections';
+export function getStaticPaths() { return items.map((s) => ({ params: { slug: s.slug }, props: { s } })); }
+const { s } = Astro.props;
+---
+<Base title={s.title} description={s.summary}>
+  <PageHero eyebrow="产品与平台" title={s.title} lede={s.summary} crumbs={[['/platform', '产品与平台']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split main">
+        <div class="prose">
+          {s.body.map((p) => <p>{p}</p>)}
+          {s.related && <Related items={s.related} />}
+        </div>
+        {s.asks && (
+          <aside class="sticky">
+            <div class="tool" style="padding:1.4rem">
+              <div class="eyebrow plain">我们请项目尽早决定的事</div>
+              <ul class="asks">{s.asks.map((a) => <li>{a}</li>)}</ul>
+              <a class="btn" href="/company/contact" style="margin-top:1rem">联系工程师</a>
+            </div>
+          </aside>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .asks { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+  .asks li { padding: 0.6rem 0 0.6rem 1.4rem; border-bottom: 1px solid var(--line-2); font-size: 0.95rem; position: relative; }
+  .asks li::before { content: "→"; position: absolute; left: 0; color: var(--heat); }
+</style>

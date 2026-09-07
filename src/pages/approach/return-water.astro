@@ -1,0 +1,49 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+import Claim from '@/components/Claim.astro';
+---
+<Base title="回水品位" description="为什么液冷回路的回水温度，而不是 PUE，是决定余热有没有买家的第一个数。">
+  <PageHero eyebrow="技术方法 · 02" title="回水品位：决定余热有没有买家的第一个数" lede="每一座液冷数据中心都在产热水。这份水是资产还是处置负担，由一个很少出现在样本上的数字先决定：它以什么温度回来。" crumbs={[['/approach', '技术方法']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split main">
+        <div class="prose">
+          <h2>热不是一个量，是一个「量 + 温度」</h2>
+          <p>30 °C 的一兆瓦热和 60 °C 的一兆瓦热不是同一种产品。前者能给泳池加温或作热泵热源；后者几乎不用提升就能直接进低温区域供热管网、温室、水产养殖场或洗衣房。买家要的不是「越多越好的热」，而是在合适的时间、以他们系统设计的温度、给到合适品位的热。</p>
+          <p>所以我们先按回水品位设计，再看 PUE。为了把设施能耗压到最低而调出来的回路，回水往往凉到卖不出去。按温水回水设计的回路，可能多付零点几的 PUE 给泵，却把一笔处置成本变成围墙边一块表计量的收入。</p>
+          <p>温度是第一道筛选，不是全部答案。买家最终签不签，同样取决于负荷曲线与季节性、距离与泵送成本、可用率与备用、水力设计与换热器端差，以及商务条款。回水品位决定的是哪些谈判值得开始。</p>
+          <h2>各个品位长什么样</h2>
+          <Claim id="supply-55c" block />
+          <Claim id="district-heat-50-70" block />
+          <p>温水直触芯片系统在 OEM 规定的进水上限和负荷下，可以按 45–60 °C 回水设计；部分浸没式与两相系统按工质及其饱和温度，可以设计成 60 °C 以上回水。风冷机房通常在 20–35 °C 交出热量，无论是热风还是设施水；在到达围墙前就被兑进设施水的液冷回路也是如此。到了这个品位，几乎所有买家都需要热泵，经济账就转到了谁拥有热泵那一边。</p>
+          <h2>数字在哪个边界上测</h2>
+          <p>欧盟的报告条例（委员会授权条例 (EU) 2024/1364，适用于欧盟境内装机 IT 功率需求不低于 500 kW 的数据中心）要求再利用的热量在数据中心边界、也就是交出去供外部使用的那个点上计量。它在欧盟以外没有约束力，但它是目前关于「表该装在哪」最清楚的公开表述，比多数余热营销都准确。在国内，这条边界同样是将来任何补贴、碳核算或合同结算会依据的地方。</p>
+          <h2>住在同一条缝里的三个悖论</h2>
+          <ul>
+            <li><strong>低 PUE 不等于低耗水。</strong>蒸发冷却在热力学上很便宜，用很少的电就能把热排到接近湿球温度。变好的指标和被消耗的资源不是同一种资源。</li>
+            <li><strong>低现场 WUE 不等于低总水耗。</strong>把冷却塔换成干冷器，现场水表降下来，风机电耗涨上去，发这部分电用掉的水记在别人的流域里。</li>
+            <li><strong>余热回收可能让 PUE 变差。</strong>如果输出泵和换热器计入设施用电，PUE 会上升，而送出去的热在这个比值里无处体现。您改善了能源系统，却损伤了自己的标题指标。请在 PUE 之外同时报告能源再利用系数（ERF，ISO/IEC 30134-6 与 EN 50600-4-6），让改善看得见。</li>
+          </ul>
+          <p>这些指标没有一个是错的。错的是很少有人说明的那条边界。我们把它说明。</p>
+          <Related items={[{ href: '/tools/return-water', label: '输入回水温度，看谁能买您的热', kind: 'tool' }, { href: '/solutions/heat-reuse', label: '余热利用与城镇供热', kind: 'approach' }, { href: '/evidence/commissioning', label: '每个数字的边界如何在调试时记录', kind: 'evidence' }]} />
+        </div>
+        <aside class="sticky">
+          <div class="tool" style="padding:1.4rem">
+            <div class="eyebrow plain">速查</div>
+            <div class="grades">
+              {[['≥ 70 °C', '传统区域供热、工业预热、吸收式制冷'], ['45–70 °C', '第四代区域供热、温室、水产养殖、洗衣'], ['35–50 °C', '泳池、低温末端楼宇供暖、热泵热源'], ['< 35 °C', '只能作热泵热源，提升由买家承担']].map(([g, b]) => <div class="g"><span class="mono">{g}</span><span>{b}</span></div>)}
+            </div>
+            <p class="small muted" style="margin:1rem 0 0">示意区间。实际门槛取决于买方系统、季节与改造状况。<a href="/tools/return-water">用工具</a>算您的情况。</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .grades { display: grid; gap: 0.6rem; margin-top: 0.5rem; }
+  .g { display: grid; grid-template-columns: 6rem 1fr; gap: 0.8rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line-2); font-size: 0.92rem; }
+  .g .mono { color: var(--heat); font-size: 0.85rem; }
+</style>

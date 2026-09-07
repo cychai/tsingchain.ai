@@ -1,0 +1,50 @@
+---
+import Base from '@/layouts/Base.astro';
+import Related from '@/components/Related.astro';
+import { getCollection, render } from 'astro:content';
+import { site } from '@/data/site';
+export async function getStaticPaths() {
+  const posts = await getCollection('insights', (p) => !p.data.draft);
+  return posts.map((p) => ({ params: { slug: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+const defaults: Record<string, { href: string; label: string; kind: 'evidence' | 'tool' | 'approach' | 'insight' }> = {
+  '/evidence/leak-points': { href: '/evidence/leak-points', label: '十大漏点', kind: 'evidence' },
+  '/evidence/turnover': { href: '/evidence/turnover', label: '交付资料包', kind: 'evidence' },
+  '/evidence/commissioning': { href: '/evidence/commissioning', label: '调试与验收准则', kind: 'evidence' },
+  '/tools/return-water': { href: '/tools/return-water', label: '回水品位 → 余热买家', kind: 'tool' },
+  '/tools/approach-temp': { href: '/tools/approach-temp', label: '趋近温差 → CDU 选型', kind: 'tool' },
+  '/tools/leak-checklist': { href: '/tools/leak-checklist', label: '交付资料自查', kind: 'tool' },
+  '/approach/thermal-path': { href: '/approach/thermal-path', label: '整条热通路', kind: 'approach' },
+  '/approach/return-water': { href: '/approach/return-water', label: '回水品位', kind: 'approach' },
+  '/approach/three-clocks': { href: '/approach/three-clocks', label: '三个时钟', kind: 'approach' },
+};
+const related = p.data.related.map((r) => defaults[r]).filter(Boolean);
+---
+<Base title={p.data.title} description={p.data.subtitle ?? site.description} canonical={p.data.canonical} type="article" published={p.data.date}>
+  <article>
+    <header class="hero">
+      <div class="narrow">
+        <nav class="crumbs" aria-label="面包屑"><a href="/">首页</a><span><a href="/insights">洞察</a></span></nav>
+        <div class="eyebrow">洞察 · {fmt(p.data.date)}</div>
+        <h1 style="font-size:clamp(1.7rem,3.6vw,2.6rem)">{p.data.title}</h1>
+        {p.data.subtitle && <p class="lede">{p.data.subtitle}</p>}
+        {p.data.tags.length > 0 && <div class="tags" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:1rem">{p.data.tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t}</a>)}</div>}
+      </div>
+    </header>
+    <div class="narrow prose article-body">
+      <Content />
+      <hr />
+      <p class="small muted">作者：{p.data.author ?? '李俊明'}{(p.data.author ?? '李俊明') === '李俊明' && <>（Jim Li），清链科技联合创始人兼副总裁，NextGenergy 创始人兼 CEO</>}。{p.data.source === 'wechat' && p.data.sourceUrl && <>首发于微信公众号「清链学堂在线」，<a href={p.data.sourceUrl}>原文链接</a>。</>}{p.data.source === 'substack' && p.data.sourceUrl && <>英文版首发于 <a href={p.data.sourceUrl}>Substack</a>。</>}转载请注明出处。</p>
+      <Related items={related} />
+    </div>
+  </article>
+</Base>
+<style>
+  .article-body { padding-bottom: 3rem; font-size: 1.05rem; line-height: 1.9; }
+  .article-body :global(h2) { font-size: 1.7rem; }
+  .article-body :global(h3) { font-size: 1.3rem; }
+  .article-body :global(p > em:only-child) { display: block; font-size: 0.85rem; color: var(--ink-3); margin-top: -0.8em; }
+</style>

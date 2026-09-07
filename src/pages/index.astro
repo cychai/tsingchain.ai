@@ -1,0 +1,198 @@
+---
+import Base from '@/layouts/Base.astro';
+import Card from '@/components/Card.astro';
+import Claim from '@/components/Claim.astro';
+import { getCollection } from 'astro:content';
+import { site } from '@/data/site';
+import { cases } from '@/data/cases';
+const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+---
+<Base title={site.name}>
+  <section class="hero home-hero">
+    <div class="wrap">
+      <div class="eyebrow">AI 算力中心液冷综合解决方案</div>
+      <h1>从设施水接口到芯片，<br />对整条热通路负责。</h1>
+      <p class="lede">液冷是按部件采购的，却是按系统出问题的。清链科技自 2018 年起深耕液冷与余热利用，近 1000 MW 相关产品落地，供热面积超 200 万平方米。我们设计、集成、调试整条热通路，并把每一个边界的测试记录交到您手上。</p>
+      <div class="btn-row">
+        <a class="btn primary" href="/solutions">解决方案</a>
+        <a class="btn" href="/cases">项目案例</a>
+      </div>
+      <dl class="kpis">
+        <div><dt>相关产品落地</dt><dd>近 1000 <small>MW</small></dd><dd class="n">2020 年至今累计，按 IT 侧热负荷计</dd></div>
+        <div><dt>余热供热面积</dt><dd>200 万<small>m²+</small></dd><dd class="n">城镇供热、工业楼宇与温室的合同面积</dd></div>
+        <div><dt>极端气候验证</dt><dd>−30 ～ +40 <small>°C</small></dd><dd class="n">10 MW 项目所在地的极端气温记录</dd></div>
+        <div><dt>自主研发</dt><dd>CDU · 热回收</dd><dd class="n">多项自有专利，2020 年起迭代</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">解决方案</div>
+      <h2>按场景，不按行业</h2>
+      <div class="grid c3" style="margin-top:2rem">
+        <Card href="/solutions/new-build" num="01" title="AI 算力中心新建">第一台机柜落地前，先定回水品位、CDU 趋近温差与验收准则。</Card>
+        <Card href="/solutions/retrofit" num="02" title="既有数据中心液冷改造">风冷机房上液冷，不重建冷站，也不接手一条没有记录的回路。</Card>
+        <Card href="/solutions/heat-reuse" num="03" title="余热利用与城镇供热">把排掉的热变成围墙边一块表计量的产品：供热、温室、水产、温泉。</Card>
+        <Card href="/solutions/cold-climate" num="04" title="极寒气候部署">干式排热与工质选型按 −40 °C 设计环境温度考虑。</Card>
+        <Card href="/solutions/edge" num="05" title="边缘与小型部署">工厂测试完的整机，现场只剩电源、网络和两根管。</Card>
+        <Card href="/platform" num="06" title="产品与平台" more="查看">自研 CDU 与热回收装置，撬块、分水器、冷板与冷却液的选配原则。</Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">项目案例</div>
+      <div class="split">
+        <div>
+          <h2>规模化落地，多场景验证</h2>
+          <p class="muted">2020 年第一代浸没式液冷，2021 年规模化应用，2022 年第一代冷板式液冷。从算力中心到城镇供热、工业楼宇、温室和水产养殖，在亚洲与北美的极端气候下稳定运行。</p>
+          <a class="btn" href="/cases">全部案例</a>
+        </div>
+        <div class="grid c2">
+          {cases.map((c) => (
+            <a class="case" href="/cases">
+              <div class="kpi"><b>{c.mw}</b><span>MW · {c.type}</span></div>
+              <div class="body"><span class="tag">{c.tag}</span><strong>{c.title}</strong><span class="small muted">{c.detail[0]}</span></div>
+              <div class="meta"><span>{c.year} 年</span><span>查看 →</span></div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <div class="eyebrow">技术方法</div>
+          <h2>贯穿每个项目的三个判断</h2>
+          <p class="muted">它们不是产品功能，而是我们决定造什么、测什么、记什么的依据。</p>
+        </div>
+        <div class="grid">
+          <Card href="/approach/thermal-path" num="01" title="热通路有六个边界，没有哪家部件厂商能全部负责">冷板、快接、分水器、CDU、设施回路、排热。漏液、冷板结垢、丢掉一兆瓦余热，出事的永远是边界。总得有人对整条线负责。</Card>
+          <Card href="/approach/return-water" num="02" title="回水品位，是决定余热有没有买家的第一个数">不是 PUE。回路以什么温度回水，先决定了谁能直接用这份热：温室、供热管网、泳池、吸收式制冷机。负荷曲线、距离和合同条款是后面的事。</Card>
+          <Card href="/approach/three-clocks" num="03" title="一次漏液，是三个时钟上的三种失效">工厂里漏出去的焊缝，调试时被扰动的快接，第四年老化的软管。责任人不同，证据不同。一个复选框盖不住。</Card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="sticky">
+          <div class="eyebrow">数字带边界</div>
+          <h2>每一个数字，都注明条件与来源</h2>
+          <p class="muted">关于我们自身业绩的每一个性能数字，都注明测试条件与来源；参考数据与计算器的假设，都写明依据和适用范围。暂时说不清条件的数字，不会出现在标题里。</p>
+        </div>
+        <div>
+          <Claim id="capacity-1000mw" block />
+          <Claim id="supply-55c" block />
+          <Claim id="district-heat-50-70" block />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ink">
+    <div class="wrap">
+      <div class="eyebrow">交付证据</div>
+      <div class="split">
+        <div>
+          <h2>液冷回路有十个地方会漏。交付时就该有十份记录。</h2>
+          <p class="lede">多数交付资料写着「已安装漏液检测」。我们的资料包对每一个边界回答三个问题：测了吗？判据是什么？记录在哪里？</p>
+          <div class="btn-row">
+            <a class="btn ghost" href="/evidence/leak-points">十大漏点</a>
+            <a class="btn ghost" href="/evidence/turnover">交付资料包</a>
+          </div>
+        </div>
+        <div class="tenlist">
+          {['冷板接缝','快速接头','软管扣压','分水器支路','弹性体密封件','螺纹、卡套与转接头','CDU 内部边界','现场焊接与动火','平衡阀与隔离阀','充注、排放、排气与取样口'].map((t, i) => (
+            <div class="row"><span class="n">{String(i + 1).padStart(2, '0')}</span><span>{t}</span><span class="q">测试 · 判据 · 记录</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">在线工具</div>
+      <h2>三个小计算器，懂热的人才做得出来</h2>
+      <div class="grid c3" style="margin-top:2rem">
+        <Card href="/tools/return-water" title="回水品位 → 可行的余热买家" more="打开工具">输入二次侧回水温度，看哪些用户能直接用这份热，哪些需要热泵提升。</Card>
+        <Card href="/tools/approach-temp" title="趋近温差 → CDU 选型与自由冷却小时" more="打开工具">看 CDU 换热器几度趋近温差如何改变设施供水温度，以及您所在气候区的自由冷却小时数。</Card>
+        <Card href="/tools/leak-checklist" title="交付资料自查表" more="打开自查表">十个边界，每个三问。给上一个项目诚实打分。</Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <div class="eyebrow">洞察</div>
+          <h2>把液冷的账算清楚</h2>
+          <p class="muted">创始人李俊明关于电力、液冷与余热利用的长文。中文全文在本站，英文专栏 Every Watt Counts 同步更新。</p>
+          <a class="btn" href="/insights">全部文章</a>
+        </div>
+        <div>
+          {posts.map((p) => (
+            <article class="post">
+              <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+              <div>
+                <h3><a href={`/insights/${p.id}`}>{p.data.title}</a></h3>
+                {p.data.subtitle && <p>{p.data.subtitle}</p>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split even">
+        <div>
+          <div class="eyebrow">我们怎么做</div>
+          <h2>设计、集成、调试、运维，同一个团队，同一套记录</h2>
+          <p class="muted">我们自研 CDU 与热回收装置，选配机柜、冷板与冷却设备，在合作基地工厂预制，按书面验收准则调试，并陪伴系统进入服役期。单一部件厂商只对自己的法兰负责；我们在合同约定的范围与验收准则内，对整条热通路负责。</p>
+          <div class="btn-row"><a class="btn" href="/services">服务</a><a class="btn" href="/platform">平台与部件</a></div>
+        </div>
+        <div class="grid c2">
+          <Card href="/services/design" title="热设计与选型">从您想要的回水品位出发，推到能实现它的部件，验收准则一并给出。</Card>
+          <Card href="/services/integration" title="集成与工厂预制">自研装置加选配部件，在合作基地预制，对装配后的结果负责。</Card>
+          <Card href="/services/commissioning" title="调试与验证">可单独委托。别人建的回路交给我们，我们告诉您它能证明什么。</Card>
+          <Card href="/services/operations" title="运维与长期支持">趋势基线、定期取样、扰动复测，盯着第三个时钟。</Card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ink cta">
+    <div class="wrap" style="text-align:center">
+      <h2>把您上一个项目的交付资料拿来</h2>
+      <p class="lede" style="margin-inline:auto">我们告诉您十个边界里哪些能证明，哪些只是「说检查过了」。</p>
+      <div class="btn-row" style="justify-content:center"><a class="btn ghost" href="/company/contact">联系工程师</a></div>
+    </div>
+  </section>
+</Base>
+<style>
+  .home-hero h1 { max-width: 18em; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 1rem; margin: 2.5rem 0 0; padding: 1.4rem 0 0; border-top: 1px solid var(--line); }
+  .kpis div { display: grid; gap: 0.2rem; }
+  .kpis dt { font-size: 0.8rem; color: var(--ink-3); }
+  .kpis dd { margin: 0; font-size: 1.7rem; font-weight: 700; color: var(--blue); line-height: 1.1; }
+  .kpis dd small { font-size: 0.85rem; font-weight: 600; color: var(--ink-3); margin-left: 0.2rem; }
+  .kpis dd.n { font-size: 0.78rem; font-weight: 400; color: var(--ink-3); line-height: 1.5; }
+  .tenlist { border-top: 1px solid rgba(255,255,255,0.18); }
+  .tenlist .row { display: grid; grid-template-columns: 2.4rem 1fr auto; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid rgba(255,255,255,0.18); align-items: baseline; font-size: 0.98rem; }
+  .tenlist .n { font-family: var(--mono); color: var(--heat-2); font-size: 0.8rem; }
+  .tenlist .q { font-size: 0.75rem; letter-spacing: 0.08em; color: #9fb0d0; }
+  @media (max-width: 600px) { .tenlist .q { display: none; } }
+</style>

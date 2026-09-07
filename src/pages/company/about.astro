@@ -1,0 +1,26 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Claim from '@/components/Claim.astro';
+import { site } from '@/data/site';
+---
+<Base title="关于我们" description="清链科技（Tsingchain Global）成立于 2018 年，为 AI 算力中心提供从电力、液冷、CDU 到热能再利用的一体化解决方案。">
+  <PageHero eyebrow="关于我们" title="不做单一部件厂商，做对整条热通路负责的人" lede="清链科技（北京）有限公司（Tsingchain Global）成立于 2018 年，为 AI 算力中心提供从电力、液冷、CDU 到热能再利用的一体化解决方案。我们自研 CDU 与热回收装置，选配机柜、冷板与冷却设备，工厂预制、现场调试、长期运维，并把每一个边界的记录交给客户。" />
+  <section class="section">
+    <div class="wrap prose">
+      <h2>我们做什么</h2>
+      <p>液冷是按部件采购的，却是按系统出问题的。冷板厂、CDU 厂、机柜集成商和设施承包商各自为自己的边界提供保修，没有人对整条线负责。我们在合同约定的范围与验收准则内承担这个责任：规定热通路，选配部件，尽可能做成出厂测试过的撬块，按开工前写好的准则调试，并陪伴系统进入服役期。</p>
+      <h2>我们从哪里来</h2>
+      <p>清链科技由王辉于 2018 年创立。2020 年，我们做出第一代浸没式液冷；2021 年进入规模化应用；2022 年开发第一代冷板式液冷。此后近 1000 MW 相关产品落地，余热送进城镇集中供热、工业楼宇、温室与恒温水产养殖，累计供热面积超 200 万平方米，在亚洲与北美的极端气候下稳定运行。这些年产出了本公司赖以建立的三个判断：<a href="/approach/thermal-path">整条热通路</a>、<a href="/approach/return-water">回水品位</a>和<a href="/approach/three-clocks">三个时钟</a>。</p>
+      <p>这些年也养成了一个习惯：对外的每一个数字，都带着测试条件和来源。</p>
+      <Claim id="capacity-1000mw" block />
+      <Claim id="heating-2m" block />
+      <h2>愿景、使命与价值观</h2>
+      <p><strong>愿景：</strong>构建 AI 时代最可持续的算力基础设施。<br /><strong>使命：</strong>以液冷技术创新，重塑 AI 时代的数字基建，让每一度电创造更高价值。<br /><strong>价值观：</strong>专注 · 创新 · 高效 · 共赢。</p>
+      <h2>海外品牌</h2>
+      <p>面向北美与欧洲市场的工程业务以 <a href={site.overseas.url}>NextGenergy</a> 品牌开展，总部位于加拿大多伦多，与清链科技共享同一套方法、同一位创始人和同一套验收准则。</p>
+      <h2>联系</h2>
+      <p>商务咨询：<a href={`mailto:${site.email}`}>{site.email}</a>。或者把您上一个项目的交付资料通过<a href="/company/contact">联系页</a>发给我们。</p>
+    </div>
+  </section>
+</Base>

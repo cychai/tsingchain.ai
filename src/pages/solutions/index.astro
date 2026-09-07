@@ -1,0 +1,17 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+import { solutions as items } from '@/data/sections';
+---
+<Base title="解决方案" description="同一套方法，用在我们最常被请去的几种场景。每一页说明我们为什么设计、要项目尽早决定什么、证据在哪里。">
+  <PageHero eyebrow="解决方案" title="按场景，不按行业" lede="同一套方法，用在我们最常被请去的几种场景。每一页说明我们为什么设计、要项目尽早决定什么、证据在哪里。" />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c3">
+        {items.map((s, i) => <Card href={`/solutions/${s.slug}`} num={String(i + 1).padStart(2, '0')} title={s.title}>{s.summary}</Card>)}
+      </div>
+      
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,48 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import { site } from '@/data/site';
+---
+<Base title="联系我们" description="与清链科技的工程师谈一谈：新建、改造、余热利用，或者一份想请我们验证的交付资料。">
+  <PageHero eyebrow="关于我们" title="联系工程师" lede="告诉我们您的场景，以及您最没把握说清楚的那个数字。我们从那里开始。" crumbs={[['/company/about', '关于我们']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div>
+          <p><strong>商务邮箱</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
+          {site.wechat && <p><strong>微信公众号</strong><br />{site.wechat}</p>}
+          <p><strong>公司</strong><br />{site.legalName}，{site.location}</p>
+          <p><strong>海外业务</strong><br /><a href={site.overseas.url}>NextGenergy</a>（加拿大多伦多）</p>
+          <p class="small muted">工作日两天内回复。如果是想请我们审核交付资料，先发一份目录页的 PDF 就可以开始。</p>
+        </div>
+        <form class="tool" data-contact data-to={site.email}>
+          <div class="field"><label for="name">姓名</label><input id="name" name="name" type="text" required autocomplete="name" /></div>
+          <div class="field"><label for="org">单位</label><input id="org" name="org" type="text" autocomplete="organization" /></div>
+          <div class="field"><label for="email">邮箱</label><input id="email" name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for="phone">电话 / 微信（选填）</label><input id="phone" name="phone" type="text" autocomplete="tel" /></div>
+          <div class="field"><label for="topic">需求类型</label>
+            <select id="topic" name="topic">
+              <option>AI 算力中心新建</option><option>既有数据中心液冷改造</option><option>CDU 及热能回收</option><option>楼宇 / 城镇供热</option><option>温室 / 水产 / 温泉热能利用</option><option>现有系统的调试或验证</option><option>合作伙伴</option><option>其他</option>
+            </select></div>
+          <div class="field"><label for="msg">需求描述</label><textarea id="msg" name="message" rows="6" required></textarea></div>
+          <div class="btn-row" style="margin-top:0.5rem;align-items:center"><button class="btn primary" type="submit">用邮件客户端发送</button><span class="small muted">或直接写信至 <a href={`mailto:${site.email}`}><span class="mono">{site.email}</span></a></span></div>
+          <p class="small muted" style="margin:1rem 0 0">此表单不向任何服务器提交数据，而是在您本机的邮件客户端里生成一封发给我们的邮件，您留有副本，我们直接收到。需要本机配置了邮件客户端；如果没有弹出，请使用上面的邮箱地址。我们如何处理您发来的内容，见<a href="/company/privacy">隐私声明</a>。</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  const f = document.querySelector('[data-contact]');
+  f?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(f);
+    const g = (k) => String(d.get(k) ?? '').trim();
+    const subject = `[tsingchain.ai] ${g('topic')} — ${g('name')}${g('org') ? '，' + g('org') : ''}`;
+    const body = `${g('message')}\n\n—\n${g('name')}${g('org') ? '\n' + g('org') : ''}\n${g('email')}${g('phone') ? '\n' + g('phone') : ''}`;
+    location.href = `mailto:${f.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>
+<style>
+  .tool input[type="text"], .tool input[type="email"], .tool textarea { width: 100%; font: inherit; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); color: var(--ink); }
+</style>

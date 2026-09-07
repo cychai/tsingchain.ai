@@ -1,0 +1,32 @@
+---
+import { nav, site } from '@/data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href.split('/').slice(0, 2).join('/'))) || (href === '/approach' && path.startsWith('/evidence'));
+---
+<header class="hdr">
+  <div class="wrap">
+    <a href="/" class="brand" aria-label={`${site.name} home`}><img src="/brand/logo.png" alt="清链科技 Tsingchain Global" width="2020" height="640" /></a>
+    <nav class="nav" aria-label="主导航">
+      {nav.map((n) => (
+        <a href={n.href} class:list={[{ star: n.star }]} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>
+      ))}
+    </nav>
+    <a href="/company/contact" class="btn hdr-cta">联系工程师</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="mnav" data-menu>菜单</button>
+  </div>
+  <div class="mnav" id="mnav">
+    <div class="wrap">
+      {nav.map((n) => <a href={n.href} class:list={[{ star: n.star }]}>{n.label}</a>)}
+      <a href="/company/contact">联系我们</a>
+    </div>
+  </div>
+</header>
+<script>
+  const btn = document.querySelector('[data-menu]');
+  const m = document.getElementById('mnav');
+  btn?.addEventListener('click', () => {
+    const open = m?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(!!open));
+    btn.textContent = open ? '关闭' : '菜单';
+  });
+</script>

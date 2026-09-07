@@ -1,0 +1,49 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+import { leakPoints } from '@/data/leakPoints';
+const groups = [...new Set(leakPoints.map((l) => l.group))];
+const gid = (g: string) => 'g' + groups.indexOf(g);
+---
+<Base title="十大漏点" description="液冷回路会漏的十个地方，顺着冷却液从芯片走到设施。不是排名，是每个团队都该能拿项目对照打分的清单。">
+  <PageHero eyebrow="交付证据 · 参考" title="每个液冷团队都该知道的十大漏点" lede="不是排名，是一张顺着冷却液从芯片走到设施的清单。对其中每一个，交付资料都应回答：测了吗？按什么验收判据？记录在哪里？" crumbs={[['/approach', '技术与证据'], ['/evidence', '交付证据']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="sticky">
+          <div class="eyebrow">按在通路上的位置分组</div>
+          <ul class="toc">{groups.map((g) => <li><a href={`#${gid(g)}`}>{g}</a></li>)}</ul>
+          <p class="small muted" style="margin-top:1.5rem">由李俊明于 2026 年 9 月首发于 LinkedIn，此处作为稳定参考版本保留。措辞刻意保持厂商中立：只说做法，不点名人或产品。</p>
+          <a class="btn" href="/tools/leak-checklist">给上一个项目打分</a>
+        </div>
+        <div>
+          {groups.map((g) => (
+            <section id={gid(g)} style="margin-bottom:2.5rem">
+              <h2 style="font-size:0.95rem;letter-spacing:0.1em;color:var(--heat)">{g}</h2>
+              <ol class="bounds">
+                {leakPoints.filter((l) => l.group === g).map((l) => (
+                  <li style={`counter-increment: b; counter-set: b ${l.n}`}>
+                    <div><h3>{l.t}</h3><p>{l.p}</p>{l.r && <p class="q">→ {l.r}</p>}</div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section alt">
+    <div class="wrap prose">
+      <blockquote>重点不是工厂做的接头永远不漏，而是在受控条件下做出来的边界，可以按明确的验收判据测试、记录、放行。凌晨两点在带电机房里做出来的边界，理应拿到同样的证据。</blockquote>
+      <p>您上一个液冷项目，这十项里有几项是能证明的，而不只是「说检查过了」？</p>
+      <Related items={[{ href: '/tools/leak-checklist', label: '交付资料自查：十个边界，每个三问', kind: 'tool' }, { href: '/evidence/turnover', label: '交付资料包包含什么', kind: 'evidence' }, { href: '/approach/three-clocks', label: '三个时钟：每种漏液风险归谁', kind: 'approach' }]} />
+    </div>
+  </section>
+</Base>
+<style>
+  .toc { list-style: none; padding: 0; margin: 0; }
+  .toc li { padding: 0.5rem 0; border-bottom: 1px solid var(--line-2); font-weight: 500; }
+  .toc a:hover { color: var(--heat); }
+</style>

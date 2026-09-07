@@ -1,0 +1,36 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+---
+<Base title="技术与证据" description="清链科技的液冷方法论与交付证据：一条热通路六个边界、回水品位、三个时钟；调试验收准则、交付资料包、十大漏点、标准工作。">
+  <PageHero eyebrow="技术与证据" title="我们怎么想，以及我们能证明什么" lede="液冷按部件采购，按系统出问题。上半部分是我们做每个项目的三个判断；下半部分是我们交付时拿得出来的东西：验收准则、资料包、漏点清单和标准工作。技术买家更该比较的是后者。" />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c3">
+        <Card href="/approach/thermal-path" num="01" title="整条热通路">从设施水接口到芯片：六个边界，各由谁制造，为什么记录必须跟着热走。</Card>
+        <Card href="/approach/return-water" num="02" title="回水品位">决定余热有没有买家的第一个数。为什么我们先按它设计，再看 PUE。</Card>
+        <Card href="/approach/three-clocks" num="03" title="三个时钟">制造、调试、服役。三种漏液风险，三个责任人，三套证据。</Card>
+      </div>
+      <div class="eyebrow" style="margin-top:3rem">交付证据</div>
+      <h2>不是我们卖什么，而是我们能证明什么</h2>
+      <div class="grid c2" style="margin-top:1.5rem">
+        <Card href="/evidence/commissioning" num="准则" title="调试与验收准则">每个边界「合格」意味着什么：压力、清洁度、趋近温差、流量平衡、隔离流程。开工之前写好。</Card>
+        <Card href="/evidence/turnover" num="记录" title="交付资料包">十个边界，每个三问：测了吗、判据是什么、记录在哪。</Card>
+        <Card href="/evidence/leak-points" num="参考" title="十大漏点">顺着冷却液从芯片走到设施的一张清单，每个团队都该能拿项目对照打分。</Card>
+        <Card href="/evidence/standards" num="标准" title="标准工作">国内行业标准、OCP 公开规范与能源再利用指标：我们在哪里参与，要求什么。</Card>
+      </div>
+      <div class="grid c2" style="margin-top:1.5rem">
+        <Card href="/platform" title="产品与平台" more="查看">自研 CDU 与热回收装置、撬块、分水器与快接、冷板、冷却液：每个部件要证明什么。</Card>
+        <Card href="/services" title="服务" more="查看">热设计与选型、集成与预制、调试与验证、运维与长期支持。</Card>
+      </div>
+    </div>
+  </section>
+  <section class="section alt">
+    <div class="wrap prose">
+      <h2>部件厂商优化自己的箱子，我们优化整条线</h2>
+      <p>冷板厂给您某一流量下的热阻，CDU 厂给您某一趋近温差下的容量，设施设计方给您一个供水温度。每个数字在自己的边界内都是诚实的。出问题的地方在边界相接处：吃掉您自由冷却小时的那几度趋近温差；上次换服务器之后再没做过检漏的那个快接；55 °C 的回路在到达围墙之前被兑成 30 °C，对隔壁的温室一文不值。</p>
+      <p>我们自研 CDU 与热回收装置，其余部件按项目选配，尽可能做成工厂预制、出厂测试过的撬块，按开工前写好的验收准则调试整条通路，并陪伴系统进入运行。交付物是一套满足验收准则的系统，和一份能证明这一点的<a href="/evidence/turnover">交付资料包</a>。</p>
+    </div>
+  </section>
+</Base>

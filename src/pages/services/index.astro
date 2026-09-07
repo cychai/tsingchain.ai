@@ -1,0 +1,12 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+import { services } from '@/data/sections';
+---
+<Base title="服务" description="清链科技服务：热设计与选型、集成与工厂预制、调试与验证、运维与长期支持。">
+  <PageHero eyebrow="服务" title="我们能做什么，比我们卖什么更值钱" lede="四个阶段，一个团队，一套记录。每一项都可以单独委托。调试往往是新客户从我们这里买的第一项服务，对象是别人建的系统。" />
+  <section class="section"><div class="wrap"><div class="grid c2">
+    {services.map((s, i) => <Card href={`/services/${s.slug}`} num={String(i + 1).padStart(2, '0')} title={s.title}>{s.summary}</Card>)}
+  </div></div></section>
+</Base>

@@ -1,0 +1,46 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+const clocks = [
+  { n: '第一个时钟', t: '制造', who: '责任人：工厂', ex: '从工厂漏出去的焊缝或钎焊缝。冷板接缝里的空洞。超出公差的扣压。', ev: '边界清楚、可追溯到序列号的出厂验收（FAT）检漏记录。扣压工艺参数。弹性体与湿路金属的材质证明。' },
+  { n: '第二个时钟', t: '调试', who: '责任人：集成商与调试方', ex: '安装时被扰动的快接。冲洗过但从未钝化的现场焊缝。交付时看着干燥的管件。', ev: '现场做过或扰动过的每一个接头的连接记录。冲洗与清洁度结果。按书面判据做的压力试验。经过实测的「算力—液路」联动隔离流程。' },
+  { n: '第三个时钟', t: '服役', who: '责任人：运维方', ex: '第四年老化的软管。硬化的弹性体。缓蚀剂从未补加过的工质。', ev: '工质品质趋势。对照调试基线的系统性能趋势。每一次扰动边界的维护记录。有依据的更换周期。' },
+];
+---
+<Base title="三个时钟" description="液冷漏液风险是三个时钟上的三种失效：制造、调试、服役。责任人不同，证据不同。">
+  <PageHero eyebrow="技术方法 · 03" title="「漏液」一个词，藏着三种不同的失效" lede="漏液已经进入算力可用性管理：NVIDIA Mission Control 把检测到的漏液作为计算节点状态与节点健康并列显示，而不只是一条机电告警。多数项目的边界划分还没跟上，仍把三种风险压进一个复选框：已安装漏液检测。" crumbs={[['/approach', '技术方法']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c3">
+        {clocks.map((c) => (
+          <div class="card clock">
+            <span class="num">{c.n}</span>
+            <h3>{c.t}</h3>
+            <p class="small" style="color:var(--heat);font-weight:600">{c.who}</p>
+            <p><strong>长什么样。</strong>{c.ex}</p>
+            <p><strong>留下什么证据。</strong>{c.ev}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section alt">
+    <div class="wrap prose">
+      <h2>传感器只能告诉您液体到了，说不出是谁制造了这个风险</h2>
+      <p>漏液检测必要，但它来得晚。绳式传感器湿了的时候，问题已经不是有没有漏，而是响应流程管不管用、算力能不能安全地与液路隔离、事后还剩下什么证据。这些传感器都回答不了，回答它们的是在第一滴液体出现之前就搭好的链条：</p>
+      <ul>
+        <li>边界清楚的出厂验收检漏记录</li>
+        <li>连接与冲洗记录</li>
+        <li>工质品质与系统性能趋势</li>
+        <li>经过实测的算力—液路联动隔离流程</li>
+      </ul>
+      <h2>写下来的东西才能定价</h2>
+      <p>项目业主，以及越来越多的保险方和资金方，会问项目覆盖了哪个时钟。证据可以定价，「活儿做得细」定不了价。一个运行多年却没留下记录的项目，在运营上成功了，在第一次有人要证明的时候，商业上就失败了。</p>
+      <p>我们把三个时钟写进范围。制造时钟由我们对供应商的放行要求覆盖；调试时钟是我们自己的工作，逐个接头记录；服役时钟以趋势基线的形式交给运维方，而不是一摞纸。</p>
+      <p class="small muted">参考：NVIDIA Mission Control 系统管理指南，<a href="https://docs.nvidia.com/mission-control/docs/systems-administration-guide/2.3.0/leak-detection.html">漏液检测</a>一节。</p>
+      <Related items={[{ href: '/evidence/leak-points', label: '十大漏点，从芯片到设施', kind: 'evidence' }, { href: '/evidence/commissioning', label: '调试与验收准则', kind: 'evidence' }, { href: '/insights/three-clocks', label: '全文：一次泄漏，有三个时钟', kind: 'insight' }]} />
+    </div>
+  </section>
+</Base>
+<style>.clock p { font-size: 0.95rem; }</style>

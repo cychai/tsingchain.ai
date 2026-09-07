@@ -1,0 +1,11 @@
+---
+interface Props { href?: string; title: string; num?: string; more?: string; }
+const { href, title, num, more = '查看' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+<Tag class="card" href={href}>
+  {num && <span class="num">{num}</span>}
+  <h3>{title}</h3>
+  <p><slot /></p>
+  {href && <span class="more">{more} →</span>}
+</Tag>

@@ -1,0 +1,17 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+---
+<Base title="合作伙伴" description="清链科技如何与制造、集成和用热方合作，以及我们对合作方的要求。">
+  <PageHero eyebrow="关于我们" title="与伙伴共建，对结果负责" lede="我们按出厂验收规程考察制造伙伴，按调试计划考察集成伙伴，责任范围以各项合同约定为准。合作伙伴在共同交付项目并同意署名后在此列出。" crumbs={[['/company/about', '关于我们']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c3">
+        <div class="card"><span class="num">制造</span><h3>撬块、分水器与机柜制造基地</h3><p>按我们的规格和出厂验收规程生产。我们见证或审核工厂试验，按序列号保管记录，并在服役期内作为装配后热通路的集成责任方。</p></div>
+        <div class="card"><span class="num">集成</span><h3>机柜集成商与机电总包</h3><p>按我们的调试计划施工。他们在现场做出或扰动的每一个边界都记录并复测。他们拿到一份可以清点的计划，我们拿到一套完整的记录。</p></div>
+        <div class="card"><span class="num">用热</span><h3>余热用户</h3><p>供热公司、温室与水产养殖运营方、工业工艺用户、温泉与康养项目。我们按其温度窗口设计回路，在数据中心边界计量交接。</p></div>
+      </div>
+      <div class="note" style="margin-top:2.5rem;max-width:44em"><strong>成为合作伙伴。</strong>把您的出厂验收规程或调试清单发给我们。我们会告诉您它在哪些地方符合<a href="/evidence/turnover">十个边界的结构</a>，哪些地方不符合。这场对话就是考察。</div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,18 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+---
+<Base title="交付证据" description="清链科技交付什么：调试与验收准则、交付资料包、十大漏点参考、标准工作。">
+  <PageHero eyebrow="交付证据" title="不是我们卖什么，而是我们能证明什么" lede="每家供应商都有产品页。技术买家更该对比的是这一页：我们按什么验收准则调试，交付哪些记录，以及我们在公开标准工作中做了什么。" />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c2">
+        <Card href="/evidence/commissioning" num="准则" title="调试与验收准则">每个边界「合格」意味着什么：压力、清洁度、趋近温差、流量平衡、隔离流程。开工之前写好，而不是完工之后补。</Card>
+        <Card href="/evidence/turnover" num="记录" title="交付资料包">十个边界，每个三问：测了吗、判据是什么、记录在哪。资料的结构让运维方、保险方或审计方不需要我们在场就能回答。</Card>
+        <Card href="/evidence/leak-points" num="参考" title="十大漏点">顺着冷却液从芯片走到设施。不是排名，是一张每个液冷团队都该能拿上一个项目对照打分的清单。</Card>
+        <Card href="/evidence/standards" num="社区" title="标准工作">我们在哪里参与评审、提出条文、公开讨论边界问题，让上面这些准则不只是我们一家的。</Card>
+      </div>
+    </div>
+  </section>
+</Base>

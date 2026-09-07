@@ -1,0 +1,47 @@
+---
+import '@/styles/fonts.css';
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { site } from '@/data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+  published?: Date;
+}
+const { title, description = site.description, canonical, type = 'website', published } = Astro.props;
+const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
+const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const url = new URL(cleanPath, Astro.site);
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical ?? url.href} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/brand/emblem-512.png" />
+    <meta property="og:image" content="/brand/emblem-512.png" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} 洞察`} href="/insights/rss.xml" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={url.href} />
+    {published && <meta property="article:published_time" content={published.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+    <Header />
+    <noscript><div class="noscript wrap">本站除三个在线工具和手机端菜单外，无需 JavaScript 即可浏览。全部栏目链接见页脚。</div></noscript>
+    <main id="main" tabindex="-1"><slot /></main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,27 @@
+---
+import { site, footerNav } from '@/data/site';
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a href="/" class="brand"><img src="/brand/logo.png" alt="清链科技 Tsingchain Global" width="2020" height="640" /></a>
+        <p style="margin-top:1rem; max-width: 20em;">对整条热通路负责：从设施水接口到芯片，每一个交付边界都有测试、有判据、有记录。</p>
+        <p class="small">商务咨询：<a href={`mailto:${site.email}`}>{site.email}</a></p>
+        {site.wechat && <p class="small">微信公众号：{site.wechat}</p>}
+        <p class="small">海外品牌：<a href={site.overseas.url}>{site.overseas.name}</a> · 英文专栏：<a href={site.substack}>Every Watt Counts</a></p>
+      </div>
+      {footerNav.map((c) => (
+        <div>
+          <h4>{c.title}</h4>
+          <ul>{c.links.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
+        </div>
+      ))}
+    </div>
+    <div class="legal">
+      <span>© {year} {site.legalName} / {site.nameEn}. All rights reserved.</span>
+      <span><a href="/company/privacy">隐私声明</a> · <a href="/company/contact">联系我们</a> · <a href="/insights/rss.xml">RSS</a></span>
+    </div>
+  </div>
+</footer>

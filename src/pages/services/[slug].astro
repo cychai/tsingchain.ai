@@ -1,0 +1,19 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+import { services } from '@/data/sections';
+export function getStaticPaths() { return services.map((s) => ({ params: { slug: s.slug }, props: { s } })); }
+const { s } = Astro.props;
+const rel = { design: [{ href: '/approach/thermal-path', label: '整条热通路', kind: 'approach' }, { href: '/tools/approach-temp', label: '趋近温差工具', kind: 'tool' }], integration: [{ href: '/platform/skids', label: '工厂预制撬块', kind: 'approach' }], commissioning: [{ href: '/evidence/commissioning', label: '分关卡的验收准则', kind: 'evidence' }, { href: '/evidence/turnover', label: '交付资料包', kind: 'evidence' }], operations: [{ href: '/approach/three-clocks', label: '三个时钟', kind: 'approach' }, { href: '/platform/coolants', label: '冷却液与水化学', kind: 'approach' }] } as const;
+---
+<Base title={s.title} description={s.summary}>
+  <PageHero eyebrow="服务" title={s.title} lede={s.summary} crumbs={[['/services', '服务']]} />
+  <section class="section">
+    <div class="wrap prose">
+      {s.body.map((p) => <p>{p}</p>)}
+      <div class="btn-row"><a class="btn primary" href="/company/contact">联系工程师</a></div>
+      <Related items={[...rel[s.slug as keyof typeof rel]]} />
+    </div>
+  </section>
+</Base>

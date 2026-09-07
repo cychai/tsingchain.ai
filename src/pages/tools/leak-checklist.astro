@@ -1,0 +1,64 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+import { leakPoints } from '@/data/leakPoints';
+const qs = ['测了吗？', '有书面验收判据吗？', '现在能调出记录吗？'];
+---
+<Base title="交付资料自查" description="给液冷交付资料打分：十个边界，每个三问。完全在您的浏览器里运行，不上传任何内容。">
+  <PageHero eyebrow="在线工具 · 03" title="十个边界，三个问题，三十分" lede="只勾今天就能交给审计方的项，不勾「应该做过了」的项。分数只留在您的浏览器里，不会发给我们。" crumbs={[['/tools', '在线工具']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="sticky">
+          <div class="tool">
+            <div class="eyebrow plain">您的得分</div>
+            <div class="readout"><span data-score>0</span> / 30</div>
+            <p class="small muted" data-verdict style="margin:0.6rem 0 0">开始勾选。</p>
+            <div style="margin-top:1rem;height:6px;background:var(--line-2);border-radius:3px;overflow:hidden"><div data-bar style="height:100%;width:0;background:var(--heat);transition:width .2s"></div></div>
+            <button class="btn" type="button" data-reset style="margin-top:1.2rem">重置</button>
+          </div>
+          <p class="small muted" style="margin-top:1rem">与<a href="/evidence/leak-points">参考清单</a>相同的十个边界。三列分别是：{qs.join(' · ')}</p>
+        </div>
+        <div>
+          <p class="table-hint">左右滑动查看全部列。</p>
+      <div class="table-wrap">
+            <table class="table" data-check>
+              <thead><tr><th>#</th><th>边界</th>{qs.map((q) => <th style="text-align:center">{q}</th>)}</tr></thead>
+              <tbody>
+                {leakPoints.map((l) => (
+                  <tr>
+                    <td class="mono muted">{String(l.n).padStart(2, '0')}</td>
+                    <td><strong>{l.t}</strong><br /><span class="small muted">{l.group}</span></td>
+                    {qs.map((q, j) => <td style="text-align:center"><input type="checkbox" data-k={`${l.n}-${j}`} aria-label={`${l.t}: ${q}`} style="width:1.2rem;height:1.2rem;accent-color:var(--heat)" /></td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="prose" style="margin-top:3rem">
+        <Related items={[
+          { href: '/evidence/turnover', label: '一份完整的资料包包含什么', kind: 'evidence' },
+          { href: '/services/commissioning', label: '请我们验证别人建的系统', kind: 'approach' },
+        ]} />
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  const boxes = [...document.querySelectorAll('[data-check] input[type=checkbox]')];
+  const score = document.querySelector('[data-score]'), bar = document.querySelector('[data-bar]'), verdict = document.querySelector('[data-verdict]');
+  const KEY = 'nge-turnover-check';
+  try { const saved = JSON.parse(localStorage.getItem(KEY) || '{}'); boxes.forEach((b) => (b.checked = !!saved[b.dataset.k])); } catch {}
+  function run() {
+    const n = boxes.filter((b) => b.checked).length;
+    score.textContent = n; bar.style.width = `${(n / 30) * 100}%`;
+    verdict.textContent = n === 0 ? '开始勾选。' : n < 10 ? '这是一份工作说明，不是工作证据。' : n < 20 ? '部分站得住。缺口就是下次出事时争议的地方。' : n < 30 ? '很强。趁保险方还没问，把最后几项补上。' : '齐全。我们很想看看。';
+    try { localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(boxes.map((b) => [b.dataset.k, b.checked])))); } catch {}
+  }
+  boxes.forEach((b) => b.addEventListener('change', run));
+  document.querySelector('[data-reset]').addEventListener('click', () => { boxes.forEach((b) => (b.checked = false)); run(); });
+  run();
+</script>

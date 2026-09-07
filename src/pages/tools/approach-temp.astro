@@ -1,0 +1,95 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+---
+<Base title="趋近温差 → CDU 选型" description="看 CDU 换热器的趋近温差如何改变所需的设施供水温度，以及这对自由冷却小时数意味着什么。">
+  <PageHero eyebrow="在线工具 · 02" title="几度趋近温差，要付出什么代价" lede="从芯片需要的最冷水温，倒推设施可以提供的最热水温。CDU 上的每一度趋近温差、干冷器上的每一度端差，都把所需的室外温度往下压，并带走相应的自由冷却小时。" crumbs={[['/tools', '在线工具']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="tool" data-at>
+          <div class="field"><label for="tsup">机柜所需二次侧供水温度（TCS）</label><div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="tsup" min="15" max="50" step="0.5" value="32" /><span class="mono muted">°C</span></div><p class="small muted" style="margin:0.4rem 0 0">ASHRAE 液冷等级 W32、W40、W45 规定的是声明为该等级的设备可接受的设施供水温度上限 32、40、45 °C，是运行包络而不是设定值。请输入您的机柜实际需要的供水温度。</p></div>
+          <div class="field"><label for="cdu">额定负荷下的 CDU 换热器趋近温差</label><input type="range" id="cdu" min="1" max="10" step="0.5" value="4" /><div class="readout" style="font-size:1.8rem"><span data-out="cdu">4</span> K</div><p class="small muted" style="margin:0.2rem 0 0">请计入污垢裕量。样本上的趋近温差通常是洁净板片值。</p></div>
+          <div class="field"><label for="dc">干冷器对环境干球温度的端差</label><input type="range" id="dc" min="3" max="15" step="0.5" value="8" /><div class="readout" style="font-size:1.8rem"><span data-out="dc">8</span> K</div></div>
+          <div class="field"><label for="climate">气候区（用于自由冷却小时）</label>
+            <select id="climate">
+              <option value="beijing">北京</option><option value="shanghai">上海</option><option value="shenzhen">深圳</option><option value="chengdu">成都</option><option value="guiyang">贵阳 / 贵安</option><option value="ulanqab">乌兰察布</option><option value="zhangbei">张北</option><option value="harbin">哈尔滨</option><option value="toronto">多伦多（加拿大）</option>
+            </select><p class="small muted" style="margin:0.4rem 0 0">仅为示意的干球温度分布：按各城市气候常值在 5 K 分箱内估计形状并归一到 8760 小时。不是气象站数据，不能作设计依据。设计请换用指定气象站的典型气象年或分箱数据。</p></div>
+        </div>
+        <div>
+          <div class="eyebrow">结果</div>
+          <div class="tool">
+            <div class="row"><span>CDU 所需设施供水温度</span><strong><span data-out="fws">—</span> °C</strong></div>
+            <div class="row"><span>仅靠干式排热即可维持的环境干球温度上限</span><strong><span data-out="amb">—</span> °C</strong></div>
+            <div class="row"><span>每年低于该温度的小时数</span><strong><span data-out="hrs">—</span> h</strong></div>
+            <div class="row"><span>全年完全自由冷却的占比</span><strong><span data-out="pct">—</span> %</strong></div>
+            <div class="row"><span>需要补冷的小时数（喷淋辅助、冷机或降载）</span><strong><span data-out="trim">—</span> h</strong></div>
+          </div>
+          <div class="note" style="margin-top:1.5rem"><strong>敏感性。</strong>在该气候区和当前设置下，CDU 趋近温差每收紧 1 K，一年多出 <span data-out="sens">—</span> 小时自由冷却。这就是拿来和更大换热器的成本相权衡的那个数。</div>
+          <details class="method" style="margin-top:1rem">
+            <summary>方法与局限</summary>
+            <ul>
+              <li>所需设施供水 = 二次侧供水 − CDU 趋近温差。环境温度门槛 = 设施供水 − 干冷器端差。门槛以下小时数按示意分箱分布读取，箱内线性插值。</li>
+              <li>只看干球温度。喷淋或蒸发辅助、湿度、太阳辐射、风、部分负荷与冗余投切均未建模。</li>
+              <li>趋近温差取单一稳态值。实际值随负荷、流量与污垢变化；请用含污垢裕量的额定负荷值。</li>
+              <li>输出是示意性筛选估算，不是设备选型、承诺或设计小时数。请用项目气象数据、OEM 限值和设备厂商的选型核实。</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+      <div class="prose" style="margin-top:3rem">
+        <Related items={[
+          { href: '/platform/cdu', label: '我们怎么选 CDU', kind: 'approach' },
+          { href: '/approach/thermal-path', label: '热通路的六个边界', kind: 'approach' },
+          { href: '/evidence/commissioning', label: '趋近温差在调试时记录', kind: 'evidence' },
+        ]} />
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line-2); font-size: 0.95rem; }
+  .row:last-child { border-bottom: 0; }
+  .row strong { font-family: var(--serif); font-size: 1.3rem; white-space: nowrap; }
+</style>
+<script>
+  // Hours per year with dry-bulb in each 5 K bin, from -30 to 45 °C (bins: [-30,-25) ... [40,45)). Approximate TMY shapes.
+  const bins = [-30,-25,-20,-15,-10,-5,0,5,10,15,20,25,30,35,40];
+  const climates = {
+    beijing:  [0, 0, 5, 60, 350, 900, 1100, 900, 900, 1000, 1300, 1400, 700, 140, 5],
+    shanghai: [0, 0, 0, 0, 20, 300, 900, 1200, 1100, 1100, 1300, 1500, 1100, 230, 10],
+    shenzhen: [0, 0, 0, 0, 0, 0, 60, 300, 700, 1300, 2000, 2900, 1400, 100, 0],
+    chengdu:  [0, 0, 0, 0, 0, 150, 900, 1300, 1300, 1300, 1700, 1500, 570, 40, 0],
+    guiyang:  [0, 0, 0, 0, 10, 250, 1000, 1400, 1500, 1700, 2000, 800, 100, 0, 0],
+    ulanqab:  [20, 150, 500, 900, 1000, 900, 1000, 1100, 1300, 1200, 550, 130, 10, 0, 0],
+    zhangbei: [40, 250, 650, 900, 900, 900, 1000, 1100, 1300, 1100, 500, 110, 10, 0, 0],
+    harbin:   [150, 450, 700, 700, 600, 600, 700, 900, 1100, 1300, 1000, 480, 70, 10, 0],
+    toronto:  [5, 40, 150, 350, 700, 1000, 1300, 1150, 1050, 1000, 1000, 700, 280, 35, 0],
+  };
+  const el = (s) => document.querySelector(s);
+  const out = (k, v) => document.querySelectorAll(`[data-out="${k}"]`).forEach((n) => (n.textContent = v));
+  const tsup = el('#tsup'), cdu = el('#cdu'), dc = el('#dc'), cl = el('#climate');
+  function hoursBelow(raw, T) {
+    const tot = raw.reduce((a, b) => a + b, 0); const dist = raw.map((v) => v * 8760 / tot);
+    let h = 0;
+    for (let i = 0; i < bins.length; i++) {
+      const lo = bins[i], hi = lo + 5;
+      if (T >= hi) h += dist[i];
+      else if (T > lo) h += dist[i] * (T - lo) / 5;
+    }
+    return h;
+  }
+  function run() {
+    const Ts = +tsup.value, a1 = +cdu.value, a2 = +dc.value;
+    out('cdu', a1); out('dc', a2);
+    const fws = Ts - a1, amb = fws - a2;
+    const dist = climates[cl.value];
+    const h = hoursBelow(dist, amb);
+    out('fws', fws.toFixed(1)); out('amb', amb.toFixed(1));
+    out('hrs', Math.round(h).toLocaleString('zh-CN')); out('pct', (h / 87.6).toFixed(0)); out('trim', Math.round(8760 - h).toLocaleString('zh-CN'));
+    out('sens', Math.round(hoursBelow(dist, amb + 1) - h).toLocaleString('zh-CN'));
+  }
+  [tsup, cdu, dc, cl].forEach((i) => i.addEventListener('input', run));
+  run();
+</script>

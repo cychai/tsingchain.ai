@@ -1,0 +1,4 @@
+# 统一主域：www -> 裸域（301，保留路径与参数）
+https://www.tsingchain.ai/* https://tsingchain.ai/:splat 301!
+# Netlify 拖拽上传可能忽略以点开头的目录，这里把 RFC 9116 路径映射到根目录副本
+/.well-known/security.txt /security.txt 200

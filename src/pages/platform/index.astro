@@ -1,0 +1,17 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Card from '@/components/Card.astro';
+import { platform as items } from '@/data/sections';
+---
+<Base title="产品与平台" description="我们自研 CDU 与热回收装置，其余部件按项目选配、在合作基地预制，并对它们作为一个整体的表现负责。每一页说明我们要求每个部件证明什么。">
+  <PageHero eyebrow="产品与平台" title="自研 CDU 与热回收装置，加一条对整体负责的产品线" lede="我们自研 CDU 与热回收装置，其余部件按项目选配、在合作基地预制，并对它们作为一个整体的表现负责。每一页说明我们要求每个部件证明什么。" />
+  <section class="section">
+    <div class="wrap">
+      <div class="grid c3">
+        {items.map((s, i) => <Card href={`/platform/${s.slug}`} num={String(i + 1).padStart(2, '0')} title={s.title}>{s.summary}</Card>)}
+      </div>
+      <div class="note" style="margin-top:2.5rem;max-width:44em"><strong>关于自研与选配。</strong>部件厂商优化自己的箱子，在自己的法兰处提供保修。我们优化整条线，在合同约定的范围与验收准则内对系统负责。两者都需要，但只有一方看的是整条热通路。</div>
+    </div>
+  </section>
+</Base>

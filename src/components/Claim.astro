@@ -1,0 +1,29 @@
+---
+/**
+ * Renders a number with its boundary attached. Refuses to render a headline
+ * for anything that is under review or retired.
+ */
+import { claims } from '@/data/claims';
+interface Props { id: keyof typeof claims; block?: boolean; }
+const { id, block = false } = Astro.props;
+const c = claims[id];
+if (!c) throw new Error(`Unknown claim: ${String(id)}`);
+const headline = c.status === 'published' || c.status === 'conditional';
+---
+{headline && block && (
+  <div class="claim-block">
+    <span class="v">{c.value}</span>
+    <span>{c.statement}</span>
+    <span class="cond"><b>条件：</b>{c.condition} <b>来源：</b>{c.source}{c.verifiedBy && <> <b>验证方：</b>{c.verifiedBy}</>}</span>
+  </div>
+)}
+{headline && !block && (
+  <span class="claim"><span class="v" title={`${c.condition} — ${c.source}`}>{c.value}</span><span class="cond"><b>条件：</b>{c.condition} <b>来源：</b>{c.source}</span></span>
+)}
+{!headline && (
+  <div class="claim-review">
+    <div class="tag">{c.status === 'retired' ? '已撤回' : '审查中'}</div>
+    <div><s>{c.value}</s> — {c.statement}</div>
+    <div class="muted small" style="margin-top:0.4rem">{c.note}</div>
+  </div>
+)}

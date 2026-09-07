@@ -1,0 +1,113 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+---
+<Base title="回水品位 → 余热买家" description="输入液冷回路的回水温度，看哪些余热用户能直接使用，哪些需要热泵提升，以及提升大约要多少电。">
+  <PageHero eyebrow="在线工具 · 01" title="谁能买您的热？" lede="输入回路的回水温度和可用热量。工具把您经过换热器后能交出的温度，与各类用户通常要求的供水窗口比较，告诉您温度是否匹配、是否需要热泵提升、或者超出筛选范围。温度是第一道筛选，不是可行性结论。" crumbs={[['/tools', '在线工具']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split main">
+        <div class="tool" data-rw>
+          <div class="field">
+            <label for="tret">交接点的回水温度</label>
+            <input type="range" id="tret" min="20" max="80" value="55" step="1" />
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:0.4rem"><span class="readout"><span data-out="t">55</span> °C</span><span class="small muted">在数据中心边界处，不是芯片处</span></div>
+          </div>
+          <div class="field">
+            <label for="hx">交接换热器端差</label>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="hx" min="0" max="15" step="0.5" value="3" /><span class="mono muted">K</span></div>
+            <p class="small muted" style="margin:0.4rem 0 0">从回水温度中扣除。买家实际收到 <span class="mono" data-out="tdel">—</span>。</p>
+          </div>
+          <div class="field">
+            <label for="mw">可持续供出的热功率</label>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="mw" min="0.1" max="500" step="0.1" value="5" /><span class="mono muted">MW<sub>th</sub></span></div>
+          </div>
+          <div class="field">
+            <label for="dt">买家可接受的温降（ΔT）</label>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="dt" min="3" max="40" step="1" value="15" /><span class="mono muted">K</span></div>
+            <p class="small muted" style="margin:0.4rem 0 0">决定您需要输送的水量：在该 ΔT 下为 <span class="mono" data-out="flow">—</span>。</p>
+          </div>
+          <div class="field">
+            <label for="price">供热价值</label>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="price" min="0" max="200" step="1" value="200" /><span class="mono muted">元/MWh<sub>th</sub></span></div>
+            <p class="small muted" style="margin:0.4rem 0 0">仅供参考。实际合同按季节、可用率和热泵归属定价。</p>
+          </div>
+          <div class="result">
+            <div class="eyebrow plain">年供热量（按买家全年满额接收）</div>
+            <div class="readout"><span data-out="gwh">—</span> GWh<sub>th</sub></div>
+            <p class="small muted" style="margin:0.3rem 0 0">按上述价值约合每年 <span data-out="rev">—</span> 元，未扣泵送与提升成本，且仅在买家全年满额接收时成立。多数用热负荷有季节性，请以买家的负荷曲线为准。</p>
+          </div>
+        </div>
+        <div>
+          <div class="eyebrow">各类用户，按温度筛选</div>
+          <div class="tool" style="padding:0.4rem 1.4rem" data-buyers></div>
+          <div class="note" style="margin-top:1.2rem">
+            <strong>这个工具做什么，不做什么。</strong>它只按交出的温度筛选。真实可行性还取决于买家的负荷曲线与季节、距离与泵送成本、可用率与备用、水力设计，以及商务条款。输出是示意性的筛选估算，不是设备选型、承诺或投资级预测。
+          </div>
+          <details class="method" style="margin-top:1rem">
+            <summary>方法与假设</summary>
+            <ul>
+              <li><strong>交出温度</strong> = 回水温度 − 您输入的换热器端差。</li>
+              <li><strong>温度匹配</strong>：交出温度不低于该类用户示意供水窗口的下限。<strong>需要提升</strong>：低于下限 25 K 以内。<strong>超出筛选范围</strong>：低于下限 25 K 以上。</li>
+              <li><strong>热泵提升</strong>：按交出温度到窗口下限之间 50% 卡诺效率的理想化估算，COP 上限 8。不计热泵侧换热端差、部分负荷、辅机与季节性能。</li>
+              <li><strong>水量</strong> = 热功率 ÷ (4.18 kJ/kg·K × ΔT)，水物性按约 50 °C 取。</li>
+              <li><strong>年供热量</strong> = 热功率 × 8760 h，即全年满额接收。</li>
+              <li><strong>温度窗口</strong>取自各类用户的公开工程实践，为示意值：二代/三代传统区域供热、单效溴化锂吸收式制冷（热水型多按 90 °C 设计，实际下限约 80 °C，请查厂商曲线）、工业清洗与预热工艺、第四代区域供热（部分超低温管网低于 45 °C）、温室管道供暖、水产养殖（因品种而异）、低温末端楼宇供暖、泳池与生活热水预热（最终生活热水温度与军团菌控制需另行补热）。请以实际买方系统核实。</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+      <div class="prose" style="margin-top:3rem">
+        <Related items={[
+          { href: '/approach/return-water', label: '为什么回水品位先决定余热有没有买家', kind: 'approach' },
+          { href: '/solutions/heat-reuse', label: '余热利用与城镇供热', kind: 'approach' },
+          { href: '/cases', label: '25 MW 城镇供热案例', kind: 'evidence' },
+        ]} />
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .result { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+</style>
+<script>
+  const buyers = [
+    { name: '传统区域供热（二代/三代管网）', min: 70, max: 95, why: '老管网与散热器按 70–90 °C 供水设计，部分更高。' },
+    { name: '吸收式制冷（单效溴化锂）', min: 80, max: 95, why: '热水型单效机组多按 90 °C 热源设计，部分机型可低至 80 °C；请查厂商性能曲线。' },
+    { name: '工业清洗与预热工艺', min: 55, max: 85, why: '因工艺而异；很多清洗、CIP 与预热工序在 55–85 °C。请逐个工艺筛选。' },
+    { name: '低温区域供热（第四代管网）', min: 45, max: 70, why: '低温管网通常要求 45–70 °C 供水，随季节与建筑末端变化；部分超低温管网更低。' },
+    { name: '温室大棚', min: 35, max: 60, why: '轨道管供暖约 40 °C，风机盘管 35–40 °C 即可，水幕系统 50–60 °C；负荷有季节性，因作物而异。' },
+    { name: '恒温水产养殖', min: 30, max: 45, why: '池水按品种保持 20–30 °C；经换热器的 30–45 °C 热源通常足够。' },
+    { name: '楼宇供暖（低温末端）', min: 35, max: 55, why: '地暖与加大面积的散热器系统运行在 35–55 °C。' },
+    { name: '泳池、温泉与生活热水预热', min: 30, max: 45, why: '泳池 27–30 °C；生活热水只能预热，最终温度与军团菌控制需补热。' },
+    { name: '热泵热源（提升后供给以上任一用户）', min: 10, max: 60, why: '10 °C 以上几乎任何品位都是可用热源；经济账转到谁拥有热泵。' },
+  ];
+  const el = (s) => document.querySelector(s);
+  const t = el('#tret'), hx = el('#hx'), mw = el('#mw'), dt = el('#dt'), price = el('#price'), list = el('[data-buyers]');
+  const out = (k, v) => { document.querySelectorAll(`[data-out="${k}"]`).forEach((n) => (n.textContent = v)); };
+  function run() {
+    const Tret = +t.value, P = +mw.value, dT = +dt.value, pr = +price.value, A = +hx.value;
+    out('t', Tret);
+    const T = Tret - A; out('tdel', `${T.toFixed(1)} °C`);
+    const flow = (P * 1e6) / (4180 * dT); // kg/s ≈ L/s
+    out('flow', `${flow.toFixed(1)} L/s (${(flow * 3.6).toFixed(0)} m³/h)`);
+    const gwh = P * 8760 / 1000;
+    out('gwh', gwh.toFixed(1));
+    out('rev', Math.round(gwh * 1000 * pr).toLocaleString('zh-CN'));
+    list.innerHTML = buyers.map((b) => {
+      let cls, st, extra = '';
+      if (T >= b.min) { cls = 'ok'; st = '温度匹配'; }
+      else if (T >= b.min - 25) {
+        cls = 'lift'; st = '需要提升';
+        const Th = b.min + 273.15, Tc = T + 273.15;
+        const cop = Math.min(8, 0.5 * Th / (Th - Tc));
+        const elec = P / cop;
+        extra = ` 需提升 ${b.min - T} K；COP ≈ ${cop.toFixed(1)}，提升 ${P} MW<sub>th</sub> 约需 ${elec.toFixed(2)} MW<sub>e</sub> 电功率。`;
+      } else { cls = 'no'; st = '超出筛选范围'; }
+      return `<div class="buyer ${cls}"><span class="dot"></span><div><div class="name">${b.name}</div><div class="why">${b.why}窗口 ${b.min}–${b.max} °C。${extra}</div></div><span class="st">${st}</span></div>`;
+    }).join('');
+  }
+  [t, hx, mw, dt, price].forEach((i) => i.addEventListener('input', run));
+  run();
+</script>

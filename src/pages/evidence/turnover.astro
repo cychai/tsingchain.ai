@@ -1,0 +1,59 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+import { leakPoints } from '@/data/leakPoints';
+const records: Record<number, [string, string, string]> = {
+  1: ['逐块冷板出厂压力 / 氦检', '厂商规格，追溯到序列号', '供应商 FAT 证书，按机柜位置索引'],
+  2: ['安装期间每次插拔后检漏', '试验压力下无可见渗漏，保压时间写明', '连接日志：日期、操作人、快接序列号、结果'],
+  3: ['扣压尺寸检查，抽样拉脱试验', '总成厂工艺规范：扣压直径、同心度', '批次记录，附扣压工具校准'],
+  4: ['分水器整体压力试验', '额定压力 × 系数，保压时间，压降限值', '机柜集成商试验表'],
+  5: ['材质证明，工质相容性声明', '指定弹性体牌号对指定工质，温度范围', '材质证书文件，与 BOM 交叉索引'],
+  6: ['扭矩复核，密封剂记录', '按尺寸与材质的扭矩表', '管件日志，附扭矩扳手校准'],
+  7: ['CDU 出厂验收：泵轴封、换热器垫片、过滤器壳体', '厂商 FAT 规程', 'CDU FAT 报告，附序列号'],
+  8: ['焊缝检验、冲洗、钝化、取样', '焊接工艺规程；清洁度等级；钝化确认', '焊缝图、冲洗日志、化验结果'],
+  9: ['运行压力下阀杆与阀体检漏', '无渗漏，阀位记录', '阀门清单，附交付时阀位'],
+  10: ['每次使用后堵头与封盖复核', '所有接口封堵、阀门关闭、挂牌', '接口日志；每个接口最后扰动日期'],
+};
+---
+<Base title="交付资料包" description="液冷交付资料包应包含什么：十个边界各自的测试、验收判据与记录。">
+  <PageHero eyebrow="交付证据 · 记录" title="十个边界，每个三问，这就是交付资料包" lede="测了吗？按什么验收判据？记录在哪里？下面是我们交付一套液冷系统时按边界逐项移交的最低要求。一份资料包如果不能对十个边界都回答这三问，它是一份说明，不是证据。" crumbs={[['/approach', '技术与证据'], ['/evidence', '交付证据']]} />
+  <section class="section">
+    <div class="wrap">
+      <p class="table-hint">左右滑动查看全部列。</p>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>#</th><th>边界</th><th>测了吗？</th><th>按什么判据？</th><th>记录在哪？</th></tr></thead>
+          <tbody>
+            {leakPoints.map((l) => (
+              <tr>
+                <td class="mono muted">{String(l.n).padStart(2, '0')}</td>
+                <td><strong>{l.t}</strong><br /><span class="small muted">{l.group}</span></td>
+                <td>{records[l.n][0]}</td><td>{records[l.n][1]}</td><td>{records[l.n][2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:1rem">示意结构。试验压力、保压时间与清洁度等级在各项目的验收准则中约定，不在此公开。</p>
+    </div>
+  </section>
+  <section class="section alt">
+    <div class="wrap prose">
+      <h2>接头之外：系统级记录</h2>
+      <p>十个边界的表覆盖漏液风险。一份完整的资料包还要有让系统性能日后经得起追问的记录：</p>
+      <ul>
+        <li>IT 用电与设施用电分表计量，计量边界画在图上</li>
+        <li>每个回路边界上带校准流量的供回水温度</li>
+        <li>额定负荷下的 CDU 趋近温差，注明污垢裕量</li>
+        <li>采用蒸发排热时，补水与排污分开计量</li>
+        <li>当地干球与湿球温度，来自可以指名的气象站</li>
+        <li>有余热利用时的输出热量：流量、供回水温度、合同级表计</li>
+        <li>设备投切、旁通阀位与检修窗口，作为事件日志</li>
+        <li>经过实测的算力—液路联动隔离流程，注明测试日期</li>
+      </ul>
+      <p>这些在设计阶段都不贵，事后却几乎不可能补回来。</p>
+      <Related items={[{ href: '/tools/leak-checklist', label: '给您自己的资料包打分', kind: 'tool' }, { href: '/evidence/commissioning', label: '验收准则怎么写', kind: 'evidence' }, { href: '/services/commissioning', label: '调试作为独立服务', kind: 'approach' }]} />
+    </div>
+  </section>
+</Base>
