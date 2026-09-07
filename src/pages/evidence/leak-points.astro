@@ -14,7 +14,7 @@ const gid = (g: string) => 'g' + groups.indexOf(g);
         <div class="sticky">
           <div class="eyebrow">按在通路上的位置分组</div>
           <ul class="toc">{groups.map((g) => <li><a href={`#${gid(g)}`}>{g}</a></li>)}</ul>
-          <p class="small muted" style="margin-top:1.5rem">由李俊明于 2026 年 9 月首发于 LinkedIn，此处作为稳定参考版本保留。措辞刻意保持厂商中立：只说做法，不点名人或产品。</p>
+          <p class="small muted" style="margin-top:1.5rem">作者李俊明，2026 年 9 月首发。清单只讨论做法，不涉及具体厂商或产品。</p>
           <a class="btn" href="/tools/leak-checklist">给上一个项目打分</a>
         </div>
         <div>
@@ -37,7 +37,7 @@ const gid = (g: string) => 'g' + groups.indexOf(g);
   <section class="section alt">
     <div class="wrap prose">
       <blockquote>重点不是工厂做的接头永远不漏，而是在受控条件下做出来的边界，可以按明确的验收判据测试、记录、放行。凌晨两点在带电机房里做出来的边界，理应拿到同样的证据。</blockquote>
-      <p>您上一个液冷项目，这十项里有几项是能证明的，而不只是「说检查过了」？</p>
+      <p>对照您的项目，这十项中有几项能拿出记录？</p>
       <Related items={[{ href: '/tools/leak-checklist', label: '交付资料自查：十个边界，每个三问', kind: 'tool' }, { href: '/evidence/turnover', label: '交付资料包包含什么', kind: 'evidence' }, { href: '/approach/three-clocks', label: '三个时钟：每种漏液风险归谁', kind: 'approach' }]} />
     </div>
   </section>

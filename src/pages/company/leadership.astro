@@ -9,8 +9,8 @@ const people = [
     bio: '李俊明是清链科技联合创始人兼副总裁，也是海外品牌 NextGenergy 的创始人兼 CEO，致力于把 AI 数据中心从单点设备优化推向电力、液冷与余热回收的整体系统设计。创业前后主持建设并运营了浸没式与冷板式液冷算力设施，多个项目的余热送入区域供热、温室与水产养殖。他撰写英文专栏 Every Watt Counts，评审并评论开放液冷规范，是「三个时钟」模型与「十大漏点」清单的作者。' },
 ];
 ---
-<Base title="团队" description="对清链科技工作负责的人，实名、有照片、可联系。">
-  <PageHero eyebrow="关于我们" title="实名，有照片，找得到人" lede="技术买家至少应该知道谁对项目负责，并且能查到这个人的公开记录。" crumbs={[['/company/about', '关于我们']]} />
+<Base title="核心团队" description="清链科技的创始人与负责人。">
+  <PageHero eyebrow="关于我们" title="核心团队" lede="清链科技的创始人与负责人。" crumbs={[['/company/about', '关于我们']]} />
   <section class="section">
     <div class="wrap">
       {people.map((p) => (
@@ -24,7 +24,6 @@ const people = [
           </div>
         </article>
       ))}
-      <p class="small muted" style="margin-top:2rem">工程团队成员与顾问加入后将在此列出。</p>
     </div>
   </section>
 </Base>
