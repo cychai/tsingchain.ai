@@ -3,13 +3,15 @@
   "name": "tsingchain-ai",
   "compatibility_date": "2026-08-04",
   "workers_dev": true,
-  // 自定义域名在 Cloudflare 里确认 tsingchain.ai 这个 zone 已激活后再打开：
-  // "routes": [
-  //   { "pattern": "tsingchain.ai", "custom_domain": true },
-  //   { "pattern": "www.tsingchain.ai", "custom_domain": true }
-  // ],
-  // Cloudflare Workers Builds 在每次推送 main 时执行 `npx wrangler deploy`；
-  // Wrangler 会先跑下面的构建命令，再把 ./dist 作为静态资产上传。
+  // 自定义域名（tsingchain.ai zone 已在同一 Cloudflare 账号，2026-09-08 起由本 Worker 提供服务）
+  "routes": [
+    { "pattern": "tsingchain.ai", "custom_domain": true },
+    { "pattern": "www.tsingchain.ai", "custom_domain": true }
+  ],
+  // 部署方式：Cloudflare Workers Builds 执行 `npx wrangler deploy`（先跑下面的构建命令，再把 ./dist 作为静态资产上传）。
+  // 注意：该 Worker 与 GitHub 的连接目前显示 disconnected，push 不会自动触发构建；
+  // 推送后需手动触发 Deploy Hook「manual-main」（见项目根《部署说明》），或由仓库所有者在 Cloudflare 里重新授权 Git 连接。
+  // www→裸域 与 http→https 由 Cloudflare 区域级 Redirect Rule / Always Use HTTPS 负责，不要写进 public/_redirects（Workers 只接受相对路径）。
   "build": { "command": "npm ci && npm run build" },
   "assets": { "directory": "./dist", "not_found_handling": "404-page" }
 }
