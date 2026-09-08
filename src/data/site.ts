@@ -2,7 +2,8 @@ export const site = {
   name: '清链科技',
   nameEn: 'Tsingchain Global',
   legalName: '清链科技（北京）有限公司',
-  tagline: '对整条热通路负责的液冷综合解决方案提供商',
+  tagline: 'AI 算力中心液冷综合解决方案',
+  headline: '数据中心液冷综合解决方案提供商 · 液冷 · CDU · 余热利用',
   description:
     '清链科技（Tsingchain Global）成立于 2018 年，为 AI 算力中心提供从电力、液冷、CDU 到热能再利用的一体化解决方案，近 1000 MW 相关产品落地，供热面积超 200 万平方米。每一个交付边界都有测试、有判据、有记录。',
   email: 'sales@tsingchain.ai',
