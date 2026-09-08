@@ -1,0 +1,32 @@
+---
+/** 常见问题段：问题用用户会对搜索/问答引擎说的原话，答案两三句直接给结论，末尾给站内链接；与 FAQPage JSON-LD 对应。 */
+import type { FaqItem } from '@/lib/ld';
+interface Props { items: FaqItem[]; title?: string; alt?: boolean }
+const { items, title = '本页回答的问题', alt = false } = Astro.props;
+---
+{items.length > 0 && (
+  <section class:list={['section', 'faq', { alt }]}>
+    <div class="wrap">
+      <h2 class="faq-title">{title}</h2>
+      <dl>
+        {items.map((i) => (
+          <div class="qa">
+            <dt><h3>{i.q}</h3></dt>
+            <dd><p>{i.a}{i.href && <> <a href={i.href}>{i.label ?? '查看'} →</a></>}</p></dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+)}
+<style>
+  .faq-title { font-size: 1.5rem; margin-bottom: 1.5rem; }
+  dl { margin: 0; display: grid; gap: 0; max-width: 52rem; }
+  .qa { padding: 1.1rem 0; border-top: 1px solid var(--line); }
+  .qa:last-child { border-bottom: 1px solid var(--line); }
+  dt h3 { margin: 0 0 0.4rem; font-size: 1.12rem; font-family: var(--sans); font-weight: 600; }
+  dd { margin: 0; }
+  dd p { margin: 0; color: var(--ink-2); line-height: 1.8; }
+  dd a { font-weight: 600; text-decoration: none; color: var(--water); white-space: nowrap; }
+  dd a:hover { color: var(--heat); }
+</style>

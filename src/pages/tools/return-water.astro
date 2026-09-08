@@ -2,8 +2,14 @@
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
+import Faq from '@/components/Faq.astro';
+import { faqs } from '@/data/geo';
+import { softwareLd, faqLd } from '@/lib/ld';
+const path = '/tools/return-water';
+const qa = faqs[path];
+const ld = [softwareLd(path, { name: '回水品位 → 余热买家', description: '输入液冷回路的回水温度，看哪些余热用户能直接使用，哪些需要热泵提升，以及提升大约要多少电。' }), faqLd(path, qa)];
 ---
-<Base title="回水品位 → 余热买家" description="输入液冷回路的回水温度，看哪些余热用户能直接使用，哪些需要热泵提升，以及提升大约要多少电。">
+<Base ld={ld} title="回水品位 → 余热买家" description="输入液冷回路的回水温度，看哪些余热用户能直接使用，哪些需要热泵提升，以及提升大约要多少电。">
   <PageHero eyebrow="在线工具 · 01" title="谁能买您的热？" lede="输入回路的回水温度和可用热量。工具把您经过换热器后能交出的温度，与各类用户通常要求的供水窗口比较，告诉您温度是否匹配、是否需要热泵提升、或者超出筛选范围。温度是第一道筛选，不是可行性结论。" crumbs={[['/tools', '在线工具']]} />
   <section class="section">
     <div class="wrap">
@@ -67,6 +73,7 @@ import Related from '@/components/Related.astro';
       </div>
     </div>
   </section>
+  <Faq items={qa} alt />
 </Base>
 <style>
   .result { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }

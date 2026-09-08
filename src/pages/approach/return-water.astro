@@ -3,9 +3,18 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
 import Claim from '@/components/Claim.astro';
+import Definition from '@/components/Definition.astro';
+import Faq from '@/components/Faq.astro';
+import { definitions, faqs } from '@/data/geo';
+import { definedTermLd, techArticleLd, faqLd } from '@/lib/ld';
+const path = '/approach/return-water';
+const d = definitions[path];
+const qa = faqs[path];
+const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '回水品位：决定余热有没有买家的第一个数', description: '为什么液冷回路的回水温度，而不是 PUE，是决定余热有没有买家的第一个数。', about: 'term' }), faqLd(path, qa)];
 ---
-<Base title="回水品位" description="为什么液冷回路的回水温度，而不是 PUE，是决定余热有没有买家的第一个数。">
+<Base ld={ld} title="回水品位" description="为什么液冷回路的回水温度，而不是 PUE，是决定余热有没有买家的第一个数。">
   <PageHero eyebrow="技术方法 · 02" title="回水品位：决定余热有没有买家的第一个数" lede="每一座液冷数据中心都在产热水。这份水是资产还是处置负担，由一个很少出现在样本上的数字先决定：它以什么温度回来。" crumbs={[['/approach', '技术方法']]} />
+  <Definition d={d} />
   <section class="section">
     <div class="wrap">
       <div class="split main">
@@ -41,6 +50,7 @@ import Claim from '@/components/Claim.astro';
       </div>
     </div>
   </section>
+  <Faq items={qa} alt />
 </Base>
 <style>
   .grades { display: grid; gap: 0.6rem; margin-top: 0.5rem; }

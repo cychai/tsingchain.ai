@@ -4,6 +4,7 @@ import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import { site } from '@/data/site';
+import type { LdNode } from '@/lib/ld';
 
 interface Props {
   title: string;
@@ -11,8 +12,13 @@ interface Props {
   canonical?: string;
   type?: 'website' | 'article';
   published?: Date;
+  modified?: Date;
+  /** 额外的 JSON-LD 节点（DefinedTerm、FAQPage、Article、Person、SoftwareApplication、ItemList…），并入本页 @graph。 */
+  ld?: LdNode[];
+  /** 本页 Markdown 版本的路径，通过 <link rel="alternate" type="text/markdown"> 暴露。 */
+  mdAlternate?: string;
 }
-const { title, description = site.description, canonical, type = 'website', published } = Astro.props;
+const { title, description = site.description, canonical, type = 'website', published, modified, ld = [], mdAlternate } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} | ${site.headline}` : `${title} | ${site.name} · ${site.tagline}`;
 const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const url = new URL(cleanPath, Astro.site);
@@ -21,7 +27,8 @@ const jsonld = JSON.stringify({
   '@graph': [
     { '@type': 'Organization', '@id': `${Astro.site}#org`, name: site.name, alternateName: site.nameEn, legalName: site.legalName, url: String(Astro.site), logo: new URL('/brand/emblem-512.png', Astro.site).href, description: site.headline, foundingDate: String(site.founded), address: { '@type': 'PostalAddress', addressLocality: '北京', addressCountry: 'CN' }, email: site.email, founder: { '@type': 'Person', name: '王辉', jobTitle: '创始人兼 CEO' }, sameAs: [site.overseas.url, site.substack], knowsAbout: ['数据中心液冷', '冷板式液冷', '浸没式液冷', 'CDU', '余热回收', '城镇供热', '回水品位'] },
     { '@type': 'WebSite', '@id': `${Astro.site}#website`, url: String(Astro.site), name: site.name, publisher: { '@id': `${Astro.site}#org` }, inLanguage: 'zh-CN' },
-    { '@type': 'WebPage', url: url.href, name: fullTitle, description, isPartOf: { '@id': `${Astro.site}#website` }, ...(published ? { datePublished: published.toISOString() } : {}) },
+    { '@type': 'WebPage', '@id': url.href, url: url.href, name: fullTitle, description, isPartOf: { '@id': `${Astro.site}#website` }, inLanguage: 'zh-CN', ...(published ? { datePublished: published.toISOString() } : {}), ...(modified || published ? { dateModified: (modified ?? published)!.toISOString() } : {}) },
+    ...ld,
   ],
 });
 ---
@@ -37,6 +44,7 @@ const jsonld = JSON.stringify({
     <link rel="apple-touch-icon" href="/brand/emblem-512.png" />
     <meta property="og:image" content="/brand/emblem-512.png" />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} 洞察`} href="/insights/rss.xml" />
+    {mdAlternate && <link rel="alternate" type="text/markdown" title="Markdown 版本" href={mdAlternate} />}
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

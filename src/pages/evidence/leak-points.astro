@@ -3,11 +3,20 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
 import { leakPoints } from '@/data/leakPoints';
+import Definition from '@/components/Definition.astro';
+import Faq from '@/components/Faq.astro';
+import { definitions, faqs } from '@/data/geo';
+import { definedTermLd, techArticleLd, faqLd } from '@/lib/ld';
 const groups = [...new Set(leakPoints.map((l) => l.group))];
 const gid = (g: string) => 'g' + groups.indexOf(g);
+const path = '/evidence/leak-points';
+const d = definitions[path];
+const qa = faqs[path];
+const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '每个液冷团队都该知道的十大漏点', description: '液冷回路会漏的十个地方，顺着冷却液从芯片走到设施。不是排名，是每个团队都该能拿项目对照打分的清单。', about: 'term' }), faqLd(path, qa)];
 ---
-<Base title="十大漏点" description="液冷回路会漏的十个地方，顺着冷却液从芯片走到设施。不是排名，是每个团队都该能拿项目对照打分的清单。">
+<Base ld={ld} title="十大漏点" description="液冷回路会漏的十个地方，顺着冷却液从芯片走到设施。不是排名，是每个团队都该能拿项目对照打分的清单。">
   <PageHero eyebrow="交付证据 · 参考" title="每个液冷团队都该知道的十大漏点" lede="不是排名，是一张顺着冷却液从芯片走到设施的清单。对其中每一个，交付资料都应回答：测了吗？按什么验收判据？记录在哪里？" crumbs={[['/approach', '技术与证据'], ['/evidence', '交付证据']]} />
+  <Definition d={d} />
   <section class="section">
     <div class="wrap">
       <div class="split">
@@ -41,6 +50,7 @@ const gid = (g: string) => 'g' + groups.indexOf(g);
       <Related items={[{ href: '/tools/leak-checklist', label: '交付资料自查：十个边界，每个三问', kind: 'tool' }, { href: '/evidence/turnover', label: '交付资料包包含什么', kind: 'evidence' }, { href: '/approach/three-clocks', label: '三个时钟：每种漏液风险归谁', kind: 'approach' }]} />
     </div>
   </section>
+  <Faq items={qa} />
 </Base>
 <style>
   .toc { list-style: none; padding: 0; margin: 0; }

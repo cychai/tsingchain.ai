@@ -1,3 +1,17 @@
+# tsingchain.ai — 抓取策略
+# 欢迎搜索引擎与问答引擎抓取、索引并引用本站内容。
+# Content Signals（contentsignals.org）：允许搜索与 AI 问答引用；不允许用于模型训练。
+
 User-agent: *
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+# 明确欢迎的检索/引用类抓取器：Baiduspider、Sogou web spider、Bytespider（豆包）、360Spider、YisouSpider、
+# Googlebot、Bingbot、OAI-SearchBot、ChatGPT-User、PerplexityBot、Perplexity-User、ClaudeBot、Claude-SearchBot、DuckAssistBot、YouBot、Applebot。
+
+# 给语言模型的机器可读摘要：
+# https://tsingchain.ai/llms.txt
+# https://tsingchain.ai/llms-full.txt
+# 每篇文章都有 Markdown 版本：/insights/<slug>.md
+
 Sitemap: https://tsingchain.ai/sitemap-index.xml

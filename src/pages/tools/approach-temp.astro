@@ -2,8 +2,14 @@
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
+import Faq from '@/components/Faq.astro';
+import { faqs } from '@/data/geo';
+import { softwareLd, faqLd } from '@/lib/ld';
+const path = '/tools/approach-temp';
+const qa = faqs[path];
+const ld = [softwareLd(path, { name: '趋近温差 → CDU 选型', description: '看 CDU 换热器的趋近温差如何改变所需的设施供水温度，以及这对自由冷却小时数意味着什么。' }), faqLd(path, qa)];
 ---
-<Base title="趋近温差 → CDU 选型" description="看 CDU 换热器的趋近温差如何改变所需的设施供水温度，以及这对自由冷却小时数意味着什么。">
+<Base ld={ld} title="趋近温差 → CDU 选型" description="看 CDU 换热器的趋近温差如何改变所需的设施供水温度，以及这对自由冷却小时数意味着什么。">
   <PageHero eyebrow="在线工具 · 02" title="几度趋近温差，要付出什么代价" lede="从芯片需要的最冷水温，倒推设施可以提供的最热水温。CDU 上的每一度趋近温差、干冷器上的每一度端差，都把所需的室外温度往下压，并带走相应的自由冷却小时。" crumbs={[['/tools', '在线工具']]} />
   <section class="section">
     <div class="wrap">
@@ -47,6 +53,7 @@ import Related from '@/components/Related.astro';
       </div>
     </div>
   </section>
+  <Faq items={qa} alt />
 </Base>
 <style>
   .row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line-2); font-size: 0.95rem; }

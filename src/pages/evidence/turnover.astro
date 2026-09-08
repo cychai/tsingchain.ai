@@ -3,6 +3,10 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
 import { leakPoints } from '@/data/leakPoints';
+import Definition from '@/components/Definition.astro';
+import Faq from '@/components/Faq.astro';
+import { definitions, faqs } from '@/data/geo';
+import { definedTermLd, techArticleLd, faqLd } from '@/lib/ld';
 const records: Record<number, [string, string, string]> = {
   1: ['逐块冷板出厂压力 / 氦检', '厂商规格，追溯到序列号', '供应商 FAT 证书，按机柜位置索引'],
   2: ['安装期间每次插拔后检漏', '试验压力下无可见渗漏，保压时间写明', '连接日志：日期、操作人、快接序列号、结果'],
@@ -15,9 +19,14 @@ const records: Record<number, [string, string, string]> = {
   9: ['运行压力下阀杆与阀体检漏', '无渗漏，阀位记录', '阀门清单，附交付时阀位'],
   10: ['每次使用后堵头与封盖复核', '所有接口封堵、阀门关闭、挂牌', '接口日志；每个接口最后扰动日期'],
 };
+const path = '/evidence/turnover';
+const d = definitions[path];
+const qa = faqs[path];
+const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '十个边界，每个三问，这就是交付资料包', description: '液冷交付资料包应包含什么：十个边界各自的测试、验收判据与记录。', about: 'term' }), faqLd(path, qa)];
 ---
-<Base title="交付资料包" description="液冷交付资料包应包含什么：十个边界各自的测试、验收判据与记录。">
+<Base ld={ld} title="交付资料包" description="液冷交付资料包应包含什么：十个边界各自的测试、验收判据与记录。">
   <PageHero eyebrow="交付证据 · 记录" title="十个边界，每个三问，这就是交付资料包" lede="测了吗？按什么验收判据？记录在哪里？下面是我们交付一套液冷系统时按边界逐项移交的最低要求。一份资料包应当对十个边界都能回答这三问。" crumbs={[['/approach', '技术与证据'], ['/evidence', '交付证据']]} />
+  <Definition d={d} />
   <section class="section">
     <div class="wrap">
       <p class="table-hint">左右滑动查看全部列。</p>
@@ -56,4 +65,5 @@ const records: Record<number, [string, string, string]> = {
       <Related items={[{ href: '/tools/leak-checklist', label: '给您自己的资料包打分', kind: 'tool' }, { href: '/evidence/commissioning', label: '验收准则怎么写', kind: 'evidence' }, { href: '/services/commissioning', label: '调试作为独立服务', kind: 'approach' }]} />
     </div>
   </section>
+  <Faq items={qa} />
 </Base>

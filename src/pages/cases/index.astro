@@ -4,8 +4,14 @@ import PageHero from '@/components/PageHero.astro';
 import Claim from '@/components/Claim.astro';
 import Related from '@/components/Related.astro';
 import { cases } from '@/data/cases';
+import Faq from '@/components/Faq.astro';
+import { faqs } from '@/data/geo';
+import { caseListLd, faqLd } from '@/lib/ld';
+const path = '/cases';
+const qa = faqs[path];
+const ld = [caseListLd(path, cases), faqLd(path, qa)];
 ---
-<Base title="项目案例" description="清链科技液冷与余热利用项目案例：10 MW 极端气候液冷算力中心、25 MW 城镇供热、5 MW 工业楼宇供暖、3 MW 恒温水产养殖。">
+<Base ld={ld} title="项目案例" description="清链科技液冷与余热利用项目案例：10 MW 极端气候液冷算力中心、25 MW 城镇供热、5 MW 工业楼宇供暖、3 MW 恒温水产养殖。">
   <PageHero eyebrow="项目案例" title="规模化落地验证" lede="自 2020 年第一代浸没式液冷以来，近 1000 MW 相关产品落地，余热供热面积超 200 万平方米。以下为可公开的代表性项目；完整项目清单与运行数据可在签署保密协议后提供。" />
   <section class="section">
     <div class="wrap">
@@ -35,4 +41,5 @@ import { cases } from '@/data/cases';
       <Related items={[{ href: '/solutions/heat-reuse', label: '余热利用与城镇供热方案', kind: 'approach' }, { href: '/tools/return-water', label: '算一算您的余热能卖给谁', kind: 'tool' }, { href: '/evidence/turnover', label: '我们交付时移交哪些记录', kind: 'evidence' }]} />
     </div>
   </section>
+  <Faq items={qa} />
 </Base>

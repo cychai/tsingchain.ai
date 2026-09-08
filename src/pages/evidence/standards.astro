@@ -2,8 +2,14 @@
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
+import Faq from '@/components/Faq.astro';
+import { faqs } from '@/data/geo';
+import { techArticleLd, faqLd } from '@/lib/ld';
+const path = '/evidence/standards';
+const qa = faqs[path];
+const ld = [techArticleLd(path, { headline: '标准工作', description: '清链科技在液冷标准与开放规范中的参与，以及为什么我们用的验收准则不该只是我们一家的。' }), faqLd(path, qa)];
 ---
-<Base title="标准工作" description="清链科技在液冷标准与开放规范中的参与，以及为什么我们用的验收准则不该只是我们一家的。">
+<Base ld={ld} title="标准工作" description="清链科技在液冷标准与开放规范中的参与，以及为什么我们用的验收准则不该只是我们一家的。">
   <PageHero eyebrow="交付证据 · 标准" title="标准工作" lede="我们参与规范草案评审、提出条文、公开讨论计量边界，使我们采用的验收准则与行业标准保持一致。" crumbs={[['/approach', '技术与证据'], ['/evidence', '交付证据']]} />
   <section class="section">
     <div class="wrap prose">
@@ -22,4 +28,5 @@ import Related from '@/components/Related.astro';
       <Related items={[{ href: '/evidence/commissioning', label: '我们据以调试的验收准则', kind: 'evidence' }, { href: '/insights', label: '准则背后的公开写作', kind: 'insight' }]} />
     </div>
   </section>
+  <Faq items={qa} alt />
 </Base>

@@ -1,5 +1,6 @@
 export const site = {
   name: '清链科技',
+  url: 'https://tsingchain.ai',
   nameEn: 'Tsingchain Global',
   legalName: '清链科技（北京）有限公司',
   tagline: 'AI 算力中心液冷综合解决方案',

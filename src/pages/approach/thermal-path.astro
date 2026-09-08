@@ -2,6 +2,10 @@
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
+import Definition from '@/components/Definition.astro';
+import Faq from '@/components/Faq.astro';
+import { definitions, faqs } from '@/data/geo';
+import { definedTermLd, techArticleLd, faqLd } from '@/lib/ld';
 const bounds = [
   { t: '设施水接口', who: '设施机电承包商', p: '建筑把水交给冷却系统的地方。供回水温度、流量、压力和水化学在这里确定，任何能源再利用数字将来被审计时依据的计量边界也在这里。', q: '这个边界上的流量和供回水温度，从第一天起就有表吗？' },
   { t: '排热与再利用', who: '干冷器 / 冷却塔 / 热泵厂商，或余热买家', p: '热离开站点的地方：排到空气、随蒸发带走，或者卖给买家。回路的回水品位决定了这三条路里哪几条在物理上走得通。PUE、WUE 和 ERF 在这里开始互相打架。', q: '实际消耗的是哪种资源，记在谁的表上？' },
@@ -10,9 +14,14 @@ const bounds = [
   { t: '软管、扣压与管件', who: '软管总成厂、机柜集成商', p: '扣压是一道受控制造工序，不是装配动作。套筒压上之后，多数缺陷从外面看不见。弹性体选型决定一个干燥接头到第四年还干不干。', q: '有扣压工艺记录和弹性体规格，而不是一句「与水兼容」？' },
   { t: '冷板与芯片', who: '冷板厂商、服务器 OEM', p: '钎焊缝、搅拌摩擦焊缝、盖板与接口，就在系统中最窄流道的正上游。这里的热性能取决于上游的一切：流量、进水温度和工质清洁度。', q: '出厂压力试验记录可以追溯到这块冷板的序列号吗？' },
 ];
+const path = '/approach/thermal-path';
+const d = definitions[path];
+const qa = faqs[path];
+const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '从设施水接口到芯片：六个边界', description: '从设施水接口到芯片：液冷系统的六个边界，各由谁负责，以及每份交付资料该为它回答的那个问题。', about: 'term' }), faqLd(path, qa)];
 ---
-<Base title="整条热通路" description="从设施水接口到芯片：液冷系统的六个边界，各由谁负责，以及每份交付资料该为它回答的那个问题。">
+<Base ld={ld} title="整条热通路" description="从设施水接口到芯片：液冷系统的六个边界，各由谁负责，以及每份交付资料该为它回答的那个问题。">
   <PageHero eyebrow="技术方法 · 01" title="从设施水接口到芯片：六个边界" lede="热只往一个方向走，责任却通常停在每家供应商的法兰上。下面是我们画的这条路，标注了每个边界通常由谁制造，以及我们对它提的那一个问题。" crumbs={[['/approach', '技术方法']]} />
+  <Definition d={d} />
   <section class="section">
     <div class="wrap">
       <div class="split">
@@ -44,4 +53,5 @@ const bounds = [
       <Related items={[{ href: '/evidence/leak-points', label: '同一条路上的十大漏点', kind: 'evidence' }, { href: '/evidence/turnover', label: '交付资料包包含什么', kind: 'evidence' }, { href: '/tools/approach-temp', label: '趋近温差与 CDU 选型', kind: 'tool' }]} />
     </div>
   </section>
+  <Faq items={qa} />
 </Base>

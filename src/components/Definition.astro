@@ -1,0 +1,25 @@
+---
+/** 定义框：概念页顶部一段脱离上下文也成立的定义，正文必须以术语本身开头（「X 指……」），与 JSON-LD 的 DefinedTerm 对应。 */
+import type { Definition } from '@/lib/ld';
+interface Props { d: Definition; label?: string }
+const { d, label = '定义' } = Astro.props;
+const startsWithTerm = d.text.startsWith(d.term);
+const head = startsWithTerm ? d.term : d.term;
+const rest = startsWithTerm ? d.text.slice(d.term.length) : `：${d.text}`;
+---
+<section class="definition" aria-label={`${label}：${d.term}`}>
+  <div class="wrap">
+    <div class="def-box">
+      <p class="eyebrow plain">{label}</p>
+      <p class="def-text"><dfn>{head}</dfn>{d.alt?.length ? <span class="alt">（{d.alt.join(' · ')}）</span> : null}{rest}</p>
+    </div>
+  </div>
+</section>
+<style>
+  .definition { padding: 0 0 clamp(2rem, 4vw, 3rem); }
+  .def-box { max-width: 52rem; padding: 1.4rem 1.6rem; border-left: 3px solid var(--heat); background: var(--white); border-radius: 0 var(--r) var(--r) 0; box-shadow: 0 1px 0 var(--line-2); }
+  .def-box .eyebrow { margin-bottom: 0.5rem; }
+  .def-text { margin: 0; font-size: 1.05rem; line-height: 1.8; color: var(--ink); }
+  dfn { font-style: normal; font-weight: 700; }
+  .alt { color: var(--ink-3); font-weight: 400; font-size: 0.92em; }
+</style>

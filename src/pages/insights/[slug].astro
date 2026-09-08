@@ -3,6 +3,7 @@ import Base from '@/layouts/Base.astro';
 import Related from '@/components/Related.astro';
 import { getCollection, render } from 'astro:content';
 import { site } from '@/data/site';
+import { articleLd } from '@/lib/ld';
 export async function getStaticPaths() {
   const posts = await getCollection('insights', (p) => !p.data.draft);
   return posts.map((p) => ({ params: { slug: p.id }, props: { p } }));
@@ -22,13 +23,15 @@ const defaults: Record<string, { href: string; label: string; kind: 'evidence' |
   '/approach/three-clocks': { href: '/approach/three-clocks', label: '三个时钟', kind: 'approach' },
 };
 const related = p.data.related.map((r) => defaults[r]).filter(Boolean);
+const path = `/insights/${p.id}`;
+const ld = [articleLd(path, { headline: p.data.title, description: p.data.subtitle, published: p.data.date, modified: p.data.updated, author: p.data.author, canonical: p.data.canonical, tags: p.data.tags })];
 ---
-<Base title={p.data.title} description={p.data.subtitle ?? site.description} canonical={p.data.canonical} type="article" published={p.data.date}>
+<Base ld={ld} mdAlternate={`${path}.md`} title={p.data.title} description={p.data.subtitle ?? site.description} canonical={p.data.canonical} type="article" published={p.data.date} modified={p.data.updated}>
   <article>
     <header class="hero">
       <div class="narrow">
         <nav class="crumbs" aria-label="面包屑"><a href="/">首页</a><span><a href="/insights">洞察</a></span></nav>
-        <div class="eyebrow">洞察 · {fmt(p.data.date)}</div>
+        <div class="eyebrow">洞察 · <time datetime={p.data.date.toISOString().slice(0, 10)}>{fmt(p.data.date)}</time>{p.data.updated && <> · 更新于 <time datetime={p.data.updated.toISOString().slice(0, 10)}>{fmt(p.data.updated)}</time></>}</div>
         <h1 style="font-size:clamp(1.7rem,3.6vw,2.6rem)">{p.data.title}</h1>
         {p.data.subtitle && <p class="lede">{p.data.subtitle}</p>}
         {p.data.tags.length > 0 && <div class="tags" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:1rem">{p.data.tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t}</a>)}</div>}
@@ -37,7 +40,7 @@ const related = p.data.related.map((r) => defaults[r]).filter(Boolean);
     <div class="narrow prose article-body">
       <Content />
       <hr />
-      <p class="small muted">作者：{p.data.author ?? '李俊明'}{(p.data.author ?? '李俊明') === '李俊明' && <>（Jim Li），清链科技联合创始人兼副总裁，NextGenergy 创始人兼 CEO</>}。{p.data.source === 'wechat' && p.data.sourceUrl && <>首发于微信公众号「清链学堂在线」，<a href={p.data.sourceUrl}>原文链接</a>。</>}{p.data.source === 'substack' && p.data.sourceUrl && <>英文版首发于 <a href={p.data.sourceUrl}>Substack</a>。</>}转载请注明出处。</p>
+      <p class="small muted">作者：{p.data.author ?? '李俊明'}{(p.data.author ?? '李俊明') === '李俊明' && <>（Jim Li），清链科技联合创始人兼副总裁，NextGenergy 创始人兼 CEO</>}。{p.data.source === 'wechat' && p.data.sourceUrl && <>首发于微信公众号「清链学堂在线」，<a href={p.data.sourceUrl}>原文链接</a>。</>}{p.data.source === 'substack' && p.data.sourceUrl && <>英文版首发于 <a href={p.data.sourceUrl}>Substack</a>。</>}转载请注明出处。 <a href={`${path}.md`}>Markdown 版本</a></p>
       <Related items={related} />
     </div>
   </article>

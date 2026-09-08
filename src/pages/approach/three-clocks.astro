@@ -2,14 +2,23 @@
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
+import Definition from '@/components/Definition.astro';
+import Faq from '@/components/Faq.astro';
+import { definitions, faqs } from '@/data/geo';
+import { definedTermLd, techArticleLd, faqLd } from '@/lib/ld';
 const clocks = [
   { n: '第一个时钟', t: '制造', who: '责任人：工厂', ex: '从工厂漏出去的焊缝或钎焊缝。冷板接缝里的空洞。超出公差的扣压。', ev: '边界清楚、可追溯到序列号的出厂验收（FAT）检漏记录。扣压工艺参数。弹性体与湿路金属的材质证明。' },
   { n: '第二个时钟', t: '调试', who: '责任人：集成商与调试方', ex: '安装时被扰动的快接。冲洗过但从未钝化的现场焊缝。交付时看着干燥的管件。', ev: '现场做过或扰动过的每一个接头的连接记录。冲洗与清洁度结果。按书面判据做的压力试验。经过实测的「算力—液路」联动隔离流程。' },
   { n: '第三个时钟', t: '服役', who: '责任人：运维方', ex: '第四年老化的软管。硬化的弹性体。缓蚀剂从未补加过的工质。', ev: '工质品质趋势。对照调试基线的系统性能趋势。每一次扰动边界的维护记录。有依据的更换周期。' },
 ];
+const path = '/approach/three-clocks';
+const d = definitions[path];
+const qa = faqs[path];
+const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '「漏液」一个词，藏着三种不同的失效', description: '液冷漏液风险是三个时钟上的三种失效：制造、调试、服役。责任人不同，证据不同。', about: 'term' }), faqLd(path, qa)];
 ---
-<Base title="三个时钟" description="液冷漏液风险是三个时钟上的三种失效：制造、调试、服役。责任人不同，证据不同。">
+<Base ld={ld} title="三个时钟" description="液冷漏液风险是三个时钟上的三种失效：制造、调试、服役。责任人不同，证据不同。">
   <PageHero eyebrow="技术方法 · 03" title="「漏液」一个词，藏着三种不同的失效" lede="漏液已经进入算力可用性管理：NVIDIA Mission Control 把检测到的漏液作为计算节点状态与节点健康并列显示，而不只是一条机电告警。多数项目的边界划分还没跟上，仍把三种风险压进一个复选框：已安装漏液检测。" crumbs={[['/approach', '技术方法']]} />
+  <Definition d={d} />
   <section class="section">
     <div class="wrap">
       <div class="grid c3">
@@ -42,5 +51,6 @@ const clocks = [
       <Related items={[{ href: '/evidence/leak-points', label: '十大漏点，从芯片到设施', kind: 'evidence' }, { href: '/evidence/commissioning', label: '调试与验收准则', kind: 'evidence' }, { href: '/insights/three-clocks', label: '全文：一次泄漏，有三个时钟', kind: 'insight' }]} />
     </div>
   </section>
+  <Faq items={qa} />
 </Base>
 <style>.clock p { font-size: 0.95rem; }</style>

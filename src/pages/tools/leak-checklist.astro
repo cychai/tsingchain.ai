@@ -3,9 +3,15 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
 import { leakPoints } from '@/data/leakPoints';
+import Faq from '@/components/Faq.astro';
+import { faqs } from '@/data/geo';
+import { softwareLd, faqLd } from '@/lib/ld';
 const qs = ['测了吗？', '有书面验收判据吗？', '现在能调出记录吗？'];
+const path = '/tools/leak-checklist';
+const qa = faqs[path];
+const ld = [softwareLd(path, { name: '交付资料自查', description: '给液冷交付资料打分：十个边界，每个三问。完全在您的浏览器里运行，不上传任何内容。' }), faqLd(path, qa)];
 ---
-<Base title="交付资料自查" description="给液冷交付资料打分：十个边界，每个三问。完全在您的浏览器里运行，不上传任何内容。">
+<Base ld={ld} title="交付资料自查" description="给液冷交付资料打分：十个边界，每个三问。完全在您的浏览器里运行，不上传任何内容。">
   <PageHero eyebrow="在线工具 · 03" title="十个边界，三个问题，三十分" lede="只勾今天就能交给审计方的项，不勾「应该做过了」的项。分数只留在您的浏览器里，不会发给我们。" crumbs={[['/tools', '在线工具']]} />
   <section class="section">
     <div class="wrap">
@@ -46,6 +52,7 @@ const qs = ['测了吗？', '有书面验收判据吗？', '现在能调出记�
       </div>
     </div>
   </section>
+  <Faq items={qa} alt />
 </Base>
 <script>
   const boxes = [...document.querySelectorAll('[data-check] input[type=checkbox]')];
