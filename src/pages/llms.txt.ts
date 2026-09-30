@@ -11,7 +11,7 @@ export const GET: APIRoute = async () => {
     '',
     `> ${site.tagline}。${site.description}`,
     '',
-    `${site.name}即${site.legalName}，${site.founded} 年成立于${site.location}，创始人王辉。业务是两件事：规划、设计液冷 AI 算力中心，以工厂预制撬块、ORv3 与 19 英寸机柜、CDU 和冷却设备交付；以及为液冷回路提供现场检测、调试与运维，需要资质的现场作业由持证、投保的合作单位完成。对十大漏点中的每一个交付测试、验收判据与记录。北美平台：NextGenergy，https://nextgenergy.ai（英文站）。微信公众号：${site.wechat}。联系：${site.email}。`,
+    `${site.name}即${site.legalName}，${site.founded} 年成立于${site.location}。业务是两件事：规划、设计液冷 AI 算力中心，以工厂预制撬块、ORv3 与 19 英寸机柜、CDU 和冷却设备交付；以及为液冷回路提供现场检测、调试与运维，需要资质的现场作业由持证、投保的合作单位完成。对十大漏点中的每一个交付测试、验收判据与记录。北美平台：NextGenergy，https://nextgenergy.ai（英文站）。微信公众号：${site.wechat}。联系：${site.email}。`,
     '',
     `本站固定使用的术语：整条热通路；回水品位；三个时钟（制造 / 调试 / 服役）；十大漏点；交付资料包；数字带条件。`,
     '',

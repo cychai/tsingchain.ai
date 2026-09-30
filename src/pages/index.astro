@@ -7,7 +7,6 @@ const latest = (await getCollection('insights', (p) => !p.data.draft)).sort((a, 
 const stats = [
   { c: claims['years-6'], label: '专注液冷，先浸没式、后冷板式' },
   { c: claims['capacity-1000mw'], label: '累计液冷交付' },
-  { c: claims['heating-2m'], label: '数据中心余热累计供热面积' },
 ];
 const chain = ['规划', '设计', '预制', '调试', '运维', '余热利用'];
 ---
@@ -161,7 +160,7 @@ const chain = ['规划', '设计', '预制', '调试', '运维', '余热利用']
   .line:hover .more { color: var(--heat); }
 
   .stats { display: grid; gap: 1.5rem 2.5rem; grid-template-columns: 1fr; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-  @media (min-width: 720px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
   .stat .v { display: block; font-family: var(--serif); font-size: 1.7rem; line-height: 1; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
   .stat .l { display: block; color: var(--ink-2); font-size: 0.95rem; }
   .stat .cond { display: block; font-size: 0.78rem; line-height: 1.45; color: var(--ink-3); margin-top: 0.45rem; }

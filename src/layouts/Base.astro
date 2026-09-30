@@ -25,7 +25,7 @@ const url = new URL(cleanPath, Astro.site);
 const jsonld = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Organization', '@id': `${Astro.site}#org`, name: site.name, alternateName: site.nameEn, legalName: site.legalName, url: String(Astro.site), logo: new URL('/brand/emblem-512.png', Astro.site).href, description: site.headline, foundingDate: String(site.founded), address: { '@type': 'PostalAddress', addressLocality: '北京', addressCountry: 'CN' }, email: site.email, founder: { '@type': 'Person', name: '王辉', jobTitle: '创始人兼 CEO' }, sameAs: [site.overseas.url, site.substack], knowsAbout: ['数据中心液冷', '冷板式液冷', '浸没式液冷', 'CDU', '余热回收', '城镇供热', '回水品位'] },
+    { '@type': 'Organization', '@id': `${Astro.site}#org`, name: site.name, alternateName: site.nameEn, legalName: site.legalName, url: String(Astro.site), logo: new URL('/brand/emblem-512.png', Astro.site).href, description: site.headline, foundingDate: String(site.founded), address: { '@type': 'PostalAddress', addressLocality: '北京', addressCountry: 'CN' }, email: site.email, sameAs: [site.overseas.url, site.substack], knowsAbout: ['数据中心液冷', '冷板式液冷', '浸没式液冷', 'CDU', '余热回收', '城镇供热', '回水品位'] },
     { '@type': 'WebSite', '@id': `${Astro.site}#website`, url: String(Astro.site), name: site.name, publisher: { '@id': `${Astro.site}#org` }, inLanguage: 'zh-CN' },
     { '@type': 'WebPage', '@id': url.href, url: url.href, name: fullTitle, description, isPartOf: { '@id': `${Astro.site}#website` }, inLanguage: 'zh-CN', ...(published ? { datePublished: published.toISOString() } : {}), ...(modified || published ? { dateModified: (modified ?? published)!.toISOString() } : {}) },
     ...ld,
