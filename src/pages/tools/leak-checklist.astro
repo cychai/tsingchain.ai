@@ -19,10 +19,12 @@ const ld = [softwareLd(path, { name: '交付资料自查', description: '给液�
         <div class="sticky">
           <div class="tool">
             <div class="eyebrow plain">您的得分</div>
-            <div class="readout"><span data-score>0</span> / 30</div>
+            <div class="readout"><span data-score>0</span> / <span data-max>30</span></div>
             <p class="small muted" data-verdict style="margin:0.6rem 0 0">开始勾选。</p>
             <div style="margin-top:1rem;height:6px;background:var(--line-2);border-radius:3px;overflow:hidden"><div data-bar style="height:100%;width:0;background:var(--heat);transition:width .2s"></div></div>
-            <button class="btn" type="button" data-reset style="margin-top:1.2rem">重置</button>
+            <div class="gaps" data-gaps hidden><div class="eyebrow plain" style="margin:0 0 0.4rem">缺口</div><ul data-gaplist></ul></div>
+            <div class="btn-row" style="margin-top:1.2rem"><button class="btn" type="button" data-reset>重置</button><button class="btn" type="button" data-export>导出 CSV</button></div>
+            <p class="small muted" style="margin:0.8rem 0 0">清单版本：2026-09。标为「不适用」的边界不计入满分。</p>
           </div>
           <p class="small muted" style="margin-top:1rem">与<a href="/evidence/leak-points">参考清单</a>相同的十个边界。三列分别是：{qs.join(' · ')}</p>
         </div>
@@ -30,13 +32,14 @@ const ld = [softwareLd(path, { name: '交付资料自查', description: '给液�
           <p class="table-hint">左右滑动查看全部列。</p>
       <div class="table-wrap">
             <table class="table" data-check>
-              <thead><tr><th>#</th><th>边界</th>{qs.map((q) => <th style="text-align:center">{q}</th>)}</tr></thead>
+              <thead><tr><th>#</th><th>边界</th>{qs.map((q) => <th style="text-align:center">{q}</th>)}<th style="text-align:center">不适用</th></tr></thead>
               <tbody>
                 {leakPoints.map((l) => (
-                  <tr>
+                  <tr data-row={l.n} data-name={l.t}>
                     <td class="mono muted">{String(l.n).padStart(2, '0')}</td>
                     <td><strong>{l.t}</strong><br /><span class="small muted">{l.group}</span></td>
                     {qs.map((q, j) => <td style="text-align:center"><input type="checkbox" data-k={`${l.n}-${j}`} aria-label={`${l.t}: ${q}`} style="width:1.2rem;height:1.2rem;accent-color:var(--heat)" /></td>)}
+                    <td style="text-align:center"><input type="checkbox" data-na={l.n} aria-label={`${l.t}: 不适用`} style="width:1.2rem;height:1.2rem;accent-color:var(--ink-3)" /></td>
                   </tr>
                 ))}
               </tbody>
@@ -55,17 +58,73 @@ const ld = [softwareLd(path, { name: '交付资料自查', description: '给液�
   <Faq items={qa} alt />
 </Base>
 <script>
-  const boxes = [...document.querySelectorAll('[data-check] input[type=checkbox]')];
-  const score = document.querySelector('[data-score]'), bar = document.querySelector('[data-bar]'), verdict = document.querySelector('[data-verdict]');
+  const T = {"allNa": "全部标为不适用，没有可评分的边界。", "v": ["开始勾选。", "这是一份工作说明，不是工作证据。", "部分站得住。缺口就是下次出事时争议的地方。", "很强。趁保险方还没问，把最后几项补上。", "齐全。我们很想看看。"], "none": "可评分的边界都已三项齐全。", "miss": ["未测", "无书面判据", "记录调不出"], "head": "编号,边界,不适用,测了吗,有书面验收判据,能调出记录", "score": "得分", "max": "满分", "date": "日期", "ver": "清单版本", "yes": "是", "no": "否", "fname": "交付资料自查"};
+  const rows = [...document.querySelectorAll('[data-check] tbody tr')];
+  const boxes = [...document.querySelectorAll('[data-check] input[data-k]')];
+  const nas = [...document.querySelectorAll('[data-check] input[data-na]')];
+  const score = document.querySelector('[data-score]'), maxEl = document.querySelector('[data-max]'), bar = document.querySelector('[data-bar]'), verdict = document.querySelector('[data-verdict]');
+  const gapsBox = document.querySelector('[data-gaps]'), gapList = document.querySelector('[data-gaplist]');
   const KEY = 'nge-turnover-check';
-  try { const saved = JSON.parse(localStorage.getItem(KEY) || '{}'); boxes.forEach((b) => (b.checked = !!saved[b.dataset.k])); } catch {}
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    boxes.forEach((b) => (b.checked = !!saved[b.dataset.k]));
+    nas.forEach((b) => (b.checked = !!saved['na-' + b.dataset.na]));
+  } catch {}
+  const state = () => rows.map((r) => ({
+    n: r.dataset.row, name: r.dataset.name,
+    na: r.querySelector('[data-na]').checked,
+    b: [...r.querySelectorAll('[data-k]')].map((x) => x.checked),
+  }));
   function run() {
-    const n = boxes.filter((b) => b.checked).length;
-    score.textContent = n; bar.style.width = `${(n / 30) * 100}%`;
-    verdict.textContent = n === 0 ? '开始勾选。' : n < 10 ? '这是一份工作说明，不是工作证据。' : n < 20 ? '部分站得住。缺口就是下次出事时争议的地方。' : n < 30 ? '很强。趁保险方还没问，把最后几项补上。' : '齐全。我们很想看看。';
-    try { localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(boxes.map((b) => [b.dataset.k, b.checked])))); } catch {}
+    const st = state();
+    st.forEach((s, i) => {
+      rows[i].querySelectorAll('[data-k]').forEach((x) => { if (s.na) x.checked = false; x.disabled = s.na; });
+      rows[i].classList.toggle('is-na', s.na);
+      if (s.na) s.b = [false, false, false];
+    });
+    const app = st.filter((s) => !s.na);
+    const max = app.length * 3;
+    const n = app.reduce((a, s) => a + s.b.filter(Boolean).length, 0);
+    score.textContent = n; maxEl.textContent = max;
+    bar.style.width = max ? `${(n / max) * 100}%` : '0';
+    const f = max ? n / max : 0;
+    verdict.textContent = max === 0 ? T.allNa : n === 0 ? T.v[0] : f < 1 / 3 ? T.v[1] : f < 2 / 3 ? T.v[2] : f < 1 ? T.v[3] : T.v[4];
+    const gaps = app.filter((s) => s.b.some((x) => !x)).sort((a, b) => Number(a.b[2]) - Number(b.b[2]));
+    gapList.replaceChildren();
+    if (n > 0 || nas.some((x) => x.checked)) {
+      gapsBox.hidden = false;
+      if (!gaps.length) { const li = document.createElement('li'); li.textContent = T.none; gapList.append(li); }
+      gaps.forEach((s) => {
+        const li = document.createElement('li');
+        li.textContent = `${String(s.n).padStart(2, '0')} ${s.name}: ${s.b.map((x, j) => (x ? null : T.miss[j])).filter(Boolean).join(', ')}`;
+        gapList.append(li);
+      });
+    } else gapsBox.hidden = true;
+    try {
+      const o = Object.fromEntries(boxes.map((b) => [b.dataset.k, b.checked]));
+      nas.forEach((b) => (o['na-' + b.dataset.na] = b.checked));
+      localStorage.setItem(KEY, JSON.stringify(o));
+    } catch {}
+    return { st, n, max };
   }
-  boxes.forEach((b) => b.addEventListener('change', run));
-  document.querySelector('[data-reset]').addEventListener('click', () => { boxes.forEach((b) => (b.checked = false)); run(); });
+  [...boxes, ...nas].forEach((b) => b.addEventListener('change', run));
+  document.querySelector('[data-reset]').addEventListener('click', () => { [...boxes, ...nas].forEach((b) => (b.checked = false)); run(); });
+  document.querySelector('[data-export]').addEventListener('click', () => {
+    const { st, n, max } = run();
+    const q = (v) => `"${String(v).replace(/"/g, '""')}"`;
+    const yn = (x) => (x ? T.yes : T.no);
+    const date = new Date().toISOString().slice(0, 10);
+    const lines = [T.head, ...st.map((s) => [String(s.n).padStart(2, '0'), q(s.name), yn(s.na), ...(s.na ? ['', '', ''] : s.b.map(yn))].join(',')), '', `${T.score},${n}`, `${T.max},${max}`, `${T.date},${date}`, `${T.ver},2026-09`];
+    const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${T.fname}-${date}.csv`;
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
   run();
 </script>
+<style>
+  .gaps { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .gaps ul { margin: 0; padding-left: 1.1rem; font-size: 0.88rem; color: var(--ink-2); }
+  .gaps li { margin-bottom: 0.2rem; }
+  tr.is-na td { color: var(--ink-3); }
+  tr.is-na td strong { text-decoration: line-through; font-weight: 500; }
+</style>

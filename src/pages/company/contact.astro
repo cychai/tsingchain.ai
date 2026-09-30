@@ -11,7 +11,7 @@ import { site } from '@/data/site';
         <div>
           <p><strong>商务邮箱</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
           <p><strong>公司</strong><br />{site.legalName}，{site.location}</p>
-          {site.wechat && <p><strong>微信公众号</strong><br />{site.wechat}</p>}
+          {site.wechat && <p><strong>微信公众号</strong><br />{site.wechat}<span class="small muted">（在微信中搜索关注）</span></p>}
           <p><strong>北美平台</strong><br /><a href={site.overseas.url}>NextGenergy</a></p>
           <div class="starts">
             <p class="eyebrow plain" style="margin:0 0 0.6rem">从哪里开始</p>
@@ -35,6 +35,7 @@ import { site } from '@/data/site';
           <div class="field"><label for="msg">需求描述</label><textarea id="msg" name="message" rows="6" required minlength="10" maxlength="5000"></textarea></div>
           <div class="hp" aria-hidden="true"><label for="website">请留空</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
           <p class="form-status" data-status role="status" hidden></p>
+          <div class="fallback" data-fallback hidden><button type="button" class="btn" data-copy-msg>复制咨询内容</button><button type="button" class="btn" data-copy-mail>复制邮箱地址</button></div>
           <div class="btn-row" style="margin-top:0.5rem;align-items:center"><button class="btn primary" type="submit" data-send>发送</button><span class="small muted">或直接写信至 <a href={`mailto:${site.email}`}><span class="mono">{site.email}</span></a></span></div>
           <p class="small muted" style="margin:1rem 0 0">您的留言经 HTTPS 发送给我们的团队，只用于回复您，不会加入任何邮件列表。如果表单暂时无法发送，会改为在您的邮件客户端里打开同一封邮件。见<a href="/company/privacy">隐私声明</a>。</p>
         </form>
@@ -47,15 +48,29 @@ import { site } from '@/data/site';
   const status = f?.querySelector('[data-status]');
   const btn = f?.querySelector('[data-send]');
   const opened = Date.now();
-  const TOPIC = { product: '产品咨询或报价', commissioning: '现有系统的调试或验证', field: '现场检测或运维', heat: '余热利用' };
-  const HINT = { product: 'IT 负荷、场地位置、时间表和主要约束，粗略的也可以。', commissioning: '装了什么系统、现有哪些记录、目前处于什么状态。', field: '场地位置、系统规模、需要哪项服务。', heat: '热源与温度、可能的用热方、两者之间的距离。' };
+  const TOPIC = { product: '产品咨询或报价', commissioning: '现有系统的调试或验证', field: '现场检测或运维', heat: '余热利用', sim: '其他' };
+  const HINT = { product: 'IT 负荷、场地位置、时间表和主要约束，粗略的也可以。', commissioning: '装了什么系统、现有哪些记录、目前处于什么状态。', field: '场地位置、系统规模、需要哪项服务。', heat: '热源与温度、可能的用热方、两者之间的距离。', sim: '我想参与仿真台测试：您的角色，以及打算用来比对的案例类型（机柜平台、负荷、气候），不必提供客户名称。' };
   const pre = new URLSearchParams(location.search).get('topic');
   if (pre && TOPIC[pre] && f) { f.topic.value = TOPIC[pre]; f.message.placeholder = HINT[pre]; }
   const say = (msg, kind) => { if (!status) return; status.textContent = msg; status.dataset.kind = kind; status.hidden = false; };
   const g = (d, k) => String(d.get(k) ?? '').trim();
+  const COPIED = '已复制';
+  const fb = f?.querySelector('[data-fallback]');
+  let lastText = '';
+  async function copy(text, btn) {
+    try { await navigator.clipboard.writeText(text); }
+    catch {
+      const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.append(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove();
+    }
+    const old = btn.textContent; btn.textContent = COPIED; setTimeout(() => (btn.textContent = old), 1600);
+  }
+  f?.querySelector('[data-copy-msg]')?.addEventListener('click', (e) => copy(lastText, e.currentTarget));
+  f?.querySelector('[data-copy-mail]')?.addEventListener('click', (e) => copy(f.dataset.to, e.currentTarget));
   function mailtoFallback(d) {
     const subject = `[tsingchain.ai] ${g(d, 'topic')} — ${g(d, 'name')}${g(d, 'org') ? '，' + g(d, 'org') : ''}`;
     const body = `${g(d, 'message')}\n\n—\n${g(d, 'name')}${g(d, 'org') ? '\n' + g(d, 'org') : ''}\n${g(d, 'email')}${g(d, 'phone') ? '\n' + g(d, 'phone') : ''}`;
+    lastText = `${subject}\n\n${body}`; if (fb) fb.hidden = false;
     location.href = `mailto:${f.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
   f?.addEventListener('submit', async (e) => {
@@ -67,12 +82,12 @@ import { site } from '@/data/site';
     try {
       const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j.ok) { f.reset(); say('谢谢，您的留言已送达我们的团队，我们会在两个工作日内回复。', 'ok'); return; }
+      if (r.ok && j.ok) { f.reset(); if (fb) fb.hidden = true; say('服务器已收到您的留言，并已转给我们的团队。我们会在两个工作日内回复。', 'ok'); return; }
       if (j.error === 'validation') { say('请检查姓名、邮箱、需求类型和需求描述（至少 10 个字），然后再发送。', 'error'); btn.disabled = false; return; }
-      say('表单暂时无法发送，已改为在您的邮件客户端里打开这封邮件，内容都保留着。', 'info');
+      say('表单暂时无法发送，已尝试在您的邮件客户端里打开邮件草稿。如果没有弹出，请点下面的按钮复制咨询内容和邮箱地址，用任意邮箱发给我们。', 'info');
       mailtoFallback(d);
     } catch {
-      say('表单暂时无法发送，已改为在您的邮件客户端里打开这封邮件，内容都保留着。', 'info');
+      say('表单暂时无法发送，已尝试在您的邮件客户端里打开邮件草稿。如果没有弹出，请点下面的按钮复制咨询内容和邮箱地址，用任意邮箱发给我们。', 'info');
       mailtoFallback(d);
     }
     btn.disabled = false;
@@ -85,6 +100,7 @@ import { site } from '@/data/site';
   .start strong { display: block; color: var(--ink); font-size: 0.98rem; }
   .start span { display: block; color: var(--ink-3); font-size: 0.88rem; margin-top: 0.15rem; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .fallback { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.7rem; }
   .form-status { margin: 0.8rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--blue); background: var(--water-2); font-size: 0.95rem; }
   .form-status[data-kind="ok"] { border-color: var(--green); background: #e7f6ea; }
   .form-status[data-kind="error"] { border-color: #b42318; background: #fef3f2; color: #7a271a; }

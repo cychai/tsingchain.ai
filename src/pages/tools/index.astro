@@ -8,9 +8,24 @@ import Card from '@/components/Card.astro';
   <section class="section"><div class="wrap"><div class="grid c2">
     <Card href="https://sim.nextgenergy.ai/" num="01" title="液冷仿真台" more="打开 sim.nextgenergy.ai">从芯片结温到排热的全回路瞬态热模型：选机柜平台、气候与管路，看结温、流量、压降与 pPUE 如何稳定，再用负荷阶跃、泵故障或结垢去考验它。概念模型，用于规划和比较，不用于验收或性能承诺。界面为英文。</Card>
     <Card href="https://sim.nextgenergy.ai/catalog/" num="02" title="CDU 公开目录" more="打开">三十多家厂商 CDU 的公开规格，每一行链接到厂商资料，额定工况与容量并列，数字才能真正比较。界面为英文。</Card>
-  </div><div class="grid c3" style="margin-top:1.5rem">
+  </div>
+  <div class="recruit">
+    <div>
+      <div class="eyebrow plain">招募首批测试者 · 5 位</div>
+      <h2>用一个已知结果的案例，检验液冷模型</h2>
+      <p>我们想请 5 位 CDU 或冷板工程师、调试人员、设计师和运维人员，用您手上已知结果的案例在仿真台上跑一遍，比较模型输出，告诉我们差在哪里。仿真台打开即用，不需要注册。</p>
+    </div>
+    <div class="btn-row"><a class="btn primary" href="https://sim.nextgenergy.ai/">打开仿真台</a><a class="btn" href="/company/contact?topic=sim#form">申请参与测试</a></div>
+  </div>
+  <div class="grid c3" style="margin-top:1.5rem">
     <Card href="/tools/return-water" num="03" title="回水品位 → 可行的余热买家" more="打开">输入回路回水温度，看哪些用户能直接用这份热，哪些需要热泵提升，大致要多少电。</Card>
     <Card href="/tools/approach-temp" num="04" title="CDU 趋近温差与自由冷却估算" more="打开">看 CDU 换热器的趋近温差如何改变所需设施供水温度，以及在您所在气候区意味着多少自由冷却小时。</Card>
     <Card href="/tools/leak-checklist" num="05" title="交付资料自查表" more="打开">十个边界，每个三问。给一个项目诚实打分，下次有个可比的数。</Card>
   </div></div></section>
 </Base>
+<style>
+  .recruit { margin-top: 1.5rem; padding: 1.8rem 2rem; border: 1px solid var(--line-2); border-left: 4px solid var(--green); border-radius: var(--r); background: var(--white); display: grid; gap: 1rem 2rem; grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 900px) { .recruit { grid-template-columns: 1fr auto; } }
+  .recruit h2 { font-size: clamp(1.2rem, 2.2vw, 1.5rem); margin: 0.3rem 0 0.5rem; }
+  .recruit p { margin: 0; color: var(--ink-2); max-width: 40em; }
+</style>

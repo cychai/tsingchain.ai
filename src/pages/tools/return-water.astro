@@ -39,10 +39,15 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
             <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="price" min="0" max="2000" step="1" value="200" /><span class="mono muted">元/MWh<sub>th</sub></span></div>
             <p class="small muted" style="margin:0.4rem 0 0">仅供参考。实际合同按季节、可用率和热泵归属定价。</p>
           </div>
+          <div class="field">
+            <label for="hrs">年有效供热小时</label>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="hrs" min="1" max="8760" step="100" value="8760" /><span class="mono muted">h/年</span></div>
+            <p class="small muted" style="margin:0.4rem 0 0">买家一年里真正接收满额热量的等效小时数。8760 即全年满额，是理论上限；只在采暖季用热的买家通常远低于此。</p>
+          </div>
           <div class="result">
-            <div class="eyebrow plain">年供热量 · 理论上限情景（买家全年满额接收）</div>
+            <div class="eyebrow plain">年供热量 · <span data-out="case">理论上限情景（全年满额接收）</span></div>
             <div class="readout"><span data-out="gwh">—</span> GWh<sub>th</sub></div>
-            <p class="small muted" style="margin:0.3rem 0 0">理论上限：按上述价值约合每年 <span data-out="rev">—</span> 元，是毛收入而非利润，未扣泵送、热泵用电与管网成本，且仅在买家全年满额接收时成立。多数用热负荷有季节性，请以买家的负荷曲线为准。</p>
+            <p class="small muted" style="margin:0.3rem 0 0">按上述价值约合每年 <span data-out="rev">—</span> 元（按数据中心交出的热量计），是毛收入而非利润，未扣泵送、热泵用电与管网成本。温度匹配只是初筛：流量、温降、容量和季节负荷同时满足，才有工程可行性。</p>
           </div>
         </div>
         <div>
@@ -58,7 +63,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
               <li><strong>温度匹配</strong>：交出温度不低于该类用户示意供水窗口的下限。<strong>需要提升</strong>：低于下限 25 K 以内。<strong>超出筛选范围</strong>：低于下限 25 K 以上。</li>
               <li><strong>热泵提升</strong>：按交出温度到窗口下限之间 50% 卡诺效率的理想化估算，COP 上限 8。输入的热功率视为热泵源侧吸收的余热：电功率 = 余热 ÷ (COP − 1)，供热侧输出 = 余热 + 电功率。不计热泵侧换热端差、部分负荷、辅机与季节性能。</li>
               <li><strong>水量</strong> = 热功率 ÷ (4.18 kJ/kg·K × ΔT)，水物性按约 50 °C 取。</li>
-              <li><strong>年供热量</strong> = 热功率 × 8760 h，即全年满额接收。</li>
+              <li><strong>年供热量</strong> = 热功率 × 年有效供热小时；默认 8760 h 即全年满额接收，是理论上限。</li>
               <li><strong>温度窗口</strong>取自各类用户的公开工程实践，为示意值：二代/三代传统区域供热、单效溴化锂吸收式制冷（热水型多按 90 °C 设计，实际下限约 80 °C，请查厂商曲线）、工业清洗与预热工艺、第四代区域供热（部分超低温管网低于 45 °C）、温室管道供暖、水产养殖（因品种而异）、低温末端楼宇供暖、泳池与生活热水预热（最终生活热水温度与军团菌控制需另行补热）。请以实际买方系统核实。</li>
             </ul>
           </details>
@@ -93,13 +98,14 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
     { name: '热泵热源（提升后供给以上任一用户）', min: 10, max: 60, why: '10 °C 以上几乎任何品位都是可用热源；经济账转到谁拥有热泵。' },
   ];
   const el = (s) => document.querySelector(s);
-  const t = el('#tret'), hx = el('#hx'), mw = el('#mw'), dt = el('#dt'), price = el('#price'), list = el('[data-buyers]');
+  const t = el('#tret'), hx = el('#hx'), mw = el('#mw'), dt = el('#dt'), price = el('#price'), hrs = el('#hrs'), list = el('[data-buyers]');
   const out = (k, v) => { document.querySelectorAll(`[data-out="${k}"]`).forEach((n) => (n.textContent = v)); };
   const fields = [
     [hx, '交接换热器端差', 0, 15, 'K'],
     [mw, '可持续供出的热功率', 0.1, 500, 'MWth'],
     [dt, '买家可接受的温降', 3, 40, 'K'],
     [price, '供热价值', 0, 2000, '元/MWhth'],
+    [hrs, '年有效供热小时', 1, 8760, 'h'],
   ];
   const errBox = document.createElement('p');
   errBox.className = 'input-error'; errBox.setAttribute('role', 'alert'); errBox.hidden = true;
@@ -129,7 +135,9 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
     const T = Tret - A; out('tdel', `${T.toFixed(1)} °C`);
     const flow = (P * 1e6) / (4180 * dT); // kg/s ≈ L/s
     out('flow', `${flow.toFixed(1)} L/s (${(flow * 3.6).toFixed(0)} m³/h)`);
-    const gwh = P * 8760 / 1000;
+    const H = +hrs.value;
+    out('case', H >= 8760 ? '理论上限情景（全年满额接收）' : `按每年 ${H.toLocaleString('zh-CN')} 小时有效供热`);
+    const gwh = P * H / 1000;
     out('gwh', gwh.toFixed(1));
     out('rev', Math.round(gwh * 1000 * pr).toLocaleString('zh-CN'));
     list.innerHTML = buyers.map((b) => {
@@ -145,6 +153,6 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
       return `<div class="buyer ${cls}"><span class="dot"></span><div><div class="name">${b.name}</div><div class="why">${b.why}窗口 ${b.min}–${b.max} °C。${extra}</div></div><span class="st">${st}</span></div>`;
     }).join('');
   }
-  [t, hx, mw, dt, price].forEach((i) => i.addEventListener('input', run));
+  [t, hx, mw, dt, price, hrs].forEach((i) => i.addEventListener('input', run));
   run();
 </script>
