@@ -11,7 +11,7 @@ import { site } from '@/data/site';
         <div>
           <p><strong>商务邮箱</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
           <p><strong>公司</strong><br />{site.legalName}，{site.location}</p>
-          {site.wechat && <p><strong>微信公众号</strong><br />{site.wechat}<span class="small muted">（在微信中搜索关注）</span></p>}
+          {site.wechat && <div class="wx"><p><strong>微信公众号</strong><br />{site.wechat}<br /><span class="small muted">微信扫码或搜索关注</span></p><img src="/wx/wechat-qr.jpg" alt="清链科技微信公众号「清链学堂在线」二维码" width="120" height="120" loading="lazy" /></div>}
           <p><strong>北美平台</strong><br /><a href={site.overseas.url}>NextGenergy</a></p>
           <div class="starts">
             <p class="eyebrow plain" style="margin:0 0 0.6rem">从哪里开始</p>
@@ -100,6 +100,9 @@ import { site } from '@/data/site';
   .start strong { display: block; color: var(--ink); font-size: 0.98rem; }
   .start span { display: block; color: var(--ink-3); font-size: 0.88rem; margin-top: 0.15rem; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .wx { display: flex; align-items: center; gap: 1rem; margin: 0 0 1rem; }
+  .wx p { margin: 0; }
+  .wx img { width: 120px; height: 120px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
   .fallback { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.7rem; }
   .form-status { margin: 0.8rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--blue); background: var(--water-2); font-size: 0.95rem; }
   .form-status[data-kind="ok"] { border-color: var(--green); background: #e7f6ea; }
