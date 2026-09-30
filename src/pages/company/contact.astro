@@ -3,30 +3,40 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import { site } from '@/data/site';
 ---
-<Base title="联系我们" description="与清链科技的工程师谈一谈：新建、改造、余热利用，或者一份想请我们验证的交付资料。">
-  <PageHero eyebrow="关于我们" title="联系工程师" lede="告诉我们您的场景，以及您最没把握说清楚的那个数字。我们从那里开始。" crumbs={[['/company/about', '关于我们']]} />
+<Base title="联系我们" description="与清链科技谈谈您的项目：新建、改造、余热利用、产品报价，或者一份想请我们验证的交付资料。">
+  <PageHero eyebrow="公司" title="与我们的团队聊聊" lede="告诉我们您的项目、冷却需求和时间表，我们会安排合适的人回复。" crumbs={[['/company/about', '公司']]} />
   <section class="section">
     <div class="wrap">
       <div class="split">
         <div>
           <p><strong>商务邮箱</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
-          {site.wechat && <p><strong>微信公众号</strong><br />{site.wechat}</p>}
           <p><strong>公司</strong><br />{site.legalName}，{site.location}</p>
-          <p><strong>海外业务</strong><br /><a href={site.overseas.url}>NextGenergy</a>（加拿大多伦多）</p>
-          <p class="small muted">工作日两天内回复。如果是想请我们审核交付资料，先发一份目录页的 PDF 就可以开始。</p>
+          {site.wechat && <p><strong>微信公众号</strong><br />{site.wechat}</p>}
+          <p><strong>北美平台</strong><br /><a href={site.overseas.url}>NextGenergy</a></p>
+          <div class="starts">
+            <p class="eyebrow plain" style="margin:0 0 0.6rem">从哪里开始</p>
+            <a class="start" href="?topic=product#form" data-topic="product"><strong>讨论一套冷却配置</strong><span>告诉我们 IT 负荷、场地、时间表和主要约束。</span></a>
+            <a class="start" href="?topic=commissioning#form" data-topic="commissioning"><strong>申请调试审查</strong><span>告诉我们现有哪些记录、系统处于什么状态、哪些可以测试。</span></a>
+            <a class="start" href="?topic=heat#form" data-topic="heat"><strong>评估余热利用潜力</strong><span>告诉我们热源、可能的用热方、距离和温度。</span></a>
+          </div>
+          <p class="small muted" style="margin-top:1.2rem"><strong>早期项目也欢迎。</strong>还没有系统图或设备清单也没关系，把您知道的告诉我们，我们帮您把下一步定下来。</p>
+          <p class="small muted"><strong>接下来会怎样。</strong>我们在两个工作日内回复，提出问题或建议下一步；基本需求明确后，再给正式的范围与报价。</p>
         </div>
-        <form class="tool" data-contact data-to={site.email}>
-          <div class="field"><label for="name">姓名</label><input id="name" name="name" type="text" required autocomplete="name" /></div>
-          <div class="field"><label for="org">单位</label><input id="org" name="org" type="text" autocomplete="organization" /></div>
-          <div class="field"><label for="email">邮箱</label><input id="email" name="email" type="email" required autocomplete="email" /></div>
-          <div class="field"><label for="phone">电话 / 微信（选填）</label><input id="phone" name="phone" type="text" autocomplete="tel" /></div>
+        <form id="form" class="tool" data-contact data-to={site.email} novalidate>
+          <div class="field"><label for="name">姓名</label><input id="name" name="name" type="text" required maxlength="120" autocomplete="name" /></div>
+          <div class="field"><label for="org">单位</label><input id="org" name="org" type="text" maxlength="160" autocomplete="organization" /></div>
+          <div class="field"><label for="email">邮箱</label><input id="email" name="email" type="email" required maxlength="200" autocomplete="email" /></div>
+          <div class="field"><label for="phone">电话 / 微信（选填）</label><input id="phone" name="phone" type="text" maxlength="80" autocomplete="tel" /></div>
           <div class="field"><label for="topic">需求类型</label>
-            <select id="topic" name="topic">
-              <option>AI 算力中心新建</option><option>既有数据中心液冷改造</option><option>CDU 及热能回收</option><option>楼宇 / 城镇供热</option><option>温室 / 水产 / 温泉热能利用</option><option>现有系统的调试或验证</option><option>合作伙伴</option><option>其他</option>
+            <select id="topic" name="topic" required>
+              <option value="" selected disabled>请选择</option>
+              <option>产品咨询或报价</option><option>现场检测或运维</option><option>AI 算力中心新建</option><option>既有数据中心液冷改造</option><option>余热利用</option><option>现有系统的调试或验证</option><option>合作伙伴</option><option>其他</option>
             </select></div>
-          <div class="field"><label for="msg">需求描述</label><textarea id="msg" name="message" rows="6" required></textarea></div>
-          <div class="btn-row" style="margin-top:0.5rem;align-items:center"><button class="btn primary" type="submit">用邮件客户端发送</button><span class="small muted">或直接写信至 <a href={`mailto:${site.email}`}><span class="mono">{site.email}</span></a></span></div>
-          <p class="small muted" style="margin:1rem 0 0">此表单不向任何服务器提交数据，而是在您本机的邮件客户端里生成一封发给我们的邮件，您留有副本，我们直接收到。需要本机配置了邮件客户端；如果没有弹出，请使用上面的邮箱地址。我们如何处理您发来的内容，见<a href="/company/privacy">隐私声明</a>。</p>
+          <div class="field"><label for="msg">需求描述</label><textarea id="msg" name="message" rows="6" required minlength="10" maxlength="5000"></textarea></div>
+          <div class="hp" aria-hidden="true"><label for="website">请留空</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <p class="form-status" data-status role="status" hidden></p>
+          <div class="btn-row" style="margin-top:0.5rem;align-items:center"><button class="btn primary" type="submit" data-send>发送</button><span class="small muted">或直接写信至 <a href={`mailto:${site.email}`}><span class="mono">{site.email}</span></a></span></div>
+          <p class="small muted" style="margin:1rem 0 0">您的留言经 HTTPS 发送给我们的团队，只用于回复您，不会加入任何邮件列表。如果表单暂时无法发送，会改为在您的邮件客户端里打开同一封邮件。见<a href="/company/privacy">隐私声明</a>。</p>
         </form>
       </div>
     </div>
@@ -34,15 +44,50 @@ import { site } from '@/data/site';
 </Base>
 <script>
   const f = document.querySelector('[data-contact]');
-  f?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const d = new FormData(f);
-    const g = (k) => String(d.get(k) ?? '').trim();
-    const subject = `[tsingchain.ai] ${g('topic')} — ${g('name')}${g('org') ? '，' + g('org') : ''}`;
-    const body = `${g('message')}\n\n—\n${g('name')}${g('org') ? '\n' + g('org') : ''}\n${g('email')}${g('phone') ? '\n' + g('phone') : ''}`;
+  const status = f?.querySelector('[data-status]');
+  const btn = f?.querySelector('[data-send]');
+  const opened = Date.now();
+  const TOPIC = { product: '产品咨询或报价', commissioning: '现有系统的调试或验证', field: '现场检测或运维', heat: '余热利用' };
+  const HINT = { product: 'IT 负荷、场地位置、时间表和主要约束，粗略的也可以。', commissioning: '装了什么系统、现有哪些记录、目前处于什么状态。', field: '场地位置、系统规模、需要哪项服务。', heat: '热源与温度、可能的用热方、两者之间的距离。' };
+  const pre = new URLSearchParams(location.search).get('topic');
+  if (pre && TOPIC[pre] && f) { f.topic.value = TOPIC[pre]; f.message.placeholder = HINT[pre]; }
+  const say = (msg, kind) => { if (!status) return; status.textContent = msg; status.dataset.kind = kind; status.hidden = false; };
+  const g = (d, k) => String(d.get(k) ?? '').trim();
+  function mailtoFallback(d) {
+    const subject = `[tsingchain.ai] ${g(d, 'topic')} — ${g(d, 'name')}${g(d, 'org') ? '，' + g(d, 'org') : ''}`;
+    const body = `${g(d, 'message')}\n\n—\n${g(d, 'name')}${g(d, 'org') ? '\n' + g(d, 'org') : ''}\n${g(d, 'email')}${g(d, 'phone') ? '\n' + g(d, 'phone') : ''}`;
     location.href = `mailto:${f.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+  f?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!f.checkValidity()) { f.reportValidity(); say('请把标出的项目填写完整。', 'error'); return; }
+    const d = new FormData(f);
+    const payload = { name: g(d, 'name'), org: g(d, 'org'), email: g(d, 'email'), phone: g(d, 'phone'), topic: g(d, 'topic'), message: g(d, 'message'), website: g(d, 'website'), elapsed: Date.now() - opened };
+    btn.disabled = true; say('正在发送…', 'info');
+    try {
+      const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.ok) { f.reset(); say('谢谢，您的留言已送达我们的团队，我们会在两个工作日内回复。', 'ok'); return; }
+      if (j.error === 'validation') { say('请检查姓名、邮箱、需求类型和需求描述（至少 10 个字），然后再发送。', 'error'); btn.disabled = false; return; }
+      say('表单暂时无法发送，已改为在您的邮件客户端里打开这封邮件，内容都保留着。', 'info');
+      mailtoFallback(d);
+    } catch {
+      say('表单暂时无法发送，已改为在您的邮件客户端里打开这封邮件，内容都保留着。', 'info');
+      mailtoFallback(d);
+    }
+    btn.disabled = false;
   });
 </script>
 <style>
+  .starts { margin-top: 1.6rem; }
+  .start { display: block; padding: 0.8rem 1rem; margin-bottom: 0.6rem; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--white); color: inherit; text-decoration: none; }
+  .start:hover { border-color: var(--water); }
+  .start strong { display: block; color: var(--ink); font-size: 0.98rem; }
+  .start span { display: block; color: var(--ink-3); font-size: 0.88rem; margin-top: 0.15rem; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .form-status { margin: 0.8rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--blue); background: var(--water-2); font-size: 0.95rem; }
+  .form-status[data-kind="ok"] { border-color: var(--green); background: #e7f6ea; }
+  .form-status[data-kind="error"] { border-color: #b42318; background: #fef3f2; color: #7a271a; }
+  .tool select:invalid { color: var(--ink-3); }
   .tool input[type="text"], .tool input[type="email"], .tool textarea { width: 100%; font: inherit; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); color: var(--ink); }
 </style>

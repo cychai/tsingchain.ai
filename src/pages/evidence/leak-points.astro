@@ -15,7 +15,7 @@ const qa = faqs[path];
 const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '每个液冷团队都该知道的十大漏点', description: '液冷回路会漏的十个地方，顺着冷却液从芯片走到设施。不是排名，是每个团队都该能拿项目对照打分的清单。', about: 'term' }), faqLd(path, qa)];
 ---
 <Base ld={ld} title="十大漏点" description="液冷回路会漏的十个地方，顺着冷却液从芯片走到设施。不是排名，是每个团队都该能拿项目对照打分的清单。">
-  <PageHero eyebrow="交付证据 · 参考" title="每个液冷团队都该知道的十大漏点" lede="不是排名，是一张顺着冷却液从芯片走到设施的清单。对其中每一个，交付资料都应回答：测了吗？按什么验收判据？记录在哪里？" crumbs={[['/approach', '技术与证据'], ['/evidence', '交付证据']]} />
+  <PageHero eyebrow="交付证据 · 参考" title="每个液冷团队都该知道的十大漏点" lede="不是排名，是一张顺着冷却液从芯片走到设施的清单。对其中每一个，交付资料都应回答：测了吗？按什么验收判据？记录在哪里？" crumbs={[['/evidence', '交付证据']]} />
   <Definition d={d} />
   <section class="section">
     <div class="wrap">

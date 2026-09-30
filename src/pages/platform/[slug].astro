@@ -7,7 +7,7 @@ export function getStaticPaths() { return items.map((s) => ({ params: { slug: s.
 const { s } = Astro.props;
 ---
 <Base title={s.title} description={s.summary}>
-  <PageHero eyebrow="产品与平台" title={s.title} lede={s.summary} crumbs={[['/platform', '产品与平台']]} />
+  <PageHero eyebrow="产品" title={s.title} lede={s.summary} crumbs={[['/platform', '产品']]} />
   <section class="section">
     <div class="wrap">
       <div class="split main">
@@ -20,7 +20,7 @@ const { s } = Astro.props;
             <div class="tool" style="padding:1.4rem">
               <div class="eyebrow plain">我们请项目尽早决定的事</div>
               <ul class="asks">{s.asks.map((a) => <li>{a}</li>)}</ul>
-              <a class="btn" href="/company/contact" style="margin-top:1rem">联系工程师</a>
+              <a class="btn" href="/company/contact?topic=product" style="margin-top:1rem">讨论配置</a>
             </div>
           </aside>
         )}

@@ -1,4 +1,4 @@
-/** /llms-full.txt —— 核心页面（定义、FAQ、十大漏点、带条件的数字、案例、团队）与全部文章合成的一份 Markdown，构建时生成，不会与 HTML 脱节。 */
+/** /llms-full.txt —— 核心页面（定义、FAQ、十大漏点、带条件的数字、案例）与全部文章合成的一份 Markdown，构建时生成，不会与 HTML 脱节。 */
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { site } from '@/data/site';
@@ -6,7 +6,6 @@ import { corePages, definitions, faqs } from '@/data/geo';
 import { leakPoints } from '@/data/leakPoints';
 import { claims } from '@/data/claims';
 import { cases } from '@/data/cases';
-import { people } from '@/data/team';
 import { articleMarkdown } from './insights/[slug].md';
 
 export const GET: APIRoute = async () => {
@@ -21,7 +20,7 @@ export const GET: APIRoute = async () => {
   for (const g of corePages) {
     for (const [path, title, summary] of g.pages) {
       const qa = faqs[path];
-      out.push(`### ${title}`, '', `${summary}（${site.url}${path}）`, '');
+      out.push(`### ${title}`, '', `${summary}（${path.startsWith('http') ? path : site.url + path}）`, '');
       if (path === '/evidence/leak-points') { for (const l of leakPoints) out.push(`${l.n}. **${l.t}**（${l.group}）。${l.p}${l.r ? ` 记录：${l.r}` : ''}`); out.push(''); }
       if (path === '/cases') { for (const c of cases) out.push(`- **${c.mw} MW · ${c.type}**（${c.year} 年）：${c.title}。${c.detail.join('；')}。`); out.push('', '口径：MW 按 IT 侧热负荷计，供热面积按合同面积计，气温为项目所在地极端气温记录；项目方名称按保密约定不公开。', ''); }
       if (qa) for (const i of qa) out.push(`**问：${i.q}**`, '', `答：${i.a}${i.href ? `（${site.url}${i.href}）` : ''}`, '');
@@ -35,8 +34,6 @@ export const GET: APIRoute = async () => {
   }
   out.push('');
 
-  out.push('## 核心团队', '');
-  for (const p of people) out.push(`- **${p.name}**，${p.role}。${p.bio}${p.linkedin ? ` LinkedIn：${p.linkedin}` : ''}`);
   out.push('');
 
   out.push('## 文章', '');

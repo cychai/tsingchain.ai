@@ -7,10 +7,10 @@ const year = new Date().getFullYear();
     <div class="cols">
       <div>
         <a href="/" class="brand"><img src="/brand/logo.png" alt="清链科技 Tsingchain Global" width="2020" height="640" /></a>
-        <p style="margin-top:1rem; max-width: 20em;">对整条热通路负责：从设施水接口到芯片，每一个交付边界都有测试、有判据、有记录。</p>
+        <p style="margin-top:1rem; max-width: 20em;">AI 算力中心预制化液冷：我们规划、设计系统，交付撬块、CDU、机柜与冷却设备，并在现场检测、调试和维护液冷回路。每一个交付边界都附带证据。</p>
         <p class="small">商务咨询：<a href={`mailto:${site.email}`}>{site.email}</a></p>
         {site.wechat && <p class="small">微信公众号：{site.wechat}</p>}
-        <p class="small">海外品牌：<a href={site.overseas.url}>{site.overseas.name}</a> · 英文专栏：<a href={site.substack}>Every Watt Counts</a></p>
+        <p class="small">北美平台：<a href={site.overseas.url}>{site.overseas.name}</a> · 英文专栏：<a href={site.substack}>Every Watt Counts</a></p>
       </div>
       {footerNav.map((c) => (
         <div>

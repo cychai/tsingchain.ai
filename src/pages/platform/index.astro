@@ -3,15 +3,104 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Card from '@/components/Card.astro';
 import { platform as items } from '@/data/sections';
+const by = (slug: string) => items.find((s) => s.slug === slug)!;
+const families = [
+  { s: by('skids'), img: '/products/hero-skid.jpg', alt: '预制液冷撬块：机柜、顶部供回水母管与集成 CDU', w: 1400, h: 933 },
+  { s: by('racks'), img: '/products/racks-family.jpg', alt: '三台液冷机柜：带竖向分水器的开放机架、装满服务器带快接的机柜、闭门机柜', w: 1200, h: 800 },
+  { s: by('cdu'), img: '/products/cdu-family.jpg', alt: '三台 CDU：机架式、风液式与列间式', w: 1200, h: 800 },
+  { s: by('cooling-equipment'), img: '/products/cooling-equipment.jpg', alt: '干冷器与水冷冷机', w: 627, h: 665, dark: true },
+];
+const components = ['manifolds', 'cold-plates', 'coolants'].map(by);
+const steps = [
+  { n: '01', t: '规划', d: '把 IT 负荷、场地气候、设施水条件和用热需求，转成系统方案和清晰的设计基础。' },
+  { n: '02', t: '选型与设计', d: '统筹机柜、CDU 与排热设备选型，核对温度、流量、接口、冗余和维护空间。' },
+  { n: '03', t: '集成与交付', d: '在合作制造基地预制成套，再到现场调试，并支持全生命周期。' },
+];
 ---
-<Base title="产品与平台" description="我们自研 CDU 与热回收装置，其余部件按项目选配、在合作基地预制，并对它们作为一个整体的表现负责。每一页说明我们要求每个部件证明什么。">
-  <PageHero eyebrow="产品与平台" title="自研 CDU 与热回收装置，加一条对整体负责的产品线" lede="我们自研 CDU 与热回收装置，其余部件按项目选配、在合作基地预制，并对它们作为一个整体的表现负责。每一页说明我们要求每个部件证明什么。" />
+<Base title="产品" description="液冷 AI 算力中心的四类产品，彼此配套：预制撬块、ORv3 与 19 英寸机柜、CDU 和冷却设备。可以单买，也可以成套，接口和验收准则在制造前约定。">
+  <PageHero eyebrow="产品" title="四类产品，彼此配套。" lede="可以单买，也可以成套，接口和验收准则在制造前约定。我们规划系统、设计并规格化每一类产品，CDU 与热回收装置为自研产品，其余部件由合格的合作工厂按我们的规格制造，并对各部分配合起来的表现负责。" />
   <section class="section">
     <div class="wrap">
-      <div class="grid c3">
-        {items.map((s, i) => <Card href={`/platform/${s.slug}`} num={String(i + 1).padStart(2, '0')} title={s.title}>{s.summary}</Card>)}
+      <div class="fam">
+        {families.map(({ s, img, alt, w, h, dark }, i) => (
+          <a class="fam-card" href={`/platform/${s.slug}`}>
+            <div class:list={["fam-img", { dark }]}>
+              {img ? <img src={img} alt={alt} width={w} height={h} loading={i === 0 ? 'eager' : 'lazy'} /> : <div class="fam-ph"><span>干冷器</span><span>绝热喷淋</span><span>水冷冷机</span></div>}
+            </div>
+            <div class="fam-body">
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.title}</h3>
+              <p>{s.summary}</p>
+              <span class="more">查看 →</span>
+            </div>
+          </a>
+        ))}
       </div>
-      <div class="note" style="margin-top:2.5rem;max-width:44em"><strong>关于自研与选配。</strong>部件厂商优化自己的箱子，在自己的法兰处提供保修。我们优化整条线，在合同约定的范围与验收准则内对系统负责。两者都需要，但只有一方看的是整条热通路。</div>
+      <p class="small muted" style="margin-top:1rem">示意配置，设备选型与性能按项目确认。图中设备为清链北美平台 NextGenergy 品牌。</p>
+    </div>
+  </section>
+
+  <section class="section buy-sec">
+    <div class="wrap">
+      <div class="eyebrow">您可以购买什么</div>
+      <div class="buy">
+        <div><h3>单件产品</h3><p>单独一台撬块、机柜、CDU 或冷却设备，按您的接口规格化。</p></div>
+        <div><h3>集成系统</h3><p>产品按一个成套包选型、预制，接口和验收准则在制造前约定。</p></div>
+        <div><h3>调试与验证</h3><p>分关口测试并交付资料包，别人供货的系统也可以。<a href="/services/field">现场服务</a></p></div>
+        <div><h3>运维</h3><p>交付之后液冷回路的维护方案，分三档。<a href="/services/field">现场服务</a></p></div>
+      </div>
+      <div class="btn-row" style="margin-top:1.5rem"><a class="btn primary" href="/company/contact?topic=product">讨论配置</a></div>
+    </div>
+  </section>
+  <section class="section alt">
+    <div class="wrap">
+      <div class="eyebrow">从需求到成套方案</div>
+      <div class="grid c3">
+        {steps.map((st) => (
+          <div class="card">
+            <span class="num">{st.n}</span>
+            <h3>{st.t}</h3>
+            <p>{st.d}</p>
+          </div>
+        ))}
+      </div>
+      <p class="muted" style="margin-top:1.4rem;max-width:70ch">一个工程范围贯穿产品选型、系统集成和交付，接口与验收准则都有书面约定。动工之前，先看各部分如何相互作用。</p>
+      <div class="btn-row" style="margin-top:0.6rem"><a class="btn primary" href="https://sim.nextgenergy.ai">打开液冷仿真台</a><a class="btn" href="/tools">工程工具</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">一起规格化的部件</div>
+      <h2>每个部件要证明什么。</h2>
+      <div class="grid c3" style="margin-top:1.5rem">
+        {components.map((s) => <Card href={`/platform/${s.slug}`} title={s.title}>{s.summary}</Card>)}
+      </div>
+      <div class="note" style="margin-top:2.5rem;max-width:70ch"><strong>产品与整条回路。</strong>每家厂商在自己的法兰处为自己的设备质保。我们协调各供应商之间的接口，负责统一的集成范围和书面验收准则，让各部分作为一个系统测试、交付。</div>
     </div>
   </section>
 </Base>
+<style>
+  .buy { display: grid; gap: 1.25rem; grid-template-columns: 1fr; margin-top: 1rem; }
+  @media (min-width: 700px) { .buy { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1100px) { .buy { grid-template-columns: repeat(4, 1fr); } }
+  .buy > div { border-top: 2px solid var(--heat); padding-top: 1rem; }
+  .buy h3 { font-size: 1.1rem; margin: 0 0 0.4rem; }
+  .buy p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
+  .section.buy-sec { padding-top: 0; }
+  .fam { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .fam { grid-template-columns: 1fr 1fr; } }
+  .fam-card { display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; color: inherit; }
+  .fam-card:hover { border-color: var(--ink-3); }
+  .fam-img { background: var(--white); aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 1px solid var(--line-2); padding: 1.5rem 2rem; }
+  .fam-img img { width: 100%; height: 100%; object-fit: contain; }
+  .fam-img.dark { background: rgb(3, 33, 61); }
+  .fam-ph { height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 0.3rem; padding: 1.6rem; font-family: var(--serif); font-size: 1.35rem; color: var(--ink-2); background: linear-gradient(135deg, var(--paper-2), #dfe7f2); }
+  .fam-body { padding: 1.8rem 2rem 2rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+  .fam-body .num { font-family: var(--mono); font-size: 0.75rem; color: var(--heat); letter-spacing: 0.1em; }
+  .fam-body h3 { margin: 0; }
+  .fam-body p { margin: 0; color: var(--ink-2); }
+  .fam-body .more { margin-top: auto; padding-top: 0.8rem; font-size: 0.9rem; font-weight: 600; color: var(--water); }
+  @media (max-width: 600px) { .fam-body { padding: 1.5rem 1.5rem 1.6rem; } .fam-img { padding: 1rem 1.25rem; } }
+  .fam-card:hover .more { color: var(--heat); }
+</style>

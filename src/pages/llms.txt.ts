@@ -11,14 +11,14 @@ export const GET: APIRoute = async () => {
     '',
     `> ${site.tagline}。${site.description}`,
     '',
-    `${site.name}即${site.legalName}，${site.founded} 年成立于${site.location}，创始人兼 CEO 王辉，联合创始人兼副总裁李俊明（Jim Li）。业务是为 AI 算力中心提供从液冷、CDU 到余热利用的一体化解决方案，并对整条热通路负责：对十大漏点中的每一个交付测试、验收判据与记录。海外品牌：NextGenergy，https://nextgenergy.ai（英文站）。微信公众号：${site.wechat}。联系：${site.email}。`,
+    `${site.name}即${site.legalName}，${site.founded} 年成立于${site.location}，创始人王辉。业务是两件事：规划、设计液冷 AI 算力中心，以工厂预制撬块、ORv3 与 19 英寸机柜、CDU 和冷却设备交付；以及为液冷回路提供现场检测、调试与运维，需要资质的现场作业由持证、投保的合作单位完成。对十大漏点中的每一个交付测试、验收判据与记录。北美平台：NextGenergy，https://nextgenergy.ai（英文站）。微信公众号：${site.wechat}。联系：${site.email}。`,
     '',
     `本站固定使用的术语：整条热通路；回水品位；三个时钟（制造 / 调试 / 服役）；十大漏点；交付资料包；数字带条件。`,
     '',
   ];
   for (const g of corePages) {
     lines.push(`## ${g.section}`);
-    for (const [path, title, summary] of g.pages) lines.push(`- [${title}](${site.url}${path})：${summary}`);
+    for (const [path, title, summary] of g.pages) lines.push(`- [${title}](${path.startsWith('http') ? path : site.url + path})：${summary}`);
     lines.push('');
   }
   lines.push('## 洞察（最新）');

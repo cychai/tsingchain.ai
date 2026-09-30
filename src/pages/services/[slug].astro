@@ -12,7 +12,7 @@ const rel = { design: [{ href: '/approach/thermal-path', label: '整条热通路
   <section class="section">
     <div class="wrap prose">
       {s.body.map((p) => <p>{p}</p>)}
-      <div class="btn-row"><a class="btn primary" href="/company/contact">联系工程师</a></div>
+      <div class="btn-row"><a class="btn primary" href={`/company/contact?topic=${s.slug === 'commissioning' || s.slug === 'operations' ? 'commissioning' : 'product'}`}>联系我们</a></div>
       <Related items={[...rel[s.slug as keyof typeof rel]]} />
     </div>
   </section>

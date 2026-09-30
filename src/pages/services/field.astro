@@ -1,0 +1,180 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Related from '@/components/Related.astro';
+
+const lines = [
+  { k: 'A', t: '调试', s: '四道关口，开工前约定准则，结束时交付资料包。可以按关口单独委托，别人建的回路也可以。' },
+  { k: 'B', t: '年度运维', s: '每月管路巡检、对照调试基线的液体取样、过滤器压差趋势、快接插拔记录、年度复验。' },
+  { k: 'C', t: '维修与响应', s: '出勤、人工和材料。带压维修通过框架协议下预先认定的专业单位安排，因为这种能力稀缺，临时找不到。' },
+  { k: 'D', t: '出厂与到货检验', s: '在制造商处执行第一道关口：打压、清洁度放行、扭矩记录、快接登记、文件检查。' },
+  { k: 'E', t: '咨询与记录', s: '为已投运系统重建交付资料包，对照验收准则和保险要求做差距评估，审核分包商资质。' },
+];
+
+const gates = [
+  { g: '关口一', t: '出厂放行之前', items: ['每个预制组件打压，记录序列号', '湿路表面清洁度放行，以取样验证', '每个螺纹与法兰接头的扭矩记录，附扳手校准证书', '建立快接登记表，记下工厂测试时已有的插拔次数'] },
+  { g: '关口二', t: '回路充液之前', items: ['分区分段打压，保留压力—时间记录', '冲洗到约定终点，以测量为准而不是目测', '充液前记录过滤器压差基线', '按规格核验液体浓度、pH、缓蚀剂与电导率'] },
+  { g: '关口三', t: '算力上电之前', items: ['按区用故障注入证明漏液检测与自动隔离有效', '在每一个机柜测流量与压差，而不只是离泵最近的那个', '带载验证 CDU 切换：单泵故障、单台故障、一次侧中断', '证明遥测信号能到达需要据此动作的系统'] },
+  { g: '关口四', t: '交接之前', items: ['按边界结构汇编并编目交付资料包', '在写明的负荷下记录运行基线', '未关闭事项逐条列出，写明责任人和日期，并经业主书面签收', '按接口写明质保边界与起始日期'] },
+];
+
+const tiers = [
+  { n: '一档 · 日常维护', p: '巡检、取样与记录', i: ['每月巡检到 CDU 或换热器接口的管路', '每季度液体取样与实验室分析', '过滤器压差对照基线记录', '维护快接登记表', '年度报告'] },
+  { n: '二档 · 验证就绪', p: '日常维护，加年度功能复验', i: ['包含一档全部内容', '每年用故障注入验证漏液检测与隔离', '每年与运行团队做一次隔离演练', '每年复测流量平衡', '每次事件后做根因分析并更新记录'] },
+  { n: '三档 · 全生命周期支持', p: '适用于高密度、高价值或多供应商站点', i: ['包含二档全部内容', '年度复验：抽样重复关口三的测试', '基线更新与变更管理支持', '优先排期', '稀缺能力合作方以框架协议锁定'] },
+];
+
+const levels = [
+  { l: 'L0', d: '白区内液体正在外泄，自动隔离没有控制住', a: '未能控制：启动经批准的应急程序，先做经授权的隔离与电气操作，再诊断。' },
+  { l: 'L1', d: '漏液已检测并隔离，或 CDU 故障导致回路失去冷却', a: '按经批准的热响应保护 IT 设备，再恢复回路冷却。' },
+  { l: 'L2', d: '单点渗漏未扩散、备用泵已接管，或某机柜流量超出允许范围', a: '评估影响，在批准的运行范围内安排整改。' },
+  { l: 'L3', d: '液体化学指标偏离基线、过滤器压差上升、快接接近插拔次数上限', a: '调查趋势，在超限之前安排干预。' },
+];
+---
+
+<Base
+  title="液冷现场检测、验证与运维"
+  description="液冷回路的现场检测、调试与运维，面向国内外项目，无论系统是否由我们供货。开工前约定验收准则，结束时交付资料包，运维方案面向冷却回路而不是服务器。"
+>
+  <PageHero
+    eyebrow="服务 · 现场"
+    title="液冷的现场检测、验证与运维"
+    lede="瑞士再保险研究院引用的一项 FM 十五年损失回顾显示，数据中心总损失成本中约 24% 与液体有关（涵盖全部液体类别，不是冷板液冷的故障率）。这项服务就是在现场应对这类风险：开工前写好准则，结束时交付记录，之后按方案维护冷却回路。"
+    crumbs={[['/services', '服务']]}
+  />
+
+  <section class="section">
+    <div class="wrap prose">
+      <p>
+        一个液冷机房可以由五家供应商建成，却没有一家负责调试。每一方都能证明自己那一段，段与段之间的接缝却没人测。这项服务负责接缝：从设施水接口到可维护单元的回路、分水器、软管和接头，以及说明谁测了什么、按什么判据、证据放在哪里的记录。
+      </p>
+      <p>
+        我们服务自己供货的系统，更多时候服务不是我们供货的系统。多供应商的站点，最需要有人对接口负责。
+      </p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <h2 class="sec-h">五项服务，可分别委托</h2>
+      <div class="grid c3">
+        {lines.map((l) => (
+          <div class="card">
+            <span class="num">{l.k}</span>
+            <h3>{l.t}</h3>
+            <p>{l.s}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="sec-h">调试：四道关口</h2>
+      <p class="sec-lede">关口是不可回头的节点，过了它，返工成本急剧上升。每道关口的验收准则在该阶段开工前写好并批准，绝不事后补。</p>
+      <div class="grid c2">
+        {gates.map((s) => (
+          <div class="card">
+            <span class="num">{s.g}</span>
+            <h3>{s.t}</h3>
+            <ul style="margin:0.5rem 0 0;padding-left:1.1rem;color:var(--ink-2);font-size:0.95rem">
+              {s.items.map((it) => <li style="margin-bottom:0.4rem">{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <h2 class="sec-h">运维：三档</h2>
+      <p class="sec-lede">最低一档不是营销用的起步价，而是围绕财产保险方针对液冷机房公布的做法设计的：定期巡检设备间管路，对照设计范围监测冷却液品质，运行团队经过培训并获授权，能在最近的阀门处隔离漏液。建议频次按设备厂商要求、现场风险以及实际采用的合同或保险条件确认，不是通用的保险要求。</p>
+      <div class="grid c3">
+        {tiers.map((t) => (
+          <div class="card">
+            <span class="num">{t.n}</span>
+            <h3>{t.p}</h3>
+            <ul style="margin:0.5rem 0 0;padding-left:1.1rem;color:var(--ink-2);font-size:0.95rem">
+              {t.i.map((it) => <li style="margin-bottom:0.4rem">{it}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="sec-lede" style="margin-top:1.2rem">到场承诺与档位分开报价。四小时到场和次日到场是两种生意，捆在一起就看不出您买的是哪一种。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2>我们怎样给故障分级</h2>
+      <p>
+        液冷不能照搬 IT 的故障等级。关键不是影响了多少节点，而是系统是否正在或即将造成资产损坏。
+      </p>
+      <div class="table-wrap">
+      <table class="tbl">
+        <thead><tr><th>等级</th><th>定义</th><th>首要原则</th></tr></thead>
+        <tbody>
+          {levels.map((r) => (
+            <tr><td><strong>{r.l}</strong></td><td>{r.d}</td><td>{r.a}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+      <p>响应和到场时间按这套分级逐个合同约定，写进服务协议，不在官网上承诺。</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap prose">
+      <h2>工作怎样交付</h2>
+      <p>
+        <strong>准则、协调和记录由我们负责。</strong>我们提出验收准则，依据 OCP、ASHRAE 和设备厂商的要求，书面提交业主工程师批准，再用它衡量每一个结果。我们安排工序，汇编交付资料包，由业主或其授权代表验收。
+      </p>
+      <p>
+        <strong>国内外项目都接。</strong>每个项目由我们统筹，现场作业委托具备资质的当地合作方执行；北美项目由清链北美平台 NextGenergy 执行。到场和响应时间写进合同，不在官网上承诺。记录审核、数据分析和操作规程可以远程支持。
+      </p>
+      <p>
+        <strong>现场作业由有资质的合作方执行。</strong>无论项目在哪里，我们都按当地的压力管道资质来认定合作方，而不是自己另起炉灶：核对资质范围是厂内还是现场，核对规范类别是否符合项目实际适用的那一类，核对焊工资格是否对应实际到场的人而不是名册，并核对污染责任保险，因为很多一般责任险把污染（包括乙二醇泄漏）列为除外责任，每个项目都要核对保单原文。
+      </p>
+      <p>
+        <strong>稀缺能力提前锁定。</strong>带压维修，比如带压堵漏或在运行管线上开孔，在任何一个地区都只有少数几家单位能做。这类能力在需要之前就以框架协议安排好，而不是出事当天再找。
+      </p>
+      <p>
+        <strong>需要专业资质的工作由持证单位承担。</strong>属于专业工程范围的工作，比如建筑系统设计、工程意见或需要盖章的文件，由项目所在地要求的持证工程师或具备相应资质的设计单位承担，由业主委托。资质问题在报价前理清，而不是交付时再绕过去。
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2>您得到什么</h2>
+      <p>
+        一份交付资料包，对热通路上每一个漏点回答三问：<strong>测了吗，按什么判据，记录在哪。</strong>三问答不全的点，是未关闭事项，不算合格。
+      </p>
+      <p>
+        同一套记录也划定了各方之间的质保边界，也正是保险方要看的证据。有书面记录的漏液检测与巡检制度，是少数能明显改变液冷机房承保条件的东西之一。
+      </p>
+      <div class="btn-row"><a class="btn primary" href="/company/contact?topic=commissioning">申请调试评估</a></div>
+      <Related items={[
+        { href: '/evidence/commissioning', label: '分关口的验收准则', kind: 'evidence' },
+        { href: '/evidence/turnover', label: '交付资料包', kind: 'evidence' },
+        { href: '/evidence/samples', label: '记录样例', kind: 'evidence' },
+        { href: '/evidence/leak-points', label: '十大漏点', kind: 'evidence' },
+        { href: '/services/operations', label: '运维与长期支持', kind: 'approach' },
+      ]} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sec-h { margin: 0 0 0.4rem; }
+  .sec-lede { color: var(--ink-2); max-width: 62ch; margin: 0 0 1.4rem; }
+  .tbl { width: 100%; border-collapse: collapse; margin: 1rem 0 1.4rem; font-size: 0.95rem; }
+  .tbl th, .tbl td { text-align: left; vertical-align: top; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); }
+  .tbl th { font-size: 0.8rem; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+  .tbl td { color: var(--ink-2); }
+  .table-wrap { max-width: 56rem; }
+  @media (max-width: 640px) { .tbl { min-width: 36rem; } }
+</style>

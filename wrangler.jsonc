@@ -3,6 +3,8 @@
   "name": "tsingchain-ai",
   "compatibility_date": "2026-08-04",
   "workers_dev": true,
+  // worker/index.js 提供 ./dist 并处理 POST /api/contact（所需密钥见该文件开头注释）。
+  "main": "worker/index.js",
   // 自定义域名（tsingchain.ai zone 已在同一 Cloudflare 账号，2026-09-08 起由本 Worker 提供服务）
   "routes": [
     { "pattern": "tsingchain.ai", "custom_domain": true },
@@ -13,5 +15,5 @@
   // 推送后需手动触发 Deploy Hook「manual-main」（见项目根《部署说明》），或由仓库所有者在 Cloudflare 里重新授权 Git 连接。
   // www→裸域 与 http→https 由 Cloudflare 区域级 Redirect Rule / Always Use HTTPS 负责，不要写进 public/_redirects（Workers 只接受相对路径）。
   "build": { "command": "npm ci && npm run build" },
-  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+  "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling": "404-page" }
 }

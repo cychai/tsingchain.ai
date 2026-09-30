@@ -8,7 +8,7 @@ const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b
 const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
 ---
-<Base title="洞察" description="清链科技创始人李俊明关于电力、液冷与余热利用的长文。中文全文在本站，英文专栏 Every Watt Counts 同步更新。">
+<Base title="洞察" description="清链科技联合创始人李俊明关于电力、液冷与余热利用的长文。中文全文在本站，英文专栏 Every Watt Counts 同步更新。">
   <PageHero eyebrow="洞察" title="把液冷的账算清楚" lede="关于电力、液冷与余热利用的长文。中文全文在本站发布；英文专栏 Every Watt Counts 面向海外读者，文章列表附中文提要。">
     <div class="btn-row"><a class="btn" href={site.substack}>英文专栏 Every Watt Counts</a><a class="btn" href="/insights/rss.xml">RSS</a></div>
   </PageHero>

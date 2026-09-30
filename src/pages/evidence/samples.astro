@@ -1,0 +1,102 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import { leakPoints } from '@/data/leakPoints';
+const blank = '';
+const fatRows = [
+  ['静水压试验', '程序编号', '试验压力 ___ kPa，保压 ___ min；无可见泄漏；压降不超过 ___ %'],
+  ['接头与快接检漏', '程序编号', '试验压力下无渗漏；写明方法（气泡、示踪气体或压降）'],
+  ['湿路表面清洁度', '样品编号', '颗粒数不高于约定等级，以取样验证'],
+  ['螺纹与法兰接头扭矩', '扭矩表编号', '全部接头按表施拧；附扳手校准证书'],
+  ['快接登记表', '登记表编号', '每个快接按序列号列出，并记下工厂测试时已有的插拔次数'],
+  ['控制功能检查', '检查表编号', '泵组投切、阀门行程和传感器读数符合规定'],
+  ['文件检查', '目录编号', '图纸为规定版次，材质证书齐全，试验单已签字'],
+];
+const flowCols = ['机柜', '设计流量 (L/min)', '实测流量 (L/min)', '偏差 (%)', '允许偏差 (%)', '供液温度 (°C)', '回液温度 (°C)', 'ΔP (kPa)', '合格 / 不合格'];
+const ncrCols = ['编号', '边界', '问题', '提出人、日期', '整改措施', '责任人', '复测结果', '关闭人、日期'];
+const boundaries = [
+  ['冷板与芯片', '冷板厂商、服务器厂商'],
+  ['软管、扣压与管件', '软管组装厂、机柜集成商'],
+  ['机柜分水器与快接', '机柜集成商、快接供应商'],
+  ['CDU 与二次侧', 'CDU 厂商、集成方'],
+  ['设施水接口', '设施机电承包方'],
+  ['排热与余热利用', '排热设备厂商或余热买家'],
+];
+---
+<Base title="记录样例" description="清链科技交付记录的模板：出厂验收测试记录、交付资料目录、系统边界图、带工况的流量平衡测试记录、不合格项与复测记录。只是模板，不含项目数据。">
+  <PageHero eyebrow="交付证据 · 样例" title="记录长什么样" lede="我们交付的五类记录的模板，展示结构和验收要回答的问题，不含项目数据。项目记录交给业主，给其他方看须经业主同意。" crumbs={[['/evidence', '交付证据']]}>
+    <div class="btn-row"><a class="btn primary" href="/downloads/tsingchain-record-templates.pdf">下载全部五份 PDF</a><a class="btn" href="/evidence/turnover">交付资料包的结构</a></div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <article class="tpl">
+        <div class="tag">模板 · 非项目记录</div>
+        <h2>1. 出厂验收测试记录</h2>
+        <p class="muted">每个预制组件（撬块、机柜分水器或 CDU）一张，出厂放行前在工厂填写。对应<a href="/evidence/commissioning">调试</a>第一道关口。</p>
+        <div class="hdr-fields"><span>项目</span><span>组件与序列号</span><span>图号与版次</span><span>日期</span><span>测试人</span><span>见证人</span></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>测试项</th><th>依据</th><th>验收判据</th><th>结果</th><th>合格 / 不合格</th></tr></thead>
+          <tbody>{fatRows.map(([t, r, c]) => <tr><td>{t}</td><td class="muted">{r}</td><td>{c}</td><td>{blank}</td><td>{blank}</td></tr>)}</tbody>
+        </table></div>
+      </article>
+
+      <article class="tpl">
+        <div class="tag">模板 · 非项目记录</div>
+        <h2>2. 交付资料目录</h2>
+        <p class="muted">资料包的第一页。<a href="/evidence/leak-points">十大漏点</a>各回答三问：测了吗，按什么判据，记录在哪。</p>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>#</th><th>边界</th><th>测了吗？</th><th>按什么判据？</th><th>记录在哪？</th><th>状态</th></tr></thead>
+          <tbody>{leakPoints.map((l) => <tr><td class="mono muted">{String(l.n).padStart(2, '0')}</td><td>{l.t}<br /><span class="small muted">{l.group}</span></td><td>{blank}</td><td>{blank}</td><td>{blank}</td><td class="small muted">未关闭 / 已关闭</td></tr>)}</tbody>
+        </table></div>
+      </article>
+
+      <article class="tpl">
+        <div class="tag">模板 · 非项目记录</div>
+        <h2>3. 系统边界图</h2>
+        <p class="muted">每个项目各画一张，让每一方都看得清自己的责任从哪里开始、到哪里结束。六个边界沿<a href="/approach/thermal-path">整条热通路</a>排列。</p>
+        <div class="bd" role="img" aria-label="从冷板到排热的六个边界，以及通常的制造方">
+          {boundaries.map(([b, who], i) => (
+            <div class="bd-step"><span class="n">{i + 1}</span><strong>{b}</strong><span class="who">{who}</span><span class="rec">记录责任人：______</span></div>
+          ))}
+        </div>
+      </article>
+
+      <article class="tpl">
+        <div class="tag">模板 · 非项目记录</div>
+        <h2>4. 流量平衡测试记录（含工况）</h2>
+        <p class="muted">不带工况的读数没法和任何东西比较，所以工况和结果一起记录。对应调试第三道关口。</p>
+        <div class="hdr-fields"><span>测试时 IT 负荷 (%)</span><span>设施供水温度 (°C)</span><span>室外干球温度 (°C)</span><span>日期与时间</span><span>仪表与校准</span><span>见证人</span></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr>{flowCols.map((c) => <th>{c}</th>)}</tr></thead>
+          <tbody>{[1, 2, 3].map((n) => <tr><td class="mono muted">R{String(n).padStart(2, '0')}</td>{flowCols.slice(1).map(() => <td>{blank}</td>)}</tr>)}</tbody>
+        </table></div>
+      </article>
+
+      <article class="tpl">
+        <div class="tag">模板 · 非项目记录</div>
+        <h2>5. 不合格项与复测记录</h2>
+        <p class="muted">每个问题都书面提出、整改、复测、关闭。交接时仍未关闭的事项逐条列出，写明责任人和日期，并由业主签收。对应调试第四道关口。</p>
+        <div class="table-wrap"><table class="table">
+          <thead><tr>{ncrCols.map((c) => <th>{c}</th>)}</tr></thead>
+          <tbody>{[1, 2, 3].map((n) => <tr><td class="mono muted">NC-{String(n).padStart(3, '0')}</td>{ncrCols.slice(1).map(() => <td>{blank}</td>)}</tr>)}</tbody>
+        </table></div>
+      </article>
+    </div>
+  </section>
+</Base>
+<style>
+  .tpl { background: var(--white); border: 1px solid var(--line-2); border-radius: var(--r); padding: 2rem; margin-bottom: 2rem; }
+  .tpl h2 { font-size: 1.4rem; margin: 0.4rem 0 0.4rem; }
+  .tpl .tag { display: inline-block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 999px; padding: 0.2rem 0.7rem; }
+  .tpl .table td { height: 2.2rem; }
+  .hdr-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.5rem 1rem; margin: 1rem 0; }
+  .hdr-fields span { font-size: 0.82rem; color: var(--ink-3); border-bottom: 1px solid var(--line); padding-bottom: 1.2rem; }
+  .bd { display: grid; grid-template-columns: 1fr; gap: 0.6rem; margin-top: 1rem; }
+  @media (min-width: 900px) { .bd { grid-template-columns: repeat(6, 1fr); } }
+  .bd-step { border: 1px solid var(--line); border-top: 3px solid var(--water); border-radius: var(--r); padding: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; background: var(--paper); }
+  .bd-step .n { font-family: var(--mono); color: var(--heat); font-size: 0.8rem; }
+  .bd-step strong { font-size: 0.95rem; }
+  .bd-step .who { font-size: 0.82rem; color: var(--ink-2); }
+  .bd-step .rec { font-size: 0.78rem; color: var(--ink-3); margin-top: auto; }
+</style>

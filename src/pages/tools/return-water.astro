@@ -18,7 +18,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
           <div class="field">
             <label for="tret">交接点的回水温度</label>
             <input type="range" id="tret" min="20" max="80" value="55" step="1" />
-            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:0.4rem"><span class="readout"><span data-out="t">55</span> °C</span><span class="small muted">在数据中心边界处，不是芯片处</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:0.6rem 1rem;flex-wrap:wrap;margin-top:0.4rem"><span class="readout"><span data-out="t">55</span> °C</span><span class="small muted">在数据中心边界处，不是芯片处</span></div>
           </div>
           <div class="field">
             <label for="hx">交接换热器端差</label>
@@ -36,7 +36,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
           </div>
           <div class="field">
             <label for="price">供热价值</label>
-            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="price" min="0" max="200" step="1" value="200" /><span class="mono muted">元/MWh<sub>th</sub></span></div>
+            <div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="price" min="0" max="2000" step="1" value="200" /><span class="mono muted">元/MWh<sub>th</sub></span></div>
             <p class="small muted" style="margin:0.4rem 0 0">仅供参考。实际合同按季节、可用率和热泵归属定价。</p>
           </div>
           <div class="result">
@@ -76,6 +76,8 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
   <Faq items={qa} alt />
 </Base>
 <style>
+  .input-error { margin: 0 0 1rem; padding: 0.7rem 0.9rem; border-left: 3px solid #b42318; background: #fef3f2; color: #7a271a; font-size: 0.92rem; }
+  input[aria-invalid="true"] { border-color: #b42318 !important; }
   .result { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
 </style>
 <script>
@@ -93,7 +95,35 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
   const el = (s) => document.querySelector(s);
   const t = el('#tret'), hx = el('#hx'), mw = el('#mw'), dt = el('#dt'), price = el('#price'), list = el('[data-buyers]');
   const out = (k, v) => { document.querySelectorAll(`[data-out="${k}"]`).forEach((n) => (n.textContent = v)); };
+  const fields = [
+    [hx, '交接换热器端差', 0, 15, 'K'],
+    [mw, '可持续供出的热功率', 0.1, 500, 'MWth'],
+    [dt, '买家可接受的温降', 3, 40, 'K'],
+    [price, '供热价值', 0, 2000, '元/MWhth'],
+  ];
+  const errBox = document.createElement('p');
+  errBox.className = 'input-error'; errBox.setAttribute('role', 'alert'); errBox.hidden = true;
+  list.parentNode.insertBefore(errBox, list);
+  function invalid() {
+    const bad = [];
+    for (const [input, label, lo, hi, unit] of fields) {
+      const raw = input.value.trim(), v = Number(raw);
+      const ok = raw !== '' && Number.isFinite(v) && v >= lo && v <= hi;
+      input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      if (!ok) bad.push(`${label}：请输入 ${lo}–${hi} ${unit} 之间的数。`);
+    }
+    return bad;
+  }
   function run() {
+    const bad = invalid();
+    if (bad.length) {
+      errBox.textContent = '请修正输入。' + bad.join(' ');
+      errBox.hidden = false;
+      ['tdel', 'flow', 'gwh', 'rev'].forEach((k) => out(k, '—'));
+      list.innerHTML = '';
+      return;
+    }
+    errBox.hidden = true;
     const Tret = +t.value, P = +mw.value, dT = +dt.value, pr = +price.value, A = +hx.value;
     out('t', Tret);
     const T = Tret - A; out('tdel', `${T.toFixed(1)} °C`);
@@ -110,7 +140,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
         const Th = b.min + 273.15, Tc = T + 273.15;
         const cop = Math.min(8, 0.5 * Th / (Th - Tc));
         const elec = P / cop;
-        extra = ` 需提升 ${b.min - T} K；COP ≈ ${cop.toFixed(1)}，提升 ${P} MW<sub>th</sub> 约需 ${elec.toFixed(2)} MW<sub>e</sub> 电功率。`;
+        extra = ` 需提升 ${(b.min - T).toFixed(1)} K；COP ≈ ${cop.toFixed(1)}，提升 ${P} MW<sub>th</sub> 约需 ${elec.toFixed(2)} MW<sub>e</sub> 电功率。`;
       } else { cls = 'no'; st = '超出筛选范围'; }
       return `<div class="buyer ${cls}"><span class="dot"></span><div><div class="name">${b.name}</div><div class="why">${b.why}窗口 ${b.min}–${b.max} °C。${extra}</div></div><span class="st">${st}</span></div>`;
     }).join('');

@@ -10,9 +10,8 @@ export interface Definition { term: string; alt?: string[]; text: string }
 const ORG = { '@id': `${site.url}/#org` };
 const abs = (path: string) => new URL(path, site.url).href;
 
-export const PEOPLE_IDS: Record<string, string> = { '王辉': 'wang-hui', '李俊明': 'li-junming' };
 export const authorRef = (name: string): LdNode =>
-  PEOPLE_IDS[name] ? { '@id': `${abs('/company/leadership')}#${PEOPLE_IDS[name]}` } : { '@type': 'Person', name, worksFor: ORG };
+  ({ '@type': 'Person', name, worksFor: ORG });
 
 export function definedTermLd(path: string, d: Definition): LdNode {
   return {
@@ -89,20 +88,6 @@ export function softwareLd(path: string, o: { name: string; description: string 
   };
 }
 
-export function personLd(p: { id: string; name: string; alternateName?: string[]; jobTitle: string; description: string; image?: string; sameAs?: string[] }): LdNode {
-  return {
-    '@type': 'Person',
-    '@id': `${abs('/company/leadership')}#${p.id}`,
-    name: p.name,
-    ...(p.alternateName?.length ? { alternateName: p.alternateName } : {}),
-    jobTitle: p.jobTitle,
-    description: p.description,
-    worksFor: ORG,
-    ...(p.image ? { image: abs(p.image) } : {}),
-    ...(p.sameAs?.length ? { sameAs: p.sameAs } : {}),
-    url: abs('/company/leadership'),
-  };
-}
 
 export function caseListLd(path: string, cases: { mw: number; type: string; title: string; detail: string[]; year: number }[]): LdNode {
   return {
