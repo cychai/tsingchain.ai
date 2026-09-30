@@ -3,11 +3,14 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Card from '@/components/Card.astro';
 ---
-<Base title="在线工具" description="液冷小型工程计算器：回水品位对应可行余热买家、趋近温差对应 CDU 选型与自由冷却小时、交付资料自查。">
-  <PageHero eyebrow="在线工具" title="三个在线工程计算器" lede="每个工具只做一件热工工程师平时在草稿纸上算的事，并且写明它的假设。用它们先把问题磨尖，再来找我们。" />
-  <section class="section"><div class="wrap"><div class="grid c3">
-    <Card href="/tools/return-water" num="01" title="回水品位 → 可行的余热买家" more="打开">输入回路回水温度，看哪些用户能直接用这份热，哪些需要热泵提升，大致要多少电。</Card>
-    <Card href="/tools/approach-temp" num="02" title="CDU 趋近温差与自由冷却估算" more="打开">看 CDU 换热器的趋近温差如何改变所需设施供水温度，以及在您所在气候区意味着多少自由冷却小时。</Card>
-    <Card href="/tools/leak-checklist" num="03" title="交付资料自查表" more="打开">十个边界，每个三问。给一个项目诚实打分，下次有个可比的数。</Card>
+<Base title="在线工具" description="液冷工程工具：从芯片到排热的全回路瞬态仿真台、公开 CDU 目录，以及回水品位、趋近温差与交付资料自查三个计算器。">
+  <PageHero eyebrow="在线工具" title="液冷仿真与工程工具" lede="每个工具只做一件热工工程师平时在草稿纸上算的事，并且写明它的假设。用它们先把问题磨尖，再来找我们。" />
+  <section class="section"><div class="wrap"><div class="grid c2">
+    <Card href="https://sim.nextgenergy.ai/" num="01" title="液冷仿真台" more="打开 sim.nextgenergy.ai">从芯片结温到排热的全回路瞬态热模型：选机柜平台、气候与管路，看结温、流量、压降与 pPUE 如何稳定，再用负荷阶跃、泵故障或结垢去考验它。概念模型，用于规划和比较，不用于验收或性能承诺。界面为英文。</Card>
+    <Card href="https://sim.nextgenergy.ai/catalog/" num="02" title="CDU 公开目录" more="打开">三十多家厂商 CDU 的公开规格，每一行链接到厂商资料，额定工况与容量并列，数字才能真正比较。界面为英文。</Card>
+  </div><div class="grid c3" style="margin-top:1.5rem">
+    <Card href="/tools/return-water" num="03" title="回水品位 → 可行的余热买家" more="打开">输入回路回水温度，看哪些用户能直接用这份热，哪些需要热泵提升，大致要多少电。</Card>
+    <Card href="/tools/approach-temp" num="04" title="CDU 趋近温差与自由冷却估算" more="打开">看 CDU 换热器的趋近温差如何改变所需设施供水温度，以及在您所在气候区意味着多少自由冷却小时。</Card>
+    <Card href="/tools/leak-checklist" num="05" title="交付资料自查表" more="打开">十个边界，每个三问。给一个项目诚实打分，下次有个可比的数。</Card>
   </div></div></section>
 </Base>

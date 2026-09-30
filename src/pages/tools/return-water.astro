@@ -40,9 +40,9 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
             <p class="small muted" style="margin:0.4rem 0 0">仅供参考。实际合同按季节、可用率和热泵归属定价。</p>
           </div>
           <div class="result">
-            <div class="eyebrow plain">年供热量（按买家全年满额接收）</div>
+            <div class="eyebrow plain">年供热量 · 理论上限情景（买家全年满额接收）</div>
             <div class="readout"><span data-out="gwh">—</span> GWh<sub>th</sub></div>
-            <p class="small muted" style="margin:0.3rem 0 0">按上述价值约合每年 <span data-out="rev">—</span> 元，未扣泵送与提升成本，且仅在买家全年满额接收时成立。多数用热负荷有季节性，请以买家的负荷曲线为准。</p>
+            <p class="small muted" style="margin:0.3rem 0 0">理论上限：按上述价值约合每年 <span data-out="rev">—</span> 元，是毛收入而非利润，未扣泵送、热泵用电与管网成本，且仅在买家全年满额接收时成立。多数用热负荷有季节性，请以买家的负荷曲线为准。</p>
           </div>
         </div>
         <div>
@@ -56,7 +56,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
             <ul>
               <li><strong>交出温度</strong> = 回水温度 − 您输入的换热器端差。</li>
               <li><strong>温度匹配</strong>：交出温度不低于该类用户示意供水窗口的下限。<strong>需要提升</strong>：低于下限 25 K 以内。<strong>超出筛选范围</strong>：低于下限 25 K 以上。</li>
-              <li><strong>热泵提升</strong>：按交出温度到窗口下限之间 50% 卡诺效率的理想化估算，COP 上限 8。不计热泵侧换热端差、部分负荷、辅机与季节性能。</li>
+              <li><strong>热泵提升</strong>：按交出温度到窗口下限之间 50% 卡诺效率的理想化估算，COP 上限 8。输入的热功率视为热泵源侧吸收的余热：电功率 = 余热 ÷ (COP − 1)，供热侧输出 = 余热 + 电功率。不计热泵侧换热端差、部分负荷、辅机与季节性能。</li>
               <li><strong>水量</strong> = 热功率 ÷ (4.18 kJ/kg·K × ΔT)，水物性按约 50 °C 取。</li>
               <li><strong>年供热量</strong> = 热功率 × 8760 h，即全年满额接收。</li>
               <li><strong>温度窗口</strong>取自各类用户的公开工程实践，为示意值：二代/三代传统区域供热、单效溴化锂吸收式制冷（热水型多按 90 °C 设计，实际下限约 80 °C，请查厂商曲线）、工业清洗与预热工艺、第四代区域供热（部分超低温管网低于 45 °C）、温室管道供暖、水产养殖（因品种而异）、低温末端楼宇供暖、泳池与生活热水预热（最终生活热水温度与军团菌控制需另行补热）。请以实际买方系统核实。</li>
@@ -139,8 +139,8 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
         cls = 'lift'; st = '需要提升';
         const Th = b.min + 273.15, Tc = T + 273.15;
         const cop = Math.min(8, 0.5 * Th / (Th - Tc));
-        const elec = P / cop;
-        extra = ` 需提升 ${(b.min - T).toFixed(1)} K；COP ≈ ${cop.toFixed(1)}，提升 ${P} MW<sub>th</sub> 约需 ${elec.toFixed(2)} MW<sub>e</sub> 电功率。`;
+        const elec = P / (cop - 1);
+        extra = ` 需提升 ${(b.min - T).toFixed(1)} K；COP ≈ ${cop.toFixed(1)}，吸收 ${P} MW<sub>th</sub> 余热约需 ${elec.toFixed(2)} MW<sub>e</sub> 电功率，向用户供热约 ${(P + elec).toFixed(2)} MW<sub>th</sub>。`;
       } else { cls = 'no'; st = '超出筛选范围'; }
       return `<div class="buyer ${cls}"><span class="dot"></span><div><div class="name">${b.name}</div><div class="why">${b.why}窗口 ${b.min}–${b.max} °C。${extra}</div></div><span class="st">${st}</span></div>`;
     }).join('');

@@ -18,7 +18,7 @@ const { s } = Astro.props;
         {s.asks && (
           <aside class="sticky">
             <div class="tool" style="padding:1.4rem">
-              <div class="eyebrow plain">我们请项目尽早决定的事</div>
+              <div class="eyebrow plain">项目启动前需要确认</div>
               <ul class="asks">{s.asks.map((a) => <li>{a}</li>)}</ul>
               <a class="btn" href={`/company/contact?topic=${s.slug === 'heat-reuse' ? 'heat' : 'product'}`} style="margin-top:1rem">联系我们</a>
             </div>

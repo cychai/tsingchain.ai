@@ -15,10 +15,10 @@ const stages = [
 const path = '/evidence/commissioning';
 const d = definitions[path];
 const qa = faqs[path];
-const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '调试与验收：从通电到可承载训练', description: '清链科技如何调试液冷系统：开工前写好的验收准则，从出厂放行到移交的分阶段关卡，以及每个关卡的记录。', about: 'term' }), faqLd(path, qa)];
+const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '调试与验收：液冷系统投运前要验证什么', description: '清链科技如何调试液冷系统：开工前写好的验收准则，从出厂放行到移交的分阶段关卡，以及每个关卡的记录。', about: 'term' }), faqLd(path, qa)];
 ---
 <Base ld={ld} title="调试与验收准则" description="清链科技如何调试液冷系统：开工前写好的验收准则，从出厂放行到移交的分阶段关卡，以及每个关卡的记录。">
-  <PageHero eyebrow="交付证据 · 准则" title="调试与验收：从通电到可承载训练" lede="一个液冷机房可以通电、可以通过巡检，却仍然没准备好承载一次训练任务。差的是一套开工前约定、分关卡逐项测试的验收准则。" crumbs={[['/evidence', '交付证据']]} />
+  <PageHero eyebrow="交付证据 · 准则" title="调试与验收：液冷系统投运前要验证什么" lede="一个液冷系统可以通电、可以通过巡检，却仍然没准备好承载算力负荷。差的是一套开工前约定、分关卡逐项测试的验收准则。本页覆盖冷却系统；整座机房的验收还要与 IT、供配电等系统的测试协同。" crumbs={[['/evidence', '交付证据']]} />
   <Definition d={d} />
   <section class="section">
     <div class="wrap">

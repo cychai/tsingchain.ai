@@ -10,7 +10,7 @@ const qa = faqs[path];
 const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', description: '看 CDU 换热器的趋近温差如何改变所需的设施供水温度，以及这对自由冷却小时数意味着什么。' }), faqLd(path, qa)];
 ---
 <Base ld={ld} title="CDU 趋近温差与自由冷却估算" description="看 CDU 换热器的趋近温差如何改变所需的设施供水温度，以及这对自由冷却小时数意味着什么。">
-  <PageHero eyebrow="在线工具 · 02" title="几度趋近温差，要付出什么代价" lede="从芯片需要的最冷水温，倒推设施可以提供的最热水温。CDU 上的每一度趋近温差、干冷器上的每一度端差，都把所需的室外温度往下压，并带走相应的自由冷却小时。" crumbs={[['/tools', '在线工具']]} />
+  <PageHero eyebrow="在线工具 · 02" title="几度趋近温差，要付出什么代价" lede="从 IT 设备允许的二次侧最高供液温度出发，扣除 CDU 趋近温差与干冷器端差，估算可以干式自由冷却的室外温度条件。CDU 上的每一度趋近温差、干冷器上的每一度端差，都把所需的室外温度往下压，并带走相应的自由冷却小时。" crumbs={[['/tools', '在线工具']]} />
   <section class="section">
     <div class="wrap">
       <div class="split">
@@ -28,7 +28,7 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
           <div class="tool">
             <div class="row"><span>CDU 所需设施供水温度</span><strong><span data-out="fws">—</span> °C</strong></div>
             <div class="row"><span>仅靠干式排热即可维持的环境干球温度上限</span><strong><span data-out="amb">—</span> °C</strong></div>
-            <div class="row"><span>每年低于该温度的小时数</span><strong><span data-out="hrs">—</span> h</strong></div>
+            <div class="row"><span>每年低于该温度的小时数（示意气候分布，非项目气象年）</span><strong><span data-out="hrs">—</span> h</strong></div>
             <div class="row"><span>全年完全自由冷却的占比</span><strong><span data-out="pct">—</span> %</strong></div>
             <div class="row"><span>需要补冷的小时数（喷淋辅助、冷机或降载）</span><strong><span data-out="trim">—</span> h</strong></div>
           </div>
