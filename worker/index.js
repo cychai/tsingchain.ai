@@ -15,7 +15,7 @@ import { sendMail } from './mail.js';
 const ALLOWED_HOSTS = /^(tsingchain\.ai|www\.tsingchain\.ai|[a-z0-9-]+\.workers\.dev|localhost(:\d+)?|127\.0\.0\.1(:\d+)?)$/i;
 const TOPICS = new Set([
   '产品咨询或报价', '现场检测或运维', 'AI 算力中心新建', '既有数据中心液冷改造', '余热利用',
-  '现有系统的调试或验证', '合作伙伴', '其他',
+  '现有系统的调试或验证', '合作伙伴', '仿真台测试申请', '其他',
 ]);
 const MAX_BODY = 16 * 1024;
 const MIN_FILL_MS = 3000;

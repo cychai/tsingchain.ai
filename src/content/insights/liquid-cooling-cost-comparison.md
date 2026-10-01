@@ -5,7 +5,7 @@ author: "格劳瑞"
 date: 2022-08-31
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/ElUth90GK5gufUTOfwL4EA"
-tags: [液冷, 成本, 方案对比]
+tags: [液冷技术]
 related: [/tools/approach-temp]
 ---
 

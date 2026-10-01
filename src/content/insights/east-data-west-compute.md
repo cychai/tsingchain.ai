@@ -5,7 +5,7 @@ author: "王辉"
 date: 2024-01-31
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/wYYGx5kcN7Ww5NQVyAi-Cg"
-tags: [液冷, 东数西算]
+tags: [液冷技术, 行业与出海]
 related: [/solutions/cold-climate]
 ---
 

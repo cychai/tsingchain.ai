@@ -22,7 +22,7 @@ export const GET: APIRoute = async () => {
       const qa = faqs[path];
       out.push(`### ${title}`, '', `${summary}（${path.startsWith('http') ? path : site.url + path}）`, '');
       if (path === '/evidence/leak-points') { for (const l of leakPoints) out.push(`${l.n}. **${l.t}**（${l.group}）。${l.p}${l.r ? ` 记录：${l.r}` : ''}`); out.push(''); }
-      if (path === '/cases') { for (const c of cases) out.push(`- **${c.mw} MW · ${c.type}**（${c.year} 年）：${c.title}。${c.detail.join('；')}。`); out.push('', '口径：MW 按 IT 侧热负荷计，供热面积按合同面积计，气温为项目所在地极端气温记录；项目方名称按保密约定不公开。', ''); }
+      if (path === '/cases') { for (const c of cases) out.push(`- **${c.mw} MW · ${c.type}**（${c.year} 年 · ${c.region}）：${c.title}。${c.detail.join('；')}。`); out.push('', '口径：项目均位于亚洲；MW 按 IT 侧热负荷计，供热面积按合同面积计，气温为项目所在地极端气温记录；项目方名称按保密约定不公开。', ''); }
       if (qa) for (const i of qa) out.push(`**问：${i.q}**`, '', `答：${i.a}${i.href ? `（${site.url}${i.href}）` : ''}`, '');
     }
   }

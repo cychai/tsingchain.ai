@@ -5,7 +5,7 @@ author: "李俊明"
 date: 2026-07-27
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/cgqw2v5dQc0OewgFMpeAkg"
-tags: [电力, AI 经济]
+tags: [电力与能源, 行业与出海]
 related: [/approach/thermal-path, /solutions/new-build]
 ---
 

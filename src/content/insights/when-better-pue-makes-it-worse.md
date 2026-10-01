@@ -4,7 +4,7 @@ subtitle: "水、余热回收，和数据中心冷却指标背后那条没人说
 author: "李俊明"
 date: 2026-08-28
 source: site
-tags: [水, 指标, 余热, 证据]
+tags: [余热与水, 调试与证据]
 related: [/approach/return-water, /tools/return-water, /evidence/commissioning]
 ---
 

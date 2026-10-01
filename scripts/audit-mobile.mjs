@@ -9,7 +9,9 @@ const pages = [];
 (function walk(d, rel = '') { for (const f of readdirSync(d)) { const p = join(d, f); if (statSync(p).isDirectory()) walk(p, rel + '/' + f); else if (f.endsWith('.html')) pages.push((rel + '/' + f).replace(/\/index\.html$/, '/').replace(/\.html$/, '')); } })('dist');
 const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--no-first-run', '--disable-gpu'] });
 const results = [];
-for (const vp of [{ w: 390, h: 844, mobile: true }, { w: 1280, h: 900, mobile: false }]) {
+// VIEWPORTS=375,768 overrides the default 390/1280 pair (widths under 768 are treated as mobile).
+const vps = process.env.VIEWPORTS ? process.env.VIEWPORTS.split(',').map((w) => ({ w: +w, h: +w < 768 ? 812 : 1024, mobile: +w < 768 })) : [{ w: 390, h: 844, mobile: true }, { w: 1280, h: 900, mobile: false }];
+for (const vp of vps) {
   const page = await browser.newPage();
   await page.setViewport({ width: vp.w, height: vp.h, isMobile: vp.mobile, hasTouch: vp.mobile, deviceScaleFactor: 1 });
   const errors = [];
@@ -35,7 +37,7 @@ for (const vp of [{ w: 390, h: 844, mobile: true }, { w: 1280, h: 900, mobile: f
 }
 await browser.close();
 const bad = results.filter((r) => r.overflow || r.h1 !== 1 || r.noAlt || r.errors.length);
-console.log(`checked ${results.length} page-views (${pages.length} pages x 2 viewports)`);
+console.log(`checked ${results.length} page-views (${pages.length} pages x ${vps.length} viewports)`);
 for (const r of bad) console.log(`${r.vp}px ${r.path} :: ${r.overflow ? `OVERFLOW ${r.sw}>${r.iw} ${r.wide.join(',')}` : ''} ${r.h1 !== 1 ? `h1=${r.h1}` : ''} ${r.noAlt ? `noAlt=${r.noAlt}` : ''} ${r.errors.length ? 'errors=' + r.errors.join(' | ').slice(0, 200) : ''}`);
 if (!bad.length) console.log('no overflow, single h1 everywhere, all images have alt, no console errors');
-const taps = results.filter((r) => r.vp === 390 && r.smallTap > 0).length; console.log(`pages with tap targets under 24px tall (mobile): ${taps}`);
+const taps = results.filter((r) => r.vp < 768 && r.smallTap > 0).length; console.log(`pages with tap targets under 24px tall (mobile): ${taps}`);

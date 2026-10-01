@@ -5,7 +5,7 @@ author: "格劳瑞"
 date: 2022-09-15
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/0Ew6k1dBzSOc35AyQor2Fw"
-tags: [液冷, 行业观察]
+tags: [液冷技术, 行业与出海]
 related: [/approach/thermal-path]
 ---
 

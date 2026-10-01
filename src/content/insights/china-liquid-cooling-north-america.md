@@ -5,7 +5,7 @@ author: "王辉"
 date: 2026-06-04
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/ibqzF0mnGdXBYfrAiKiXHg"
-tags: [出海, 液冷, 北美]
+tags: [行业与出海, 液冷技术]
 related: [/solutions/new-build, /evidence/standards]
 ---
 

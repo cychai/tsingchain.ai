@@ -5,7 +5,7 @@ author: "格劳瑞"
 date: 2022-10-14
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/j_eve5rTjYaUdwKz0JPDLQ"
-tags: [液冷, 产业链]
+tags: [液冷技术, 行业与出海]
 related: [/platform]
 ---
 

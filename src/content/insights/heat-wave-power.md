@@ -5,7 +5,7 @@ author: "格劳瑞"
 date: 2022-08-19
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/xDAMxUJI_6Aeil8YNC8nSQ"
-tags: [电力, 行业观察]
+tags: [电力与能源, 行业与出海]
 related: [/solutions/heat-reuse]
 ---
 

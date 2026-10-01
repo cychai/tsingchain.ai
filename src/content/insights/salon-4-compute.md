@@ -5,7 +5,7 @@ author: "清链学堂在线"
 date: 2024-06-17
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/hLuqFxahqW4QIwaDiX6eZA"
-tags: [活动, 沙龙, 算力]
+tags: [活动与会议]
 related: []
 ---
 

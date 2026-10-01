@@ -5,7 +5,7 @@ author: "李俊明"
 date: 2026-06-30
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/MD29A2CSvSTRaDgw3deKJA"
-tags: [水, 指标, 冷却塔]
+tags: [余热与水]
 related: [/approach/return-water, /tools/return-water]
 ---
 

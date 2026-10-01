@@ -5,7 +5,7 @@ author: "李俊明"
 date: 2026-06-25
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/5A6UZ63Wkd57C0iT7EnvAA"
-tags: [液冷, 自由冷却, CDU]
+tags: [液冷技术]
 related: [/tools/approach-temp, /platform/cdu]
 ---
 

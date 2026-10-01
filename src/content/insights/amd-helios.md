@@ -5,7 +5,7 @@ author: "李俊明"
 date: 2026-07-25
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/p3eAO-pYdIZEe2M7Iz4PEw"
-tags: [机柜, 液冷, 电力]
+tags: [液冷技术, 电力与能源]
 related: [/approach/thermal-path, /tools/approach-temp]
 ---
 

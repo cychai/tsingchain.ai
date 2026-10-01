@@ -5,7 +5,7 @@ author: "王辉"
 date: 2026-04-27
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/sRRyWAlqBxIQEE3soNujnA"
-tags: [会议, 电力, 储能]
+tags: [活动与会议, 电力与能源]
 related: [/solutions/heat-reuse]
 ---
 

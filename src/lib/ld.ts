@@ -89,7 +89,7 @@ export function softwareLd(path: string, o: { name: string; description: string 
 }
 
 
-export function caseListLd(path: string, cases: { mw: number; type: string; title: string; detail: string[]; year: number }[]): LdNode {
+export function caseListLd(path: string, cases: { mw: number; type: string; title: string; detail: string[]; year: number; region?: string }[]): LdNode {
   return {
     '@type': 'ItemList',
     '@id': `${abs(path)}#cases`,
@@ -105,6 +105,7 @@ export function caseListLd(path: string, cases: { mw: number; type: string; titl
         about: `${c.mw} MW · ${c.type}`,
         description: c.detail.join('；'),
         temporalCoverage: String(c.year),
+        ...(c.region ? { spatialCoverage: { '@type': 'Place', name: c.region } } : {}),
         measurementTechnique: 'MW 按 IT 侧热负荷计；供热面积按合同面积计；气温为项目所在地极端气温记录',
         creator: ORG,
       },

@@ -5,7 +5,7 @@ author: "李俊明"
 date: 2026-08-23
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/-BUaTRCOOKLVIR8QBCMeVw"
-tags: [液冷, 漏液, 调试, 证据]
+tags: [调试与证据, 液冷技术]
 related: [/approach/three-clocks, /evidence/leak-points, /tools/leak-checklist]
 ---
 

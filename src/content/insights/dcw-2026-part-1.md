@@ -5,7 +5,7 @@ author: "王辉"
 date: 2026-04-26
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/pTSvK1E9i-HD_gQcl8klYA"
-tags: [会议, 液冷, 配电]
+tags: [活动与会议, 液冷技术, 电力与能源]
 related: [/approach/thermal-path, /platform/cdu]
 ---
 

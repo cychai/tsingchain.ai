@@ -5,7 +5,7 @@ author: "李俊明"
 date: 2026-06-28
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/Mcvs_ge4mpOhlCohUVUt9w"
-tags: [液冷, 温水, 经济性]
+tags: [液冷技术]
 related: [/approach/return-water, /platform/coolants]
 ---
 

@@ -5,7 +5,7 @@ author: "王辉"
 date: 2024-01-22
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/jrk7iPOVDZhhl62OZZXaQA"
-tags: [液冷, 行业趋势]
+tags: [液冷技术, 行业与出海]
 related: [/approach/thermal-path]
 ---
 

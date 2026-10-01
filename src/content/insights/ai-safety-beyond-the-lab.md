@@ -4,7 +4,7 @@ author: "李俊明"
 subtitle: "前沿安全的讨论停在了实验室门口。供电、散热、故障边界，该上桌了。"
 date: 2026-09-13
 source: site
-tags: [AI安全, 调试验收, 余热回收, 故障隔离]
+tags: [调试与证据, 余热与水]
 related: [/evidence/commissioning, /evidence/turnover, /approach/three-clocks]
 ---
 

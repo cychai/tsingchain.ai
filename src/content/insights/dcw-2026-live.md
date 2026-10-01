@@ -5,7 +5,7 @@ author: "王辉"
 date: 2026-04-23
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/exPQBz_mVCBWXswg2HUtFA"
-tags: [会议, 液冷]
+tags: [活动与会议, 液冷技术]
 related: [/approach/thermal-path]
 ---
 

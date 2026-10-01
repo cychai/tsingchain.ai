@@ -5,7 +5,7 @@ author: "格劳瑞"
 date: 2022-09-21
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/yWioNJORVPUly4S9YV4mcA"
-tags: [液冷, 浸没式, 冷板式]
+tags: [液冷技术]
 related: [/platform/coolants]
 ---
 

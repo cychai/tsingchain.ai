@@ -5,7 +5,7 @@ author: "格劳瑞"
 date: 2023-06-29
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/mHPPFgKfrY9CqBFkJEjt1g"
-tags: [液冷, 芯片, 行业观察]
+tags: [液冷技术, 行业与出海]
 related: [/platform/cold-plates]
 ---
 

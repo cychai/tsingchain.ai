@@ -5,7 +5,7 @@ author: "清链学堂在线"
 date: 2024-06-07
 source: wechat
 sourceUrl: "https://mp.weixin.qq.com/s/DfpgVsc61CpEdzsOfApuoA"
-tags: [活动, 沙龙]
+tags: [活动与会议]
 related: []
 ---
 
