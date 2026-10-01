@@ -5,7 +5,8 @@ import { getCollection } from 'astro:content';
 import { site } from '@/data/site';
 import { external } from '@/data/insightsExternal';
 const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const tagCount = posts.flatMap((p) => p.data.tags).reduce((m, t) => m.set(t, (m.get(t) ?? 0) + 1), new Map());
+const tags = [...tagCount.keys()].sort((a, b) => tagCount.get(b) - tagCount.get(a) || a.localeCompare(b, 'zh'));
 const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
 ---
 <Base title="洞察" description="清链科技联合创始人李俊明关于电力、液冷与余热利用的长文。中文全文在本站，英文专栏 Every Watt Counts 同步更新。">
@@ -16,7 +17,7 @@ const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month:
     <div class="wrap">
       <div class="split">
         <aside class="sticky">
-          {tags.length > 0 && <><div class="eyebrow">话题</div><div style="display:flex;flex-wrap:wrap;gap:0.4rem">{tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t}</a>)}</div></>}
+          {tags.length > 0 && <><div class="eyebrow">话题</div><div style="display:flex;flex-wrap:wrap;gap:0.4rem">{tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t} <span class="muted">{tagCount.get(t)}</span></a>)}</div></>}
           <p class="small muted" style="margin-top:1.5rem">中文全文 {posts.length} 篇，英文原文 {external.length} 篇。{site.wechat && <>微信公众号「{site.wechat}」同步。</>}</p>
         </aside>
         <div>

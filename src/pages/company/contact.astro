@@ -49,9 +49,10 @@ import { site } from '@/data/site';
   const btn = f?.querySelector('[data-send]');
   const opened = Date.now();
   const TOPIC = { product: '产品咨询或报价', commissioning: '现有系统的调试或验证', field: '现场检测或运维', heat: '余热利用', sim: '仿真台测试申请' };
-  const HINT = { product: 'IT 负荷、场地位置、时间表和主要约束，粗略的也可以。', commissioning: '装了什么系统、现有哪些记录、目前处于什么状态。', field: '场地位置、系统规模、需要哪项服务。', heat: '热源与温度、可能的用热方、两者之间的距离。', sim: '我想参与仿真台测试：您的角色，以及打算用来比对的案例类型（机柜平台、负荷、气候），不必提供客户名称。' };
+  const HINT = { product: 'IT 负荷、场地位置、时间表和主要约束，粗略的也可以。', commissioning: '装了什么系统、现有哪些记录、目前处于什么状态。', field: '场地位置、系统规模、需要哪项服务。', heat: '热源与温度、可能的用热方、两者之间的距离。', sim: '您的角色，以及打算用来比对的案例类型（机柜平台、负荷、气候），不必提供客户名称。' };
   const pre = new URLSearchParams(location.search).get('topic');
   if (pre && TOPIC[pre] && f) { f.topic.value = TOPIC[pre]; f.message.placeholder = HINT[pre]; }
+  f?.topic.addEventListener('change', () => { const k = Object.keys(TOPIC).find((x) => TOPIC[x] === f.topic.value); f.message.placeholder = k ? HINT[k] : ''; });
   const say = (msg, kind) => { if (!status) return; status.textContent = msg; status.dataset.kind = kind; status.hidden = false; };
   const g = (d, k) => String(d.get(k) ?? '').trim();
   const COPIED = '已复制';
