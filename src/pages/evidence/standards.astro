@@ -7,10 +7,10 @@ import { faqs } from '@/data/geo';
 import { techArticleLd, faqLd } from '@/lib/ld';
 const path = '/evidence/standards';
 const qa = faqs[path];
-const ld = [techArticleLd(path, { headline: '标准工作', description: '清链科技跟踪哪些液冷标准与开放规范，以及为什么我们用的验收准则不该只是我们一家的。' }), faqLd(path, qa)];
+const ld = [techArticleLd(path, { headline: '我们跟踪的标准', description: '清链科技跟踪哪些液冷标准与开放规范，以及为什么我们用的验收准则不该只是我们一家的。' }), faqLd(path, qa)];
 ---
-<Base ld={ld} title="标准工作" description="清链科技跟踪哪些液冷标准与开放规范，以及为什么我们用的验收准则不该只是我们一家的。">
-  <PageHero eyebrow="交付证据 · 标准" title="标准工作" lede="我们跟踪液冷规范的公开草案和已发布版本，公开讨论计量边界，使我们采用的验收准则与行业标准保持一致。" crumbs={[['/evidence', '交付证据']]} />
+<Base ld={ld} title="我们跟踪的标准" description="清链科技跟踪哪些液冷标准与开放规范，以及为什么我们用的验收准则不该只是我们一家的。">
+  <PageHero eyebrow="交付证据 · 标准" title="我们跟踪的标准" lede="我们跟踪液冷规范的公开草案和已发布版本，公开讨论计量边界，使我们采用的验收准则与行业标准保持一致。" crumbs={[['/evidence', '交付证据']]} />
   <section class="section">
     <div class="wrap prose">
       <h2>我们跟踪的标准与规范</h2>

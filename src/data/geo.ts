@@ -107,7 +107,7 @@ export const corePages: { section: string; pages: [string, string, string][] }[]
     ['/evidence/turnover', '交付资料包', '十个边界各三问：测了吗、按什么判据、记录在哪。'],
     ['/evidence/commissioning', '调试与验收准则', '从出厂放行到移交的四个关卡，判据在开工前写好。'],
     ['/evidence/samples', '记录样例', '三张可下载的记录模板：出厂测试记录、快插接头登记表、冷却液交付单，字段即交付资料包的字段。'],
-    ['/evidence/standards', '标准工作', 'YD/T 液冷行业标准、ERF/ERE、EU 2024/1364、ASHRAE W 级与 OCP 草案。'],
+    ['/evidence/standards', '我们跟踪的标准', 'YD/T 液冷行业标准、ERF/ERE、EU 2024/1364、ASHRAE W 级与 OCP 草案。'],
   ] },
   { section: '在线工具', pages: [
     ['https://sim.nextgenergy.ai/', '液冷仿真台（sim.nextgenergy.ai）', '从芯片结温到排热的全回路瞬态模型：机柜平台、气候、管路、负荷阶跃、泵失效与结垢；概念模型，不用于验收或性能承诺。'],
