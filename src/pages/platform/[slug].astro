@@ -13,6 +13,17 @@ const { s } = Astro.props;
       <div class="split main">
         <div class="prose">
           {s.body.map((p) => <p>{p}</p>)}
+          {s.spec && (
+            <section class="spec" aria-labelledby="spec-h">
+              <h2 id="spec-h">规格与接口</h2>
+              <p class="muted">下表列出采购方横向比较时会看的字段。数值随配置变化，我们不公开一套统一数字；每个项目提供一份数据表，逐项在写明的工况下填齐。</p>
+              <div class="table-wrap"><table class="table">
+                <thead><tr><th scope="col">字段</th><th scope="col">按什么写</th><th scope="col">数值</th></tr></thead>
+                <tbody>{s.spec.rows.map(([f, h]) => <tr><th scope="row">{f}</th><td>{h}</td><td class="muted">按项目配置，询价后提供数据表</td></tr>)}</tbody>
+              </table></div>
+              <div class="btn-row" style="margin-top:1rem"><a class="btn primary" href={`/company/contact?topic=datasheet&item=${s.spec.item}#form`}>索取数据表</a>{s.spec.item === 'skids' && <a class="btn" href="/evidence/samples">查看 FAT 记录模板</a>}</div>
+            </section>
+          )}
           {s.related && <Related items={s.related} />}
         </div>
         {s.asks && (
@@ -29,6 +40,10 @@ const { s } = Astro.props;
   </section>
 </Base>
 <style>
+  .spec { margin: 2.5rem 0 1.5rem; }
+  .spec h2 { margin-bottom: 0.5rem; }
+  .spec tbody th { font-weight: 600; text-align: left; min-width: 9em; text-transform: none; letter-spacing: 0; font-size: 0.95rem; color: var(--ink); }
+  .spec td.muted { min-width: 9em; }
   .asks { list-style: none; padding: 0; margin: 0.5rem 0 0; }
   .asks li { padding: 0.6rem 0 0.6rem 1.4rem; border-bottom: 1px solid var(--line-2); font-size: 0.95rem; position: relative; }
   .asks li::before { content: "→"; position: absolute; left: 0; color: var(--heat); }

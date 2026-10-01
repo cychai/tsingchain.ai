@@ -8,15 +8,43 @@ import { techArticleLd, faqLd } from '@/lib/ld';
 const path = '/evidence/standards';
 const qa = faqs[path];
 const ld = [techArticleLd(path, { headline: '我们跟踪的标准', description: '清链科技跟踪哪些液冷标准与开放规范，以及为什么我们用的验收准则不该只是我们一家的。' }), faqLd(path, qa)];
+const docs = [
+  { name: 'Modular Technology Cooling System for Cloud Scale', org: '开放计算项目（OCP）', ver: 'Rev 1，2025 年 8 月', status: '已发布规范', href: 'https://www.opencompute.org/documents/ocp-modular-tcs-rev-1-final-2025-pdf', link: '发布方页面', topics: '机柜、CDU 与设施之间的二次侧回路边界；冷却液品质；调试证据' },
+  { name: 'Open Rack V3 Blind Mate Manifold Specification', org: '开放计算项目（OCP）', ver: 'Rev 1.0（文件日期 2024 年 4 月）', status: '规范；文件标注为 review 版', href: 'https://www.opencompute.org/documents/open-rack-v3-blind-mate-manifold-specification-rev-1-0-review-april05-2024-pdf', link: '发布方页面', topics: '机柜分水器与盲插接口；接口测试' },
+  { name: 'Thermal Boundaries in AI Infrastructure', org: '开放计算项目（OCP）', ver: 'v0.98，2026', status: '公开征求意见稿', href: '', link: '', topics: '热边界的定义与各边界的责任方' },
+  { name: 'Project Deschutes CDU 规范', org: 'Google，已贡献给 OCP', ver: 'v1.0，2026 年 2 月', status: '已发布；在 OCP 亚太峰会 2026 上介绍', href: '', link: '', topics: '额定负荷下的 CDU 趋近温差；旁流过滤' },
+  { name: 'ISO/IEC 30134-6 数据中心关键性能指标：能源再利用系数（ERF）', org: 'ISO/IEC', ver: '以 ISO 目录所示现行版为准', status: '已发布国际标准', href: 'https://www.iso.org/search.html?q=30134-6', link: 'ISO 检索', topics: '再利用能量怎么计、在哪里计量' },
+  { name: 'EN 50600-4-6 能源再利用系数', org: 'CENELEC', ver: '以 CENELEC 目录所示现行版为准', status: '已发布欧洲标准', href: '', link: '', topics: '欧盟报告中采用的 ERF 定义' },
+  { name: '能源再利用效率（ERE）', org: 'The Green Grid', ver: '以 The Green Grid 发布版本为准', status: '已发布指标（白皮书）', href: 'https://www.thegreengrid.org/', link: '发布方网站', topics: '作为 PUE 补充、计入再利用能量的指标' },
+  { name: '委员会授权条例 (EU) 2024/1364', org: '欧盟委员会', ver: '2024', status: '已生效（欧盟）', href: 'https://eur-lex.europa.eu/eli/reg_del/2024/1364/oj', link: 'EUR-Lex 原文', topics: 'IT 功率 500 kW 及以上的欧盟数据中心的报告与计量边界，含余热再利用' },
+  { name: '数据中心冷板式液冷服务器系统技术要求和测试方法', org: '通信行业标准', ver: 'YD/T 3980-2021', status: '已发布', href: 'https://hbba.sacinfo.org.cn/', link: '行业标准信息服务平台检索', topics: '冷板式液冷服务器系统的测试方法' },
+  { name: '数据中心液冷系统冷却液体技术要求和测试方法', org: '通信行业标准', ver: 'YD/T 3982-2021', status: '已发布', href: 'https://hbba.sacinfo.org.cn/', link: '行业标准信息服务平台检索', topics: '冷却液的技术要求与测试方法' },
+  { name: '冷板式液冷整机柜服务器技术要求和测试方法', org: '通信行业标准', ver: 'YD/T 6049-2024', status: '已发布', href: 'https://hbba.sacinfo.org.cn/', link: '行业标准信息服务平台检索', topics: '整机柜层面的技术要求与测试方法' },
+  { name: '冷板式液冷数据中心技术要求', org: '通信行业标准', ver: 'YD/T 6358-2025', status: '已发布', href: 'https://hbba.sacinfo.org.cn/', link: '行业标准信息服务平台检索', topics: '数据中心层面的冷板式液冷技术要求' },
+  { name: '数据中心液冷系统技术规范', org: '团体标准', ver: 'T/CIEP 0263-2025', status: '已发布', href: 'https://www.ttbz.org.cn/', link: '全国团体标准信息平台检索', topics: '液冷系统整体技术规范' },
+  { name: '数据中心冷板式液冷系统技术规范；数据中心冷板式液冷机柜通用规范', org: '国家标准', ver: '编号待发布', status: '已立项，尚未发布', href: 'https://std.samr.gov.cn/', link: '全国标准信息公共服务平台检索', topics: '发布后对照我们的验收准则逐条复核' },
+];
+const reviewed = '2026 年 10 月 2 日';
 ---
 <Base ld={ld} title="我们跟踪的标准" description="清链科技跟踪哪些液冷标准与开放规范，以及为什么我们用的验收准则不该只是我们一家的。">
   <PageHero eyebrow="交付证据 · 标准" title="我们跟踪的标准" lede="我们跟踪液冷规范的公开草案和已发布版本，公开讨论计量边界，使我们采用的验收准则与行业标准保持一致。" crumbs={[['/evidence', '交付证据']]} />
   <section class="section">
     <div class="wrap prose">
       <h2>我们跟踪的标准与规范</h2>
-      <p><strong>开放计算项目（OCP）Cooling Environments。</strong>我们跟踪液冷工作组的公开草案和已发布规范，关注点是调试证据、冷却液品质，以及机柜、CDU 与设施之间的边界。接口正在被写成规范：2026 年 Google 把 Project Deschutes 的 CDU 规范贡献给 OCP；快插接头供应商也提出要更新 2019 年的冷板要求。在我们读过的公开文件里，尚未看到完整规定交付资料包应包含什么的条文，交付资料包正是针对这个空白。这些文件包括 <a href="https://www.opencompute.org/documents/ocp-modular-tcs-rev-1-final-2025-pdf">Modular Technology Cooling System for Cloud Scale</a>（Rev 1，2025 年 8 月）、<a href="https://www.opencompute.org/documents/open-rack-v3-blind-mate-manifold-specification-rev-1-0-review-april05-2024-pdf">Open Rack V3 Blind Mate Manifold Specification</a>（Rev 1.0），以及《Thermal Boundaries in AI Infrastructure》公开征求意见稿（v0.98，2026）。</p>
-      <p><strong>能源再利用指标。</strong>让余热利用可审计的指标已经存在：ISO/IEC 30134-6 与 EN 50600-4-6 定义的能源再利用系数（ERF），The Green Grid 作为 PUE 补充发布的能源再利用效率（ERE），以及委员会授权条例 (EU) 2024/1364 对较大规模欧盟数据中心的计量边界要求。我们在自己的报告里使用它们，也建议在项目评估中把 PUE、用水与余热利用指标一起说明。</p>
-      <p><strong>国内标准。</strong>冷板式液冷在国内已有一组可以直接引用的行业标准：YD/T 3980-2021《数据中心冷板式液冷服务器系统技术要求和测试方法》、YD/T 3982-2021《数据中心液冷系统冷却液体技术要求和测试方法》、YD/T 6049-2024《冷板式液冷整机柜服务器技术要求和测试方法》、YD/T 6358-2025《冷板式液冷数据中心技术要求》，以及团体标准 T/CIEP 0263-2025《数据中心液冷系统技术规范》；《数据中心冷板式液冷系统技术规范》《数据中心冷板式液冷机柜通用规范》等国家标准已立项。我们的验收准则在这些标准给出的测试方法之上，补的是标准尚未要求的部分：每个边界的记录归属、扰动后的复测，以及余热交接点的计量。</p>
+      <p>下表是我们读过并在使用的文件。没有稳定公开链接的，如实注明，不链接转载件；国内标准给出官方平台的检索入口。合同中引用 ISO、CENELEC 标准前，请以发布机构目录核对现行版本。</p>
+    </div>
+    <div class="wrap">
+      <div class="table-wrap"><table class="table std">
+        <thead><tr><th scope="col">文件全名</th><th scope="col">编号 / 版本</th><th scope="col">状态</th><th scope="col">原文入口</th><th scope="col">我们关注的条款主题</th></tr></thead>
+        <tbody>{docs.map((d) => <tr><td><strong>{d.name}</strong><br /><span class="small muted">{d.org}</span></td><td>{d.ver}</td><td>{d.status}</td><td>{d.href ? <a href={d.href} rel="noopener">{d.link}</a> : <span class="muted">暂无稳定公开链接</span>}</td><td>{d.topics}</td></tr>)}</tbody>
+      </table></div>
+      <p class="small muted" style="margin-top:0.8rem">最后复核日期：{reviewed}。</p>
+    </div>
+    <div class="wrap prose">
+      <h2>尚未看到的要求</h2>
+      <p>接口正在被写成规范：2026 年 Google 把 Project Deschutes 的 CDU 规范贡献给 OCP；快插接头供应商也提出要更新 2019 年的冷板要求。在本页所列文件及版本范围内（复核于{reviewed}），我们尚未看到完整规定交付资料包应包含什么的条文，<a href="/evidence/turnover">交付资料包</a>正是针对这个空白。这一判断只针对所列文件，不代表行业内所有标准。</p>
+      <p>国内冷板式液冷已有上表所列可直接引用的行业标准与团体标准。在本页所列文件及版本范围内，我们的验收准则在这些标准给出的测试方法之上，补的是尚未要求的部分：每个边界的记录归属、扰动后的复测，以及余热交接点的计量。</p>
+      <p><strong>能源再利用指标。</strong>让余热利用可审计的指标已经存在：上表的 ERF、ERE 与欧盟计量边界要求。我们在自己的报告里使用它们，也建议在项目评估中把 PUE、用水与余热利用指标一起说明。</p>
       <p><strong>公开写作。</strong>三个时钟模型、十大漏点和计量边界论证都先以公开文章发布，并在运营方、水化学专家与保险从业者的反馈中公开修订。本站所载为当前版本，随行业讨论持续修订。</p>
       <h2>我们关注的要求</h2>
       <ul>
@@ -30,3 +58,7 @@ const ld = [techArticleLd(path, { headline: '我们跟踪的标准', description
   </section>
   <Faq items={qa} alt />
 </Base>
+<style>
+  .std td, .std th { overflow-wrap: break-word; }
+  .std td:first-child { min-width: 12em; }
+</style>

@@ -32,12 +32,21 @@ import { site } from '@/data/site';
               <option value="" selected disabled>请选择</option>
               <option>产品咨询或报价</option><option>现场检测或运维</option><option>AI 算力中心新建</option><option>既有数据中心液冷改造</option><option>余热利用</option><option>现有系统的调试或验证</option><option>合作伙伴</option><option>仿真台测试申请</option><option>其他</option>
             </select></div>
+          <fieldset class="details" data-details hidden>
+            <legend>项目信息 <span class="small muted">均为选填，粗略的也可以</span></legend>
+            <div class="field" data-f="load"><label for="load" data-l>IT 负荷</label><input id="load" name="load" type="text" maxlength="200" /></div>
+            <div class="field" data-f="site"><label for="site" data-l>项目地点</label><input id="site" name="site" type="text" maxlength="200" /></div>
+            <div class="field" data-f="timing"><label for="timing" data-l>计划时间</label><input id="timing" name="timing" type="text" maxlength="200" /></div>
+            <div class="field" data-f="water"><label for="water" data-l>供回水条件</label><input id="water" name="water" type="text" maxlength="200" /></div>
+            <div class="field" data-f="scope"><label for="scope" data-l>供货范围</label><input id="scope" name="scope" type="text" maxlength="200" /></div>
+          </fieldset>
           <div class="field"><label for="msg">需求描述</label><textarea id="msg" name="message" rows="6" required minlength="10" maxlength="5000"></textarea></div>
           <div class="hp" aria-hidden="true"><label for="website">请留空</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
           <p class="form-status" data-status role="status" hidden></p>
-          <div class="fallback" data-fallback hidden><button type="button" class="btn" data-copy-msg>复制咨询内容</button><button type="button" class="btn" data-copy-mail>复制邮箱地址</button></div>
+          <div class="receipt" data-receipt hidden></div>
+          <div class="fallback" data-fallback hidden><button type="button" class="btn" data-copy-msg>复制咨询内容</button><button type="button" class="btn" data-copy-mail>复制邮箱地址</button><a class="btn" data-open-mail href={`mailto:${site.email}`}>在邮件客户端里打开草稿</a></div>
           <div class="btn-row" style="margin-top:0.5rem;align-items:center"><button class="btn primary" type="submit" data-send>发送</button><span class="small muted">或直接写信至 <a href={`mailto:${site.email}`}><span class="mono">{site.email}</span></a></span></div>
-          <p class="small muted" style="margin:1rem 0 0">您的留言经 HTTPS 发送给我们的团队，只用于回复您，不会加入任何邮件列表。如果表单暂时无法发送，会改为在您的邮件客户端里打开同一封邮件。见<a href="/company/privacy">隐私声明</a>。</p>
+          <p class="small muted" style="margin:1rem 0 0">您的留言经 HTTPS 发送给我们的团队，只用于回复您，不会加入任何邮件列表。如果表单暂时无法发送，页面会明确提示「未送达」，并给出邮箱地址和咨询内容副本，不会自动打开邮件客户端。见<a href="/company/privacy">隐私声明</a>。</p>
         </form>
       </div>
     </div>
@@ -47,49 +56,98 @@ import { site } from '@/data/site';
   const f = document.querySelector('[data-contact]');
   const status = f?.querySelector('[data-status]');
   const btn = f?.querySelector('[data-send]');
+  const receipt = f?.querySelector('[data-receipt]');
+  const details = f?.querySelector('[data-details]');
   const opened = Date.now();
-  const TOPIC = { product: '产品咨询或报价', commissioning: '现有系统的调试或验证', field: '现场检测或运维', heat: '余热利用', sim: '仿真台测试申请' };
-  const HINT = { product: 'IT 负荷、场地位置、时间表和主要约束，粗略的也可以。', commissioning: '装了什么系统、现有哪些记录、目前处于什么状态。', field: '场地位置、系统规模、需要哪项服务。', heat: '热源与温度、可能的用热方、两者之间的距离。', sim: '您的角色，以及打算用来比对的案例类型（机柜平台、负荷、气候），不必提供客户名称。' };
-  const pre = new URLSearchParams(location.search).get('topic');
-  if (pre && TOPIC[pre] && f) { f.topic.value = TOPIC[pre]; f.message.placeholder = HINT[pre]; }
-  f?.topic.addEventListener('change', () => { const k = Object.keys(TOPIC).find((x) => TOPIC[x] === f.topic.value); f.message.placeholder = k ? HINT[k] : ''; });
+  const TOPIC = { product: '产品咨询或报价', datasheet: '产品咨询或报价', commissioning: '现有系统的调试或验证', field: '现场检测或运维', heat: '余热利用', sim: '仿真台测试申请' };
+  const ITEM = { cdu: '索取数据表：CDU 与二次侧', skids: '索取数据表：工厂预制撬块' };
+  // 按需求类型显示的选填项目信息，标签与提示随类型变化；全部选填。
+  const PROJECT = {
+    load: ['IT 负荷', '例如总 MW，或机柜数 × 单柜 kW'], site: ['项目地点', '城市或地区'], timing: ['计划时间', '例如一季度完成设计、三季度设备到场'],
+    water: ['供回水条件', '设施侧供回水温度，已知的话'], scope: ['供货范围', '例如只要 CDU、撬块含 CDU、机柜、冷却设备'],
+  };
+  const FIELDS = {
+    '产品咨询或报价': PROJECT, 'AI 算力中心新建': PROJECT, '既有数据中心液冷改造': { ...PROJECT, water: ['现有冷冻水 / 设施水条件', '供水温度与富余容量，已知的话'] },
+    '余热利用': { load: ['热源或 IT 负荷', '例如 5 MW IT 负荷'], site: PROJECT.site, timing: PROJECT.timing, water: ['回水温度（已知的话）', '例如二次侧回水温度'], scope: ['可能的用热方', '例如温室、供热管网、楼宇，以及距离'] },
+    '现场检测或运维': { site: PROJECT.site, load: ['系统规模', '例如 CDU 台数、机柜数或 IT 负荷'], timing: ['需要的时间', '例如三月移交前'], scope: ['需要的服务', '例如冷却液取样、流量平衡、定期维护'] },
+    '现有系统的调试或验证': { site: PROJECT.site, load: ['系统规模', '例如 CDU 台数、机柜数或 IT 负荷'], timing: ['需要的时间', ''], scope: ['现有资料', '例如图纸、出厂试验记录、测试结果'] },
+  };
+  const HINT = { '产品咨询或报价': '您在规划什么、主要约束是什么。上面的项目信息都是选填。', '现有系统的调试或验证': '装了什么系统、现有哪些记录、目前处于什么状态。', '现场检测或运维': '场地、系统与需要的服务。', '余热利用': '热源、可能的用热方以及两者之间的距离。', '仿真台测试申请': '您的角色，以及打算用来比对的案例类型（机柜平台、负荷、气候），不必提供客户名称。' };
+  function applyTopic() {
+    if (!f) return;
+    const cfg = FIELDS[f.topic.value];
+    if (details) {
+      details.hidden = !cfg;
+      details.querySelectorAll('[data-f]').forEach((el) => {
+        const spec = cfg && cfg[el.dataset.f];
+        el.hidden = !spec;
+        const input = el.querySelector('input');
+        if (spec) { el.querySelector('[data-l]').textContent = spec[0]; input.placeholder = spec[1]; } else if (input) input.value = '';
+      });
+    }
+    f.message.placeholder = HINT[f.topic.value] || '';
+  }
+  const q = new URLSearchParams(location.search);
+  const pre = q.get('topic');
+  if (pre && TOPIC[pre] && f) f.topic.value = TOPIC[pre];
+  applyTopic();
+  if (pre === 'datasheet' && f && ITEM[q.get('item')]) { f.scope.value = ITEM[q.get('item')]; f.message.placeholder = '大致说明配置用途（IT 负荷、地点、时间），我们发送最接近配置的数据表。'; }
+  f?.topic.addEventListener('change', applyTopic);
   const say = (msg, kind) => { if (!status) return; status.textContent = msg; status.dataset.kind = kind; status.hidden = false; };
   const g = (d, k) => String(d.get(k) ?? '').trim();
   const COPIED = '已复制';
   const fb = f?.querySelector('[data-fallback]');
+  const openMail = f?.querySelector('[data-open-mail]');
   let lastText = '';
-  async function copy(text, btn) {
+  async function copy(text, b) {
     try { await navigator.clipboard.writeText(text); }
     catch {
       const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.append(ta); ta.select(); try { document.execCommand('copy'); } catch {} ta.remove();
     }
-    const old = btn.textContent; btn.textContent = COPIED; setTimeout(() => (btn.textContent = old), 1600);
+    const old = b.textContent; b.textContent = COPIED; setTimeout(() => (b.textContent = old), 1600);
   }
   f?.querySelector('[data-copy-msg]')?.addEventListener('click', (e) => copy(lastText, e.currentTarget));
   f?.querySelector('[data-copy-mail]')?.addEventListener('click', (e) => copy(f.dataset.to, e.currentTarget));
-  function mailtoFallback(d) {
+  const LABELS = [['load', 'IT 负荷'], ['site', '项目地点'], ['timing', '计划时间'], ['water', '供回水条件'], ['scope', '供货范围']];
+  // 未送达：明确告知，给出邮箱、咨询内容副本和可选的邮件草稿；不自动打开任何东西。
+  function notDelivered(d) {
     const subject = `[tsingchain.ai] ${g(d, 'topic')} — ${g(d, 'name')}${g(d, 'org') ? '，' + g(d, 'org') : ''}`;
-    const body = `${g(d, 'message')}\n\n—\n${g(d, 'name')}${g(d, 'org') ? '\n' + g(d, 'org') : ''}\n${g(d, 'email')}${g(d, 'phone') ? '\n' + g(d, 'phone') : ''}`;
-    lastText = `${subject}\n\n${body}`; if (fb) fb.hidden = false;
-    location.href = `mailto:${f.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const extra = LABELS.map(([k, l]) => (g(d, k) ? `${l}：${g(d, k)}` : '')).filter(Boolean).join('\n');
+    const body = `${g(d, 'message')}${extra ? '\n\n' + extra : ''}\n\n—\n${g(d, 'name')}${g(d, 'org') ? '\n' + g(d, 'org') : ''}\n${g(d, 'email')}${g(d, 'phone') ? '\n' + g(d, 'phone') : ''}`;
+    lastText = `${subject}\n\n${body}`;
+    if (openMail) openMail.href = `mailto:${f.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    if (fb) fb.hidden = false;
+    say(`未送达：您的留言没有发到我们这里。请发邮件至 ${f.dataset.to}，可以用下面的按钮复制咨询内容，或在邮件客户端里打开草稿。您填写的内容仍保留在表单中。`, 'error');
   }
   f?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (receipt) receipt.hidden = true;
     if (!f.checkValidity()) { f.reportValidity(); say('请把标出的项目填写完整。', 'error'); return; }
     const d = new FormData(f);
     const payload = { name: g(d, 'name'), org: g(d, 'org'), email: g(d, 'email'), phone: g(d, 'phone'), topic: g(d, 'topic'), message: g(d, 'message'), website: g(d, 'website'), elapsed: Date.now() - opened };
+    LABELS.forEach(([k]) => { const v = g(d, k); if (v) payload[k] = v; });
     btn.disabled = true; say('正在发送…', 'info');
     try {
       const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok && j.ok) { f.reset(); if (fb) fb.hidden = true; say('服务器已收到您的留言，并已转给我们的团队。我们会在两个工作日内回复。', 'ok'); return; }
+      if (r.ok && j.ok) {
+        const when = new Date(j.at || Date.now()).toLocaleString('zh-CN', { dateStyle: 'medium', timeStyle: 'short' });
+        if (status) status.hidden = true;
+        if (receipt) {
+          receipt.replaceChildren();
+          const h = document.createElement('p'); h.className = 'r-h'; h.textContent = '已送达：您的留言已转给我们的团队。'; receipt.append(h);
+          const dl = document.createElement('dl');
+          [['回执编号', j.ref || '—'], ['收到时间', when], ['需求类型', payload.topic], ['回复邮箱', payload.email], ['回复时间', '两个工作日内']].forEach(([k, v]) => { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; dl.append(dt, dd); });
+          receipt.append(dl);
+          receipt.hidden = false; receipt.setAttribute('tabindex', '-1'); receipt.focus();
+        }
+        f.reset(); applyTopic(); if (fb) fb.hidden = true; btn.disabled = false; return;
+      }
       if (j.error === 'validation') { say('请检查姓名、邮箱、需求类型和需求描述（至少 10 个字），然后再发送。', 'error'); btn.disabled = false; return; }
-      say('表单暂时无法发送，已尝试在您的邮件客户端里打开邮件草稿。如果没有弹出，请点下面的按钮复制咨询内容和邮箱地址，用任意邮箱发给我们。', 'info');
-      mailtoFallback(d);
+      notDelivered(d);
     } catch {
-      say('表单暂时无法发送，已尝试在您的邮件客户端里打开邮件草稿。如果没有弹出，请点下面的按钮复制咨询内容和邮箱地址，用任意邮箱发给我们。', 'info');
-      mailtoFallback(d);
+      notDelivered(d);
     }
     btn.disabled = false;
   });
@@ -109,5 +167,15 @@ import { site } from '@/data/site';
   .form-status[data-kind="ok"] { border-color: var(--green); background: #e7f6ea; }
   .form-status[data-kind="error"] { border-color: #b42318; background: #fef3f2; color: #7a271a; }
   .tool select:invalid { color: var(--ink-3); }
+  .details { border: 1px solid var(--line-2); border-radius: var(--r); padding: 1rem 1rem 0.2rem; margin: 0 0 1.3rem; min-width: 0; }
+  .details legend { padding: 0 0.4rem; font-weight: 600; }
+  .details legend span { font-weight: 400; margin-left: 0.3rem; }
+  .details .field { margin-bottom: 1rem; }
+  .details [hidden] { display: none; }
+  .receipt { margin: 0.8rem 0 0; padding: 0.9rem 1rem; border-left: 3px solid var(--green); background: #e7f6ea; }
+  .receipt .r-h { margin: 0 0 0.5rem; font-weight: 600; }
+  .receipt dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; margin: 0; font-size: 0.92rem; }
+  .receipt dt { color: var(--ink-3); }
+  .receipt dd { margin: 0; overflow-wrap: anywhere; }
   .tool input[type="text"], .tool input[type="email"], .tool textarea { width: 100%; font: inherit; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); color: var(--ink); }
 </style>

@@ -12,7 +12,7 @@ export const claims: Record<string, Claim> = {
   'years-6': { id: 'years-6', value: '6 年', statement: '清链科技专注液冷六年，先浸没式、后冷板式。', condition: '自 2020 年进入液冷领域起算，至 2026 年；公司成立于 2018 年。', source: '清链科技发展历程。', status: 'conditional' },
   'cooling-tower-latent': { id: 'cooling-tower-latent', value: '约 2.4 MJ/kg', statement: '冷却塔主要靠蒸发排热，在塔的实际运行水温下约为每公斤水 2.4 MJ。', condition: '塔运行水温下的汽化潜热，非沸点值；潜热占总排热比例通常 75–90%。', source: '标准湿空气物性数据；见《当 PUE 变好，能源系统反而变差》。', status: 'published' },
   'cold-climate-minus-40': { id: 'cold-climate-minus-40', value: '−40 °C', statement: '极寒气候方案按环境温度低至 −40 °C 设计。', condition: '室外排热设备与工质选型的设计环境温度；不代表在该温度下的连续运行记录。', source: '清链科技极寒气候设计基础。', status: 'conditional' },
-  'case-10mw-extreme': { id: 'case-10mw-extreme', value: '+40 °C / −30 °C', statement: '某 10 MW 液冷算力中心采用闭式冷却塔方案（干式与喷淋混合运行），经历夏季 40 °C 高温与冬季零下 30 °C 低温，稳定运行。', condition: '2022 年项目；温度为当地极端气温记录，非设备连续工况点。', source: '清链科技项目案例。', status: 'conditional' },
+  'case-10mw-extreme': { id: 'case-10mw-extreme', value: '+40 °C / −30 °C', statement: '某 10 MW 液冷算力中心采用闭式冷却塔方案（干式与喷淋混合运行），经历夏季 40 °C 高温与冬季零下 30 °C 低温，项目方反馈运行稳定。', condition: '2022 年项目；温度为当地极端气温记录，非设备连续工况点。', source: '清链科技项目案例。', status: 'conditional' },
   'pue-1-02': { id: 'pue-1-02', value: 'PUE 1.02', statement: '旧版 NextGenergy 站点的标题数字「PUE 低至 1.02」。', condition: '未知。环境温度、湿球、IT 负载率、统计周期与计量边界均无记录。', source: '旧版 nextgenergy.ai。', status: 'under-review', note: '已从标题撤下。只有带计量边界（IT 与设施用电分表、周期、气候）时才恢复。' },
 };
 export const claim = (id: keyof typeof claims) => claims[id];

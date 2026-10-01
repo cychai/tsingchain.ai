@@ -63,13 +63,19 @@ async function contact(request, env) {
   if (errors.length) return json(400, { ok: false, error: 'validation', fields: errors });
 
   if (!env.GMAIL_USER || !env.GMAIL_APP_PASSWORD) return json(503, { ok: false, error: 'not_configured' });
-  const subject = `[tsingchain.ai] ${topic} — ${name}${org ? '，' + org : ''}`;
+  // 选填的项目信息（均可为空），每项一行，最多 200 字。
+  const DETAILS = [['load', 'IT 负荷'], ['site', '项目地点'], ['timing', '计划时间'], ['water', '供回水条件'], ['scope', '供货范围'], ['day', '希望日期'], ['slot', '希望时段']];
+  const details = DETAILS.map(([k, label]) => [label, oneLine(clean(d[k], 200))]).filter(([, v]) => v);
+  const now = new Date();
+  const ref = `TC-${now.toISOString().slice(2, 10).replace(/-/g, '')}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+  const subject = `[tsingchain.ai] ${topic} — ${name}${org ? '，' + org : ''} [${ref}]`;
   const phone = oneLine(clean(d.phone, 80));
-  const text = `${message}\n\n—\n姓名：${name}\n单位：${org || '（未填）'}\n邮箱：${email}\n电话/微信：${phone || '（未填）'}\n需求类型：${topic}\n来自 tsingchain.ai 联系表单，${new Date().toISOString()}\n`;
+  const detailText = details.length ? `\n\n项目信息\n${details.map(([l, v]) => `${l}：${v}`).join('\n')}` : '';
+  const text = `${message}${detailText}\n\n—\n回执编号：${ref}\n姓名：${name}\n单位：${org || '（未填）'}\n邮箱：${email}\n电话/微信：${phone || '（未填）'}\n需求类型：${topic}\n来自 tsingchain.ai 联系表单，${now.toISOString()}\n`;
   try {
     await sendMail(env, { to: env.CONTACT_TO || 'jim.li@nextgenergy.ai', replyTo: email, subject, text });
     console.log(JSON.stringify({ t: 'contact', ok: true, topic }));
-    return json(200, { ok: true });
+    return json(200, { ok: true, ref, at: now.toISOString() });
   } catch (e) {
     console.log(JSON.stringify({ t: 'contact', ok: false, err: String((e && e.message) || e).slice(0, 80) }));
     return json(502, { ok: false, error: 'upstream' });

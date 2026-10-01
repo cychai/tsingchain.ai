@@ -54,7 +54,7 @@ const boundaries = [
       <article class="tpl">
         <div class="tag">模板 · 非项目记录</div>
         <h2>3. 系统边界图</h2>
-        <p class="muted">每个项目各画一张，让每一方都看得清自己的责任从哪里开始、到哪里结束。六个边界沿<a href="/approach/thermal-path">整条热通路</a>排列。</p>
+        <p class="muted">每个项目各画一张，让每一方都看得清自己的责任从哪里开始、到哪里结束。六个边界沿<a href="/approach/thermal-path">整条热通路</a>排列。本模板按热的流向从芯片往外编号；热通路页与仿真台按设施往芯片编号，所以这里的第 1 个即那里的第 6 个。</p>
         <div class="bd" role="img" aria-label="从冷板到排热的六个边界，以及通常的制造方">
           {boundaries.map(([b, who], i) => (
             <div class="bd-step"><span class="n">{i + 1}</span><strong>{b}</strong><span class="who">{who}</span><span class="rec">记录责任人：______</span></div>
