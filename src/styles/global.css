@@ -196,6 +196,7 @@ a.card:hover .more { color: var(--heat); }
 .bounds { counter-reset: b; list-style: none; padding: 0; margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
 .bounds li { counter-increment: b; display: grid; grid-template-columns: 3.2rem 1fr; gap: 1rem; padding: 1.3rem 0; border-bottom: 1px solid var(--line); }
 .bounds li::before { content: counter(b, decimal-leading-zero); font-family: var(--mono); color: var(--heat); font-size: 0.85rem; padding-top: 0.3rem; }
+.bounds.bnum li::before { content: "B" counter(b); }
 .bounds h3 { font-size: 1.15rem; margin-bottom: 0.3rem; }
 .bounds p { margin: 0; color: var(--ink-2); font-size: 0.97rem; }
 .bounds .q { margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-3); font-family: var(--mono); }

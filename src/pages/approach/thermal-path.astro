@@ -28,10 +28,9 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '从设施�
         <div class="sticky">
           <div class="eyebrow">按下游方向读</div>
           <p class="muted">边界从设施侧向内编号，这是调试团队逐段核查接口的方向。一次侧与二次侧由换热器隔离，水质、压力、流量与材料兼容性分别确认。每一条列出通常制造该边界的一方，以及它的记录应回答的那一个问题。</p>
-          <p class="muted small"><a href="https://sim.nextgenergy.ai">液冷仿真台</a>对同样六个边界按同一方向编号（设施→芯片）：仿真台的 B1 即本页第 1 个边界（设施水接口），B6 即第 6 个（冷板与芯片）。<a href="/evidence/samples">记录样例</a>里的边界图模板按热的流向、从芯片往外列，对照时请按边界名称而不是编号。</p>
           <p class="muted small">设计讨论时刻意只分六段。专门针对漏液风险，同一条路我们拆成<a href="/evidence/leak-points">十大漏点</a>。</p>
         </div>
-        <ol class="bounds">
+        <ol class="bounds bnum">
           {bounds.map((b) => (
             <li>
               <div>

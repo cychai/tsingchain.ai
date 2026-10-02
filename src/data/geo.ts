@@ -9,7 +9,7 @@ export const definitions: Record<string, Definition> = {
   '/approach/thermal-path': {
     term: '整条热通路',
     alt: ['the whole thermal path'],
-    text: '整条热通路指液冷数据中心里热量从芯片到离开场地的全部路径，按六个边界划分：设施水接口、排热与余热利用、CDU 与二次侧回路、机柜分水器与快速接头、软管与管件、冷板与芯片。每个边界都有制造方、测试、验收判据和记录责任人。',
+    text: '整条热通路指液冷数据中心里热量流经的全部路径，按六个边界划分，从设施侧向内编号：B1 设施水接口、B2 排热与余热利用、B3 CDU 与二次侧回路、B4 机柜分水器与快速接头、B5 软管与管件、B6 冷板与芯片。每个边界都有制造方、测试、验收判据和记录责任人。',
   },
   '/approach/return-water': {
     term: '回水品位',
@@ -91,7 +91,7 @@ export const faqs: Record<string, FaqItem[]> = {
   '/cases': [
     { q: '案例里的 MW 数按什么口径？', a: '按 IT 侧热负荷计，不是供电容量，也不是排热设备铭牌。「近 1000 MW」是 2020 年至 2026 年一季度清链科技交付的液冷设备（浸没式与冷板式液冷系统、CDU 与热回收装置）的累计容量，同一口径；指设备交付容量，不等于在运容量。', href: '/approach/return-water', label: '同样的 MW，还要看回水温度' },
     { q: '余热供热面积怎么算？', a: '按合同供热面积计。供热效果取决于回水品位与末端形式：25 MW 城镇供热项目供暖约 25 万平方米，5 MW 工业楼宇项目约 7 万平方米。', href: '/tools/return-water', label: '算一算您的余热能供多少' },
-    { q: '能提供项目方名称和运行数据吗？', a: '项目方名称按保密约定不公开。完整项目清单、运行记录与现场考察可在签署保密协议后安排，联系 sales@tsingchain.ai。', href: '/company/contact', label: '联系我们' },
+    { q: '能提供项目方名称和运行数据吗？', a: '项目方名称按保密约定不公开；系统图、验收记录与运行记录也不公开。项目细节可在签署保密协议后说明，联系 sales@tsingchain.ai。', href: '/company/contact', label: '联系我们' },
   ],
 };
 

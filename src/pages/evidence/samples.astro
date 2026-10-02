@@ -14,13 +14,14 @@ const fatRows = [
 ];
 const flowCols = ['机柜', '设计流量 (L/min)', '实测流量 (L/min)', '偏差 (%)', '允许偏差 (%)', '供液温度 (°C)', '回液温度 (°C)', 'ΔP (kPa)', '合格 / 不合格'];
 const ncrCols = ['编号', '边界', '问题', '提出人、日期', '整改措施', '责任人', '复测结果', '关闭人、日期'];
+// 与 /approach/thermal-path 和仿真台同一编号：B1 设施水接口 … B6 冷板与芯片。
 const boundaries = [
-  ['冷板与芯片', '冷板厂商、服务器厂商'],
-  ['软管、扣压与管件', '软管组装厂、机柜集成商'],
-  ['机柜分水器与快接', '机柜集成商、快接供应商'],
-  ['CDU 与二次侧', 'CDU 厂商、集成方'],
   ['设施水接口', '设施机电承包方'],
   ['排热与余热利用', '排热设备厂商或余热买家'],
+  ['CDU 与二次侧', 'CDU 厂商、集成方'],
+  ['机柜分水器与快接', '机柜集成商、快接供应商'],
+  ['软管、扣压与管件', '软管组装厂、机柜集成商'],
+  ['冷板与芯片', '冷板厂商、服务器厂商'],
 ];
 ---
 <Base title="记录样例" description="清链科技交付记录的模板：出厂验收测试记录、交付资料目录、系统边界图、带工况的流量平衡测试记录、不合格项与复测记录。只是模板，不含项目数据。">
@@ -54,10 +55,10 @@ const boundaries = [
       <article class="tpl">
         <div class="tag">模板 · 非项目记录</div>
         <h2>3. 系统边界图</h2>
-        <p class="muted">每个项目各画一张，让每一方都看得清自己的责任从哪里开始、到哪里结束。六个边界沿<a href="/approach/thermal-path">整条热通路</a>排列。本模板按热的流向从芯片往外编号；热通路页与仿真台按设施往芯片编号，所以这里的第 1 个即那里的第 6 个。</p>
-        <div class="bd" role="img" aria-label="从冷板到排热的六个边界，以及通常的制造方">
+        <p class="muted">每个项目各画一张，让每一方都看得清自己的责任从哪里开始、到哪里结束。六个边界沿<a href="/approach/thermal-path">整条热通路</a>排列，从设施侧向内编号：B1 设施水接口 … B6 冷板与芯片。</p>
+        <div class="bd" role="img" aria-label="六个边界，B1 设施水接口至 B6 冷板与芯片，以及通常的制造方">
           {boundaries.map(([b, who], i) => (
-            <div class="bd-step"><span class="n">{i + 1}</span><strong>{b}</strong><span class="who">{who}</span><span class="rec">记录责任人：______</span></div>
+            <div class="bd-step"><span class="n">B{i + 1}</span><strong>{b}</strong><span class="who">{who}</span><span class="rec">记录责任人：______</span></div>
           ))}
         </div>
       </article>
