@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { site } from '@/data/site';
 import { corePages } from '@/data/geo';
+import { news } from '@/data/news';
 
 export const GET: APIRoute = async () => {
   const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -23,6 +24,9 @@ export const GET: APIRoute = async () => {
   }
   lines.push('## 洞察（最新）');
   for (const p of posts.slice(0, 8)) lines.push(`- [${p.data.title}](${site.url}/insights/${p.id}.md)：${p.data.date.toISOString().slice(0, 10)}${p.data.author ? `，${p.data.author}` : ''}`);
+  lines.push('');
+  lines.push('## 新闻（最新）');
+  for (const n of news) lines.push(`- [${n.title}](${site.url}/company/news/${n.slug})：${n.date} — ${n.summary}`);
   lines.push('');
   lines.push('## 可选');
   lines.push(`- [核心页面与全部文章的全文](${site.url}/llms-full.txt)`);

@@ -112,3 +112,23 @@ export function caseListLd(path: string, cases: { mw: number; type: string; titl
     })),
   };
 }
+
+
+export function newsArticleLd(path: string, o: { headline: string; description: string; published: Date; modified?: Date; body?: string }): LdNode {
+  return {
+    '@type': 'NewsArticle',
+    '@id': `${abs(path)}#article`,
+    headline: o.headline,
+    description: o.description,
+    ...(o.body ? { articleBody: o.body } : {}),
+    author: ORG,
+    publisher: ORG,
+    mainEntityOfPage: abs(path),
+    url: abs(path),
+    image: abs('/products/hero-skid.jpg'),
+    inLanguage: 'zh-CN',
+    datePublished: o.published.toISOString(),
+    dateModified: (o.modified ?? o.published).toISOString(),
+    isAccessibleForFree: true,
+  };
+}

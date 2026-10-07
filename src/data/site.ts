@@ -27,5 +27,5 @@ export const footerNav = [
   { title: '我们做什么', links: [['/platform', '产品：撬块、机柜、CDU、冷却设备'], ['/services/field', '现场检测、验证与运维'], ['/solutions', '按项目类型的解决方案'], ['/resources', '资源：方法、证据、工具、洞察']] },
   { title: '交付证据', links: [['/evidence/commissioning', '调试与验收准则'], ['/evidence/turnover', '交付资料包'], ['/evidence/samples', '记录样例'], ['/evidence/leak-points', '十大漏点'], ['/evidence/standards', '我们跟踪的标准']] },
   { title: '工具', links: [['https://sim.nextgenergy.ai', '液冷仿真台'], ['/tools/return-water', '回水品位 → 余热买家'], ['/tools/approach-temp', 'CDU 趋近温差与自由冷却估算'], ['/tools/leak-checklist', '交付资料自查']] },
-  { title: '公司', links: [['/company/about', '关于我们'], ['/cases', '项目案例'], ['/company/partners', '合作方式与伙伴招募'], ['/company/contact', '联系我们'], ['/company/privacy', '隐私声明']] },
+  { title: '公司', links: [['/company/about', '关于我们'], ['/cases', '项目案例'], ['/company/news', '新闻'], ['/company/partners', '合作方式与伙伴招募'], ['/company/contact', '联系我们'], ['/company/privacy', '隐私声明']] },
 ];
