@@ -10,11 +10,14 @@ import { news, fmtNewsDate } from '@/data/news';
       <ol class="news-list">
         {news.map((n) => (
           <li>
-            <a href={`/company/news/${n.slug}`}>
-              <time datetime={n.date}>{fmtNewsDate(n.date)}</time>
-              <span class="t">{n.title}</span>
-              <span class="s">{n.summary}</span>
-              <span class="more">阅读 →</span>
+            <a href={`/company/news/${n.slug}`} class:list={[{ 'has-cover': n.cover }]}>
+              {n.cover && <img class="cover" src={n.cover.img} alt="" width={n.cover.w} height={n.cover.h} loading="lazy" decoding="async" />}
+              <span class="txt">
+                <time datetime={n.date}>{fmtNewsDate(n.date)}</time>
+                <span class="t">{n.title}</span>
+                <span class="s">{n.summary}</span>
+                <span class="more">阅读 →</span>
+              </span>
             </a>
           </li>
         ))}
@@ -29,6 +32,10 @@ import { news, fmtNewsDate } from '@/data/news';
   .news-list li { border-top: 1px solid var(--line); }
   .news-list li:last-child { border-bottom: 1px solid var(--line); }
   .news-list a { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.4rem 0; color: inherit; text-decoration: none; }
+  .news-list .txt { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+  .news-list a.has-cover { flex-direction: row; align-items: flex-start; gap: 1.25rem; }
+  .news-list .cover { flex: 0 0 9.5rem; width: 9.5rem; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; background: var(--line); }
+  @media (max-width: 560px) { .news-list a.has-cover { flex-direction: column; } .news-list .cover { width: 100%; flex-basis: auto; aspect-ratio: 16 / 9; } }
   .news-list time { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
   .news-list .t { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
   .news-list .s { color: var(--ink-2); font-size: 0.97rem; }

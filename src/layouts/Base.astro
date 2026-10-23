@@ -17,8 +17,12 @@ interface Props {
   ld?: LdNode[];
   /** 本页 Markdown 版本的路径，通过 <link rel="alternate" type="text/markdown"> 暴露。 */
   mdAlternate?: string;
+  /** 覆盖默认 og:image（站内绝对路径）。 */
+  ogImage?: { src: string; w?: number; h?: number; alt?: string };
 }
-const { title, description = site.description, canonical, type = 'website', published, modified, ld = [], mdAlternate } = Astro.props;
+const { title, description = site.description, canonical, type = 'website', published, modified, ld = [], mdAlternate, ogImage } = Astro.props;
+const og = ogImage ?? { src: '/products/hero-skid.jpg', w: 1400, h: 933, alt: '清链科技预制液冷撬块' };
+const ogSrc = new URL(og.src, Astro.site).href;
 const fullTitle = title === site.name ? `${site.name} | ${site.headline}` : `${title} | ${site.name} · ${site.tagline}`;
 const cleanPath = Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const url = new URL(cleanPath, Astro.site);
@@ -42,11 +46,11 @@ const jsonld = JSON.stringify({
     <link rel="canonical" href={canonical ?? url.href} />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/brand/emblem-512.png" />
-    <meta property="og:image" content={new URL('/products/hero-skid.jpg', Astro.site).href} />
-    <meta property="og:image:width" content="1400" />
-    <meta property="og:image:height" content="933" />
-    <meta property="og:image:alt" content="清链科技预制液冷撬块" />
-    <meta name="twitter:image" content={new URL('/products/hero-skid.jpg', Astro.site).href} />
+    <meta property="og:image" content={ogSrc} />
+    {og.w && <meta property="og:image:width" content={String(og.w)} />}
+    {og.h && <meta property="og:image:height" content={String(og.h)} />}
+    {og.alt && <meta property="og:image:alt" content={og.alt} />}
+    <meta name="twitter:image" content={ogSrc} />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} 洞察`} href="/insights/rss.xml" />
     {mdAlternate && <link rel="alternate" type="text/markdown" title="Markdown 版本" href={mdAlternate} />}
     <meta property="og:site_name" content={site.name} />

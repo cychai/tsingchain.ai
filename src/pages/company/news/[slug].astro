@@ -1,6 +1,6 @@
 ---
 import Base from '@/layouts/Base.astro';
-import { news, newsDate, fmtNewsDate, type NewsItem } from '@/data/news';
+import { news, newsDate, fmtNewsDate, newsPlain, isPara, isH2, type NewsItem } from '@/data/news';
 import { newsArticleLd } from '@/lib/ld';
 export function getStaticPaths() {
   return news.map((n) => ({ params: { slug: n.slug }, props: { n } }));
@@ -8,10 +8,12 @@ export function getStaticPaths() {
 const { n } = Astro.props as { n: NewsItem };
 const path = `/company/news/${n.slug}`;
 const published = newsDate(n.date);
-const plain = n.body.map((p) => p.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&')).join('\n\n');
-const ld = [newsArticleLd(path, { headline: n.title, description: n.summary, published, body: plain })];
+const plain = newsPlain(n);
+const ld = [newsArticleLd(path, { headline: n.title, description: n.summary, published, body: plain, image: n.cover?.img })];
+const firstImg = n.body.findIndex((b) => typeof b === 'object' && 'img' in b);
+const ogImage = n.cover ? { src: n.cover.img, w: n.cover.w, h: n.cover.h, alt: n.cover.alt } : undefined;
 ---
-<Base ld={ld} title={n.title} description={n.summary} type="article" published={published}>
+<Base ld={ld} title={n.title} description={n.summary} type="article" published={published} ogImage={ogImage}>
   <article>
     <header class="hero">
       <div class="narrow">
@@ -22,7 +24,14 @@ const ld = [newsArticleLd(path, { headline: n.title, description: n.summary, pub
       </div>
     </header>
     <div class="narrow prose news-body">
-      {n.body.map((p) => <p set:html={p} />)}
+      {n.body.map((b, i) =>
+        isPara(b) ? <p set:html={b} /> :
+        isH2(b) ? <h2>{b.h2}</h2> :
+        <figure class="news-fig">
+          <img src={b.img} alt={b.alt} width={b.w} height={b.h} loading={i === firstImg ? 'eager' : 'lazy'} fetchpriority={i === firstImg ? 'high' : undefined} decoding="async" />
+          {b.caption && <figcaption>{b.caption}</figcaption>}
+        </figure>
+      )}
       {n.links && n.links.length > 0 && (
         <>
           <h2>相关链接</h2>
@@ -38,4 +47,6 @@ const ld = [newsArticleLd(path, { headline: n.title, description: n.summary, pub
 <style>
   .news-body { padding-bottom: 3rem; font-size: 1.05rem; }
   .news-body h2 { font-size: 1.3rem; }
+  .news-fig { margin: 1.75rem 0; }
+  .news-fig img { display: block; width: 100%; height: auto; border-radius: 4px; background: var(--line); }
 </style>

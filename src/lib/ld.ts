@@ -114,7 +114,7 @@ export function caseListLd(path: string, cases: { mw: number; type: string; titl
 }
 
 
-export function newsArticleLd(path: string, o: { headline: string; description: string; published: Date; modified?: Date; body?: string }): LdNode {
+export function newsArticleLd(path: string, o: { headline: string; description: string; published: Date; modified?: Date; body?: string; image?: string }): LdNode {
   return {
     '@type': 'NewsArticle',
     '@id': `${abs(path)}#article`,
@@ -125,7 +125,7 @@ export function newsArticleLd(path: string, o: { headline: string; description: 
     publisher: ORG,
     mainEntityOfPage: abs(path),
     url: abs(path),
-    image: abs('/products/hero-skid.jpg'),
+    image: abs(o.image ?? '/products/hero-skid.jpg'),
     inLanguage: 'zh-CN',
     datePublished: o.published.toISOString(),
     dateModified: (o.modified ?? o.published).toISOString(),
