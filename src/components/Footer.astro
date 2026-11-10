@@ -1,6 +1,8 @@
 ---
 import { site, footerNav } from '@/data/site';
 const year = new Date().getFullYear();
+// 国内服务器构建时设 PUBLIC_ICP_BEIAN（如「京ICP备2026075493号-1」）才显示备案号；Cloudflare 构建不设
+const icp = import.meta.env.PUBLIC_ICP_BEIAN;
 ---
 <footer class="ftr">
   <div class="wrap">
@@ -25,6 +27,7 @@ const year = new Date().getFullYear();
     </div>
     <div class="legal">
       <span>© {year} {site.legalName} / {site.nameEn}. All rights reserved.</span>
+      {icp && <span><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">{icp}</a></span>}
       <span><a href="/company/privacy">隐私声明</a> · <a href="/company/contact">联系我们</a> · <a href="/insights/rss.xml">RSS</a></span>
     </div>
   </div>
