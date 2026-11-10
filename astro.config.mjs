@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://tsingchain.ai',
+  site: 'https://www.tsingchain.cn',
   integrations: [sitemap()],
   trailingSlash: 'never',
   build: { format: 'file' },

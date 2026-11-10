@@ -112,7 +112,7 @@ import { site } from '@/data/site';
   const LABELS = [['load', 'IT 负荷'], ['site', '项目地点'], ['timing', '计划时间'], ['water', '供回水条件'], ['scope', '供货范围']];
   // 未送达：明确告知，给出邮箱、咨询内容副本和可选的邮件草稿；不自动打开任何东西。
   function notDelivered(d) {
-    const subject = `[tsingchain.ai] ${g(d, 'topic')} — ${g(d, 'name')}${g(d, 'org') ? '，' + g(d, 'org') : ''}`;
+    const subject = `[tsingchain.cn] ${g(d, 'topic')} — ${g(d, 'name')}${g(d, 'org') ? '，' + g(d, 'org') : ''}`;
     const extra = LABELS.map(([k, l]) => (g(d, k) ? `${l}：${g(d, k)}` : '')).filter(Boolean).join('\n');
     const body = `${g(d, 'message')}${extra ? '\n\n' + extra : ''}\n\n—\n${g(d, 'name')}${g(d, 'org') ? '\n' + g(d, 'org') : ''}\n${g(d, 'email')}${g(d, 'phone') ? '\n' + g(d, 'phone') : ''}`;
     lastText = `${subject}\n\n${body}`;

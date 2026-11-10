@@ -12,7 +12,10 @@
 
 import { sendMail } from './mail.js';
 
-const ALLOWED_HOSTS = /^(tsingchain\.ai|www\.tsingchain\.ai|[a-z0-9-]+\.workers\.dev|localhost(:\d+)?|127\.0\.0\.1(:\d+)?)$/i;
+// 2026-11-09 起官网迁到国内 www.tsingchain.cn（已备案），本 Worker 只做两件事：其余请求 301 到国内站；
+// /api/contact 继续在这里发信（国内站 nginx 把 /api/contact 转发过来，Origin 是 tsingchain.cn）。
+const CN_SITE = 'https://www.tsingchain.cn';
+const ALLOWED_HOSTS = /^(tsingchain\.ai|www\.tsingchain\.ai|tsingchain\.cn|www\.tsingchain\.cn|[a-z0-9-]+\.workers\.dev|localhost(:\d+)?|127\.0\.0\.1(:\d+)?)$/i;
 const TOPICS = new Set([
   '产品咨询或报价', '现场检测或运维', 'AI 算力中心新建', '既有数据中心液冷改造', '余热利用',
   '现有系统的调试或验证', '合作伙伴', '仿真台测试申请', '其他',
@@ -86,6 +89,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/api/contact') return contact(request, env);
+    if (/^(www\.)?tsingchain\.ai$/i.test(url.hostname)) return Response.redirect(CN_SITE + url.pathname + url.search, 301);
     return env.ASSETS.fetch(request);
   },
 };
