@@ -15,5 +15,6 @@
   // 推送后需手动触发 Deploy Hook「manual-main」（见项目根《部署说明》），或由仓库所有者在 Cloudflare 里重新授权 Git 连接。
   // www→裸域 与 http→https 由 Cloudflare 区域级 Redirect Rule / Always Use HTTPS 负责，不要写进 public/_redirects（Workers 只接受相对路径）。
   "build": { "command": "npm ci && npm run build" },
-  "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling": "404-page" }
+  // run_worker_first：2026-11-09 起整站 301 到 www.tsingchain.cn，请求要先过 Worker，否则静态文件会被直接返回
+  "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling": "404-page", "run_worker_first": true }
 }
