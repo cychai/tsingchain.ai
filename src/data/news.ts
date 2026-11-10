@@ -120,9 +120,9 @@ const items: NewsItem[] = [
     "slug": "liquid-cooling-simulator-online",
     "title": "液冷仿真台上线",
     "date": "2026-10-08",
-    "summary": "北美平台 NextGenergy 提供的免费液冷仿真台已上线，可在浏览器中使用，支持中文和英文。",
+    "summary": "清链科技开发的免费液冷仿真台已上线（授权北美平台 NextGenergy 使用），可在浏览器中使用，支持中文和英文。",
     "body": [
-      "清链科技北美平台 NextGenergy 提供的免费液冷仿真台已上线，网址为 <a href=\"https://sim.nextgenergy.ai\">sim.nextgenergy.ai</a>。仿真台可在浏览器中使用，支持中文和英文，用于方案比较与初步筛选。",
+      "清链科技开发的免费液冷仿真台已上线（授权北美平台 NextGenergy 使用），网址为 <a href=\"https://sim.nextgenergy.ai\">sim.nextgenergy.ai</a>。仿真台可在浏览器中使用，支持中文和英文，用于方案比较与初步筛选。",
       "用户可选择机柜平台、气候条件和管路布置，观察结温、流量、压降与 pPUE 的变化，并通过负载阶跃、泵故障或结垢情景比较系统响应。",
       "所有结果均为模型值，用于方案比较与初步筛选，不替代厂家数据、项目设计计算和验收测试。",
       "欢迎通过清链科技联系页提交使用反馈。"
