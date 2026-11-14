@@ -9,7 +9,7 @@ related: [/evidence/commissioning, /evidence/turnover, /approach/three-clocks]
 ---
 
 <!-- site-body -->
-![](https://substackcdn.com/image/fetch/$s_!Ucr8!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6bb9e42-c666-434e-9cab-b44575e40539_894x596.png)
+![AI安全主题封面插画，含人物肖像与数据中心场景](https://substackcdn.com/image/fetch/$s_!Ucr8!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6bb9e42-c666-434e-9cab-b44575e40539_894x596.png)
 
 昨天 Dario Amodei 发文，说前沿实验室必须主动放慢能力推进的速度，好让安全工作跟上。同时他承诺，Anthropic 将让第三方评估人员进驻公司，权限比照内部员工。Sam Altman 随后表态支持，说 OpenAI 也这么做。马斯克也附议了。
 
@@ -48,7 +48,7 @@ Amodei 方案的第一步，是让外部评估人员进到公司里面办公—�
 
 ---
 
-![](https://substackcdn.com/image/fetch/$s_!Dd9z!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F982fdf22-a6ab-4b47-8c97-cc77b018a9e6_1536x1024.png)
+![电网、数据中心与社区间地下余热管道的插画](https://substackcdn.com/image/fetch/$s_!Dd9z!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F982fdf22-a6ab-4b47-8c97-cc77b018a9e6_1536x1024.png)
 
 ## 一、"把电用明白"正在变成一个交付问题，不是道德问题
 
@@ -90,7 +90,7 @@ Amodei 方案的第一步，是让外部评估人员进到公司里面办公—�
 
 ---
 
-![](https://substackcdn.com/image/fetch/$s_!Uk_O!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0c9bd108-ab78-4651-be95-6271c78f8168_1536x1024.png)
+![工程师在冷冻水泵组前做切换测试并记录的插画](https://substackcdn.com/image/fetch/$s_!Uk_O!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0c9bd108-ab78-4651-be95-6271c78f8168_1536x1024.png)
 
 ## 二、安全从设计开始，但必须扛得住联调
 
@@ -136,7 +136,7 @@ Amodei 方案的第一步，是让外部评估人员进到公司里面办公—�
 
 ---
 
-![](https://substackcdn.com/image/fetch/$s_!h9Px!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F305a0b1f-1c4e-4988-a376-1d7d5ec751d6_1536x1024.png)
+![一排液冷机柜中故障机柜被阀门单独隔离的插画](https://substackcdn.com/image/fetch/$s_!h9Px!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F305a0b1f-1c4e-4988-a376-1d7d5ec751d6_1536x1024.png)
 
 ## 三、液冷运维的底线：把故障关在局部
 

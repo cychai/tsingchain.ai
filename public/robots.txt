@@ -4,6 +4,8 @@
 
 User-agent: *
 Allow: /
+# 站内搜索的索引是给搜索框用的数据文件，不是页面。
+Disallow: /search-index.json
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 # 明确欢迎的检索/引用类抓取器：Baiduspider、Sogou web spider、Bytespider（豆包）、360Spider、YisouSpider、

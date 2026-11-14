@@ -16,7 +16,7 @@ related: [/approach/thermal-path, /platform/cdu]
 
 今年DCW Expo Hall的Diamond级冠名赞助商一共4家——**Schneider Electric、Vertiv、Mitsubishi Heavy Industries（三菱重工）、CATL（宁德时代）**。从发电到配电、从储能到冷却，传统西方巨头、日本重工、中国电池龙头同台的配置，在数据中心大展上前所未有。
 
-![](/wx/dcw-2026-part-1/01.jpg)
+![展会赞助商标志墙，分钻石、铂金、黄金三档](/wx/dcw-2026-part-1/01.jpg)
 
 我们按四个技术板块——**液冷与热管理、电力与配电、储能与UPS、发电与整合能源**——把主要厂商和他们的“硬货”梳理下来。这是上篇，先讲液冷与电力配电这两个传统强项板块的“集体换挡”。
 
@@ -28,7 +28,7 @@ AI机柜功率从20KW冲到120KW再到300KW+，这届DCW上液冷CDU的容量宣
 
 CoolIT带到华盛顿的旗舰产品是 **CHx2000**，官方定位是当前同密度等级里性能最高的CDU。
 
-![](/wx/dcw-2026-part-1/02.jpg)
+![CoolIT Systems 展台的环形吊旗与液冷设备展示](/wx/dcw-2026-part-1/02.jpg)
 
 CHx2000是一台**液-液CDU**，占地仅 **750mm × 1200mm**（标准机柜大小）。在这么小的占地里，它能以 **1.2 LPM/KW** 的流量提供 **2000KW** 冷却能力，二次侧压头**53psi**，支持 **12个120KW的NVIDIA GB200 NVL72机柜**——刚好是一整排。展台上CoolIT也坦率承认，2026年已经出现少数竞品宣布超过2MW的CDU，但CHx2000仍然是同等密度等级里最高性能的产品，而且既能进灰空间也能直接进白空间跟机柜同排部署。
 
@@ -36,7 +36,7 @@ CHx2000是一台**液-液CDU**，占地仅 **750mm × 1200mm**（标准机柜大
 
 LG ES（Eco Solution）业务这次是全面杀入AI数据中心冷却赛道。它带来的**主力CDU产品容量从上一代的650KW直接翻倍到1.4MW**——冷板采用“skived fin”（刨削翅片）结构优化冷液流动，泵端用变频器驱动。LG还展示了虚拟传感器技术，即使部分传感器失效仍能稳定运行。
 
-![](/wx/dcw-2026-part-1/03.jpg)
+![LG 展台上的液冷设备样机与两名讲解人员](/wx/dcw-2026-part-1/03.jpg)
 
 LG这次的看点不止CDU。它展示的是**一整套端到端的AIDC方案**：
 
@@ -51,7 +51,7 @@ LG这次的看点不止CDU。它展示的是**一整套端到端的AIDC方案**�
 
 Johnson Controls这次展的是**三款新硬货+一枚重磅思路**：
 
-![](/wx/dcw-2026-part-1/04.jpg)
+![Johnson Controls 展台的展板、屏幕与洽谈区](/wx/dcw-2026-part-1/04.jpg)
 
 - **YORK YDAM 磁悬浮轴承风冷离心冷水机组** —— 冷量 **3.5MW**，比同级别方案密度高 **20%**，2026年2月3日发布，2026年下半年开始发货；
 - **YORK YK-HT 两级经济器离心冷水机组** —— 比同类机型小 **30%**，干冷器需求最高减少 **60%**，单驱动链支持业内最宽工况范围；
@@ -65,7 +65,7 @@ Johnson Controls还趁势发布了《Thermal Management Reference Design Guide�
 
 Delta（台达）的展位亮点是单柜功率1.1MW、整体效率高达98%的800VDC机柜级电力方案——把高密度DC电源架和配电一体集成，避免大规模改造现有电力基础设施就能支持超高密度算力。
 
-![](/wx/dcw-2026-part-1/05.jpg)
+![数据中心沙盘模型中的集装箱式设备与变压器](/wx/dcw-2026-part-1/05.jpg)
 
 冷却这一侧，Delta带来的是：
 
@@ -81,7 +81,7 @@ Delta（台达）的展位亮点是单柜功率1.1MW、整体效率高达98%的8
 
 Schneider带到DCW的重磅新品是 **NetShelter Power Shelf**——这是一台**专为NVIDIA GB200 NVL72设计的高密度电源架**，单架输出 **33KW @ 48VDC**，与Schneider的NetShelter Open Architecture机柜（OCP启发的开放架构）和EcoStruxure Pod Data Center for AI模块化方案整体集成。
 
-![](/wx/dcw-2026-part-1/06.jpg)
+![展厅内多家厂商展台与悬挂的品牌吊旗](/wx/dcw-2026-part-1/06.jpg)
 
 这次DCW上Schneider真正的C位——是**4月22日（周三）上午8:30在3楼Ballrooms A & B**，Schneider安全电力与数据中心业务部高级副总裁兼CTO **Jim Simonelli** 做的keynote：**《Powering the Megawatt Era: Why 800VDC Is the Future of Data Center Energy》**（《迈入兆瓦时代：为什么800VDC是数据中心能源的未来》）。
 

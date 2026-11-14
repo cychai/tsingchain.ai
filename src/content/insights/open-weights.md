@@ -28,7 +28,7 @@ related: [/approach/thermal-path, /solutions/new-build]
 
 不到24小时，这条评论获得了超过104,000次浏览、66个互动和21条回复。一条LinkedIn评论当然不能证明一个行业结论，但它是一个信号：开放模型、算力效率和AI基础设施，正在触及越来越多人的真实焦虑。
 
-![](/wx/open-weights/01.png)
+![领英上一则关于开放模型的帖子及其下方评论截图](/wx/open-weights/01.png)
 
 图1｜黄仁勋发布开放权重联署信后，作者评论在不到24小时内获得104,794次浏览。
 
@@ -66,13 +66,13 @@ Linux、Apache和MySQL降低了互联网创业的基础成本；Hadoop、Spark�
 
 我是Claude的Max等级用户，每月订阅费用为CA$158.20。
 
-![](/wx/open-weights/02.jpg)
+![订阅账单列表截图，含日期、金额与支付状态](/wx/open-weights/02.jpg)
 
 图2｜作者的Claude账单页面：最近连续三个月的月度账单金额均为CA$158.20。
 
 在一次高强度使用开始约两天后，额度页面显示：All models已使用59%，页面分类标签“Fable”已使用93%（提示栏显示“Fable 5”），已经逼近该单项的每周使用限制。
 
-![](/wx/open-weights/03.jpg)
+![每周用量限额页面截图，显示两条用量进度条](/wx/open-weights/03.jpg)
 
 图3｜高强度使用约两天后的额度页面：All models为59%，Fable为93%；页面提示栏显示“Fable 5”。
 
@@ -125,7 +125,7 @@ Linux、Apache和MySQL降低了互联网创业的基础成本；Hadoop、Spark�
 
 开放权重没有消除AI的瓶颈。它在一定程度上把瓶颈从模型层推向算力层，再从算力层推向兆瓦、电网和冷却系统。
 
-![](/wx/open-weights/04.jpg)
+![从开放权重到算力、电力、液冷再到余热利用的流程图](/wx/open-weights/04.jpg)
 
 图4｜开放权重可以下载，但GPU算力、电力、液冷系统及余热去向仍需在物理世界中建设。
 

@@ -1,0 +1,20 @@
+---
+/**
+ * Small line pictograms for the four "Go deeper" cards on the home page (C-04). Same drawing rules as the system
+ * diagrams: 1.5 px round strokes, colours from tokens through the .dgm classes in global.css, supply blue and
+ * return green, no words. Decorative: the card title next to each one says what it is, so they are aria-hidden.
+ */
+interface Props { name: 'site' | 'path' | 'records' | 'article'; }
+const { name } = Astro.props;
+const art: Record<Props['name'], string> = {
+  // Solutions: a site plan. Plot boundary, a hall with rack rows, plant outside it, one supply and one return run.
+  site: '<rect class="ln zone" x="2" y="3" width="84" height="46" rx="3"/><rect class="ln box" x="10" y="11" width="44" height="30" rx="3"/><path class="ln thin" d="M18 18v16M26 18v16M34 18v16M42 18v16"/><rect class="ln box" x="66" y="14" width="13" height="9" rx="2"/><rect class="ln box" x="66" y="29" width="13" height="9" rx="2"/><path class="ln sup" d="M66 18.5H54"/><path class="ln ret" d="M54 33.5h12"/>',
+  // Approach: the thermal path. Two closed loops that meet only through the heat-exchanger plate; chip on the left, heat rejection on the right.
+  path: '<rect class="ln chip" x="3" y="18" width="14" height="16" rx="3"/><path class="ln sup" d="M38 34H17"/><path class="ln ret" d="M17 18h21"/><path class="ln ret" d="M38 18v8"/><path class="ln sup" d="M38 26v8"/><rect class="ln box" x="38" y="10" width="12" height="32" rx="3"/><path class="ln" d="M44 10v32"/><path class="ln ret" d="M50 18h21"/><path class="ln sup" d="M71 34H50"/><path class="ln sup" d="M50 34v-8"/><path class="ln ret" d="M50 26v-8"/><rect class="ln box" x="71" y="14" width="14" height="24" rx="3"/><path class="ln ht" d="M75 9V3M81 9V3"/>',
+  // Evidence: a record sheet. Three checked rows and a signature line.
+  records: '<g transform="translate(-25)"><path class="ln box" d="M27 3h26l10 10v36H27z"/><path class="ln" d="M53 3v10h10"/><path class="ln ret" d="M33 20l2.5 2.5L40 18M33 29l2.5 2.5L40 27M33 38l2.5 2.5L40 36"/><path class="ln thin" d="M45 20h12M45 29h12M45 38h7"/></g>',
+  // Insights: an article. A heading rule, text lines and a small chart.
+  article: '<g transform="translate(-12)"><rect class="ln box" x="14" y="3" width="60" height="46" rx="3"/><path class="ln" d="M22 13h26"/><path class="ln thin" d="M22 22h20M22 29h20M22 36h14"/><path class="ln thin" d="M50 40h17"/><path class="ln sup" d="M51 36l5-7 4 3 6-10"/></g>',
+};
+---
+<svg class="dgm picto" viewBox="0 0 88 52" width="88" height="52" aria-hidden="true" focusable="false" set:html={art[name]} />

@@ -14,7 +14,7 @@ related: [/approach/thermal-path, /solutions/new-build]
 
 清链科技副总裁、NextGenergy（北美）首席战略官李俊明受邀并以《AIDC液冷的必然与国际发展趋势》为题作了主题发言。
 
-![](/wx/aidc-liquid-cooling-trends/01.jpg)
+![坐满听众的大型会议厅与台上的演讲屏幕](/wx/aidc-liquid-cooling-trends/01.jpg)
 
 李俊明先生刚从华盛顿的Data Center World 2026大会归来，带着四天的一手观察、二十多场分会的现场速记、以及百余家国际厂商的对话笔记，在苏州现场分享了他的判断——液冷已不再是技术升级，而是一场范式转移；AIDC也已不再是商业资产，而变身为国家基础设施。
 
@@ -40,13 +40,13 @@ related: [/approach/thermal-path, /solutions/new-build]
 
 二、为什么是“必然”：一组无法被讨论的数字
 
-![](/wx/aidc-liquid-cooling-trends/02.png)
+![历年各代算力平台单机柜功率增长柱状图](/wx/aidc-liquid-cooling-trends/02.png)
 
 十年时间，功率密度从10kW涨到132kW，13倍。未来三年，还要再涨四倍以上。GB300 NVL72把72颗Blackwell Ultra GPU加36颗Grace CPU集成到一个机柜里，本质上一个机柜就是一台超算。Rubin Ultra则更激进——576颗GPU塞进一个机柜，黄仁勋已经在GTC大会上正式确认。这组数字背后，结论非常硬：风冷已经不是选择题，是物理上做不到。不是要不要做液冷，是不做液冷，机房根本装不下、跑不动这一代芯片。
 
 三、范式转移：液冷之于数据中心，相当于电动化之于汽车
 
-![](/wx/aidc-liquid-cooling-trends/03.jpg)
+![制冷介质、设备形态、厂房设计与电气架构的转变](/wx/aidc-liquid-cooling-trends/03.jpg)
 
 它同时改变了四个维度：
 
@@ -66,7 +66,7 @@ related: [/approach/thermal-path, /solutions/new-build]
 
 四、三重必然：技术、经济、政策同时按下了按钮
 
-![](/wx/aidc-liquid-cooling-trends/04.jpg)
+![液冷的技术、经济、政策三重必然性信息图](/wx/aidc-liquid-cooling-trends/04.jpg)
 
 技术必然。液冷可以把PUE做到1.05–1.10，WUE显著优化。这是高密度散热唯一的解。
 
@@ -82,7 +82,7 @@ related: [/approach/thermal-path, /solutions/new-build]
 
 清链团队刚从华盛顿的Data Center World 2026回来。500多家参展商，历史新高。Omdia数据显示2026年全球数据中心投资将达到1万亿美元。大会主题是“Innovation at Scale”——AI时代的基调。
 
-![](/wx/aidc-liquid-cooling-trends/05.jpg)
+![Data Center World 2026 大会概况信息图](/wx/aidc-liquid-cooling-trends/05.jpg)
 
 最直接的现场感受是：“液冷”这个词，已经从分论坛走到了主舞台。
 
@@ -102,7 +102,7 @@ Vertiv全球电力业务副总裁Peter Panfil在Panel Discussion上的原话：�
 
 判断二：在美国，数据中心已经是国家基础设施
 
-![](/wx/aidc-liquid-cooling-trends/06.jpg)
+![美国AI数据中心相关行政令与行动计划时间线](/wx/aidc-liquid-cooling-trends/06.jpg)
 
 很多国内同行还没意识到这个变化。时间轴看一下：
 
@@ -166,7 +166,7 @@ NVIDIA和Vertiv联合开发的GB200参考架构，把部署时间缩短了最多
 
 六、回到中国：我们的牌和我们的功课
 
-![](/wx/aidc-liquid-cooling-trends/07.jpg)
+![中国、北美、欧洲液冷产业各维度星级对比表](/wx/aidc-liquid-cooling-trends/07.jpg)
 
 讲完国际，回到中国。中国在液冷上的国际比较优势在哪里？我们做了一个跨区域的对比：
 

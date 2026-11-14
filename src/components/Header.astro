@@ -29,11 +29,15 @@ const sub = (label: string) => `${label}子菜单`;
         <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
       ))}
     </nav>
-    <a href="/company/contact" class="btn hdr-cta">联系我们</a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" data-menu data-label-open="关闭" data-label-closed="菜单"><span class="menu-ico" aria-hidden="true"><i></i><i></i><i></i></span><span data-menu-label>菜单</span></button>
+    <div class="hdr-end">
+      <button type="button" class="srch-btn" data-search aria-haspopup="dialog" aria-controls="srch" aria-label="搜索" title="搜索"><Icon name="search" /></button>
+      <a href="/company/contact" class="btn hdr-cta">联系我们</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" data-menu data-label-open="关闭" data-label-closed="菜单"><span class="menu-ico" aria-hidden="true"><i></i><i></i><i></i></span><span data-menu-label>菜单</span></button>
+    </div>
   </div>
   <div class="mnav" id="mnav">
     <div class="wrap">
+      <button type="button" class="msrch" data-search aria-haspopup="dialog" aria-controls="srch"><Icon name="search" />搜索</button>
       {nav.map((n) => menu[n.href] ? (
         <div class="mrow">
           <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
@@ -57,6 +61,16 @@ const sub = (label: string) => `${label}子菜单`;
   </div>
   <div class="mnav-scrim" data-menu-scrim hidden></div>
 </header>
+<noscript><style is:inline>[data-search] { display: none !important; }</style></noscript>
+<dialog class="srch" id="srch" aria-label="搜索本站" data-hint="输入关键词。上下方向键选择，回车打开，Esc 关闭。" data-none="没有找到与「{q}」相关的内容。" data-count="共 {n} 条结果" data-error="搜索暂时不可用，请使用菜单或页脚链接。">
+  <div class="srch-top">
+    <Icon name="search" />
+    <input type="text" inputmode="search" role="combobox" aria-label="搜索本站" placeholder="搜索本站" aria-expanded="false" aria-controls="srch-list" aria-autocomplete="list" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" />
+    <button type="button" class="srch-x" data-search-close>关闭</button>
+  </div>
+  <div class="srch-list" id="srch-list" role="listbox" aria-label="搜索结果"></div>
+  <p class="srch-msg" role="status">输入关键词。上下方向键选择，回车打开，Esc 关闭。</p>
+</dialog>
 <script>
   import '@/scripts/site';
 </script>

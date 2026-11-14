@@ -22,7 +22,7 @@ related: [/solutions/heat-reuse]
 
 这届DCW的Expo Hall & Reception冠名赞助商一共4家——**Schneider Electric、Vertiv、Mitsubishi Heavy Industries、和CATL**。这是CATL第一次作为Diamond级赞助商出现在北美数据中心旗舰展的主位，和前三家传统电力-冷却-发电巨头并列——**本身就是一个强信号：储能厂商正在被承认为AI数据中心基础设施的“第四根支柱”**。
 
-![](/wx/dcw-2026-part-2/01.jpg)
+![展会赞助商标志墙，分钻石、铂金、黄金三档](/wx/dcw-2026-part-2/01.jpg)
 
 CATL的数据中心布局其实由三条主线组成——这些产品线在展会期间的讨论里被反复提到：
 
@@ -40,7 +40,7 @@ CATL的数据中心布局其实由三条主线组成——这些产品线在展�
 
 Ampace（新能安科技，由ATL和CATL共同投资）这次在展台做了一个更贴地气的展品：**PU200 半固态UPS电池**，单模块 **462kW功率 / 56.52kWh容量**，UL1973认证齐全，**15年设计寿命**，可扩展至9柜。这是把“CATL系”技术直接切进机房UPS这个最紧邻GPU的电力保护环节。
 
-![](/wx/dcw-2026-part-2/02.jpg)
+![展台前聚集交流的观众与工作人员](/wx/dcw-2026-part-2/02.jpg)
 
 ## 四、发电与整合能源：三菱重工的“工业化”叙事
 
@@ -48,7 +48,7 @@ Ampace（新能安科技，由ATL和CATL共同投资）这次在展台做了一�
 
 Diamond赞助商keynote的最后一天压轴位置留给了MHI。**4月23日（周四）**，MHI成长战略办公室**数据中心与能源管理高级总经理 Shinichiro Gomi（五味慎一郎）** 做了题为 **《From Commercial to Industrial: Scaling AI Data Centers with Integrated Energy and Cooling Systems》**（《从商用到工业：用整合的能源与冷却系统扩展AI数据中心》）的keynote。
 
-![](/wx/dcw-2026-part-2/03.jpg)
+![展厅主通道两侧的厂商展台与往来观众](/wx/dcw-2026-part-2/03.jpg)
 
 Gomi没有卖某一台具体产品，而是给出了三条**范式转换路径**：
 
@@ -68,7 +68,7 @@ MHI在产品层面的武器库：
 
 在4家Diamond、一众Platinum/Gold/Silver赞助商之外，这届DCW还有一些细分领域的代表性厂商和现场观点：
 
-![](/wx/dcw-2026-part-2/04.jpg)
+![ABB 展台的红色灯箱立柱、吊旗与洽谈观众](/wx/dcw-2026-part-2/04.jpg)
 
 - **Airsys Cooling**展出 UniCool、FluidCool-X、以及专利LiquidRack喷雾冷却；
 - **Chatsworth Products / CPI**VersaEdge 壁挂式边缘机柜；
@@ -85,7 +85,7 @@ MHI在产品层面的武器库：
 
 **4月20日（周一）9:10am——Investor Briefing**：Switch CFO **Madonna Park** 的keynote主题是“Investing at AI Scale: How Switch is Building Infrastructure that Lowers Costs and Leads the Market”，给出关键数字：**到2030年全球数据中心电力需求将超过200GW**。同日Omdia首席分析师 **Maxine Holt** 给出 **2026年全球IT支出6.07万亿美元**、**Vlad Galabov预测数据中心市场到2030年将超过1.9万亿美元** 的数字。
 
-**![](/wx/dcw-2026-part-2/05.jpg)
+**![大型会议厅内坐满听众，远处舞台与大屏幕](/wx/dcw-2026-part-2/05.jpg)
 
 4月21日（周二）—— Vertiv CPTO Scott Armul Diamond keynote**：“AI Factories: The Physical Engines Driving AI”。同日有 **C-Suite Conversation** panel，**Aligned Data Centers首席创新官（Chief Innovation Officer）Phill Lawson-Shanks** 在台上讲了一个引发整场共鸣的客户故事：
 

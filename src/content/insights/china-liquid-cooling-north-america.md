@@ -12,13 +12,13 @@ related: [/solutions/new-build, /evidence/standards]
 <!-- wechat-body -->
 6月3—5日，第7届中国数据中心绿色能源大会（CDCC）在上海新国际博览中心（SNIEC）举行，与第12届中国（上海）国际数据中心产业展览会、2026中国智算中心全栈技术大会，以及E-Power全电展、G-Power动力展、长时储能展同期开幕。今年大会以“2026 Ai-TOKEN - 从能开始（Energy is the Beginning）”为主线，把“算力”与“能源”两条线摆在了同一个主舞台上。
 
-![](/wx/china-liquid-cooling-north-america/01.jpg)
+![上海新国际博览中心入口厅前排队入场的人群](/wx/china-liquid-cooling-north-america/01.jpg)
 
 第7届中国数据中心绿色能源大会 · 上海新国际博览中心（SNIEC）
 
 继苏州液冷峰会之后，清链科技副总裁、NextGenergy CEO李俊明先生再次受邀登台。因行程冲突未能亲临现场，他以远程视频方式，作了题为《AIDC国际发展趋势与中国厂商出海北美路径》的主题演讲，并在开场向几位相约见面的老友致歉。
 
-![](/wx/china-liquid-cooling-north-america/02.jpg)
+![展馆外的数据中心展与电力展大型宣传展板和观众](/wx/china-liquid-cooling-north-america/02.jpg)
 
 大会主画面 · 2026 Ai-TOKEN「从能开始」· 6月3—5日 · 上海
 
@@ -28,7 +28,7 @@ related: [/solutions/new-build, /evidence/standards]
 
 李俊明简单介绍清链科技后，为现场抛出了三组重磅数据，并称把它们摆在一起，足以讲清楚“数据中心”当下所处的时代。
 
-![](/wx/china-liquid-cooling-north-america/03.jpg)
+![演讲幻灯片：资本、Token用量与数据中心三组数据](/wx/china-liquid-cooling-north-america/03.jpg)
 
 开场 · 大时代的三组数据
 
@@ -58,7 +58,7 @@ related: [/solutions/new-build, /evidence/standards]
 
 李俊明将液冷归结为“三重必然”：技术上，液体的载热能力约是空气的3,500倍，PUE可做到1.05—1.10，是高密度散热唯一的解；经济上，在高密度场景中，液冷的总拥有成本已反过来低于风冷；政策上，中国“东数西算”、美国EO 14318、欧盟能效指令，从三个方向把它从“可选项”变成“必选项”。
 
-![](/wx/china-liquid-cooling-north-america/04.jpg)
+![演讲幻灯片：液冷的技术、经济、政策三重必然](/wx/china-liquid-cooling-north-america/04.jpg)
 
 PART 01 · WHY LIQUID COOLING · 风冷已到极限，液冷是三重必然
 
@@ -78,7 +78,7 @@ PART 01 · WHY LIQUID COOLING · 风冷已到极限，液冷是三重必然
 
 李俊明指出，国际巨头如今处于爆单状态，企业若想找维谛这样的头部合作，排期基本要排到18个月之后，这一巨大的供给缺口，正是中国液冷厂商切进北美的窗口。但他坦言门槛同样真实，并将其总结为四道坎：政策与关税、技术标准与规范、法律与合规、售后与本地化服务。他强调，产品恰恰是中国厂商的强项，真正绊住大家的，是这四道外部的坎。
 
-![](/wx/china-liquid-cooling-north-america/05.jpg)
+![演讲幻灯片：液冷出海北美面临的四道门槛](/wx/china-liquid-cooling-north-america/05.jpg)
 
 PART 02 · GOING OVERSEAS · 机会很大，但有四道坎
 
@@ -86,7 +86,7 @@ PART 02 · GOING OVERSEAS · 机会很大，但有四道坎
 
 在拆解四道坎之前，李俊明先给出清链摸索出的路径，共三步：第一步“规范入海”——先把北美的标准、认证、平台规范引进来，作为研发与方案的起点；第二步“产品出海”——按引进的规范设计并认证产品，再输出过去；第三步“生态出海”——不只是卖货，售后、服务、上下游供应链都要融进北美当地生态。
 
-![](/wx/china-liquid-cooling-north-america/06.jpg)
+![演讲幻灯片：出海北美的三段式进阶路径](/wx/china-liquid-cooling-north-america/06.jpg)
 
 PART 02 · THE CORE FRAMEWORK · 出海北美，三段式进阶路径
 
@@ -120,7 +120,7 @@ PART 02 · THE CORE FRAMEWORK · 出海北美，三段式进阶路径
 
 谈到清链自身，李俊明用“跨境闭环”概括：清链科技在中国一端做方案、设计、模块化集成与远程服务，NextGenergy在北美一端做端到端落地——从咨询设计，到集成交付，再到生态共建。
 
-![](/wx/china-liquid-cooling-north-america/07.jpg)
+![演讲幻灯片：中国方案与北美落地的跨境协作模式](/wx/china-liquid-cooling-north-america/07.jpg)
 
 PART 02 · OPERATING MODEL · 跨境闭环：方案在中国，落地在北美
 

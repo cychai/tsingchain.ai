@@ -61,6 +61,18 @@ items.forEach((it) => {
 d.addEventListener('click', (e) => items.forEach((it) => it.contains(e.target as Node) || shut(it)));
 d.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.preventDefault(); setMenu(false, true); } });
 
+// ---- Site search: a native <dialog>. Its code and its index are fetched the first time it is opened.
+const sbox = d.getElementById('srch') as HTMLDialogElement | null;
+$$('[data-search]').forEach((b) => {
+  if (!sbox?.showModal) { b.hidden = true; return; }
+  b.addEventListener('click', async () => { setMenu(false); sbox.showModal(); $<HTMLInputElement>('input', sbox)?.select(); (await import('./search')).default(sbox); });
+});
+
+// ---- Printing: collapsed notes (<details data-print>) are opened for the printout and closed again afterwards.
+let shut4print: HTMLDetailsElement[] = [];
+addEventListener('beforeprint', () => { shut4print = $$<HTMLDetailsElement>('details[data-print]:not([open])'); shut4print.forEach((x) => (x.open = true)); });
+addEventListener('afterprint', () => { shut4print.forEach((x) => (x.open = false)); shut4print = []; });
+
 // ---- Scroll-driven bits, one rAF-throttled handler: back-to-top, article reading progress, current-section highlight.
 const toTop = $('[data-top]');
 const bar = $('[data-progress]');

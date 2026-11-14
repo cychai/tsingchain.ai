@@ -547,3 +547,55 @@ body:has(.analytics-consent:not([hidden])) .to-top { bottom: 6.5rem; }
 ::selection { background: var(--blue); color: var(--on-ink); }
 .section.ink ::selection { background: var(--paper); color: var(--ink); }
 @media print { .hero-motif, .sprite { display: none !important; } .hero[data-sec]::after { display: none; } .tpl { box-shadow: none; } .section.ink { box-shadow: none; } }
+
+/* ---------- Content items C-02, C-04, C-10 ---------- */
+/* Site search: an icon button in the header (and a row in the phone menu) opens a native <dialog>.
+   The search code and its index are fetched on first use; see src/scripts/search.ts. */
+.hdr-end { display: flex; align-items: center; gap: var(--sp-2); flex: none; }
+.srch-btn { display: grid; place-items: center; flex: none; width: var(--tap); height: var(--tap); padding: 0; border: 0; border-radius: var(--r-pill); background: none; color: var(--ink-2); cursor: pointer; }
+.srch-btn:hover, .srch-btn:active { background: var(--paper-2); color: var(--ink); }
+.srch-btn .ico { width: 1.25rem; height: 1.25rem; }
+.msrch { display: flex; align-items: center; gap: var(--sp-2); width: 100%; min-height: 48px; padding: 0; border: 0; border-bottom: 1px solid var(--line-2); background: none; color: var(--ink-2); font: inherit; font-weight: 500; text-align: left; cursor: pointer; }
+.msrch:active { background: var(--paper-2); }
+.msrch .ico { width: 1.125rem; height: 1.125rem; }
+.srch { width: min(40rem, calc(100vw - 2rem)); max-width: none; max-height: min(36rem, calc(100vh - 6rem)); max-height: min(36rem, calc(100dvh - 6rem)); margin: 4.5rem auto auto; padding: 0; border: 1px solid var(--line); border-radius: var(--r); background: var(--white); color: var(--ink); box-shadow: var(--shadow-1); overflow: hidden; }
+.srch[open] { display: flex; flex-direction: column; }
+.srch::backdrop { background: var(--scrim); }
+.srch-top { display: flex; align-items: center; gap: var(--sp-2); flex: none; padding: 0 var(--sp-2) 0 var(--sp-4); border-bottom: 1px solid var(--line-2); color: var(--ink-3); }
+.srch-top:focus-within { border-bottom-color: var(--focus); box-shadow: 0 1px 0 var(--focus); }
+.srch-top input:focus, .srch-top input:focus-visible { outline: 0; box-shadow: none; }
+.srch-top .ico { width: 1.25rem; height: 1.25rem; }
+.srch-top input { flex: 1; min-width: 0; height: 3.5rem; padding: 0; border: 0; outline: 0; background: none; color: var(--ink); font: inherit; font-size: var(--fs-base); appearance: none; }
+.srch-x { flex: none; min-width: var(--tap); min-height: var(--tap); padding: 0 var(--sp-3); border: 0; border-radius: var(--r-pill); background: none; color: var(--ink-2); font: inherit; font-size: var(--fs-sm); font-weight: 500; cursor: pointer; }
+.srch-x:hover { background: var(--paper-2); color: var(--ink); }
+.srch-list { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: var(--sp-2); }
+.srch-list:empty { display: none; }
+.srch-list a { display: block; padding: var(--sp-3); border-radius: var(--r-sm); color: var(--ink); text-decoration: none; }
+.srch-list a[aria-selected="true"] { background: var(--paper-2); }
+.srch-list .t { display: inline; margin-right: var(--sp-2); font-weight: 600; }
+.srch-list .s { display: inline-block; font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.srch-list .x { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 0.15rem; font-size: var(--fs-sm); line-height: 1.5; color: var(--ink-2); }
+.srch-list mark { background: var(--water-2); color: inherit; border-radius: 2px; }
+.srch-msg { flex: none; margin: 0; padding: var(--sp-3) var(--sp-4); font-size: var(--fs-sm); color: var(--ink-3); }
+.srch-list:not(:empty) + .srch-msg { border-top: 1px solid var(--line-2); font-size: var(--fs-xs); }
+@media (max-width: 480px) { .srch { margin-top: 0.75rem; max-height: calc(100vh - 1.5rem); max-height: calc(100dvh - 1.5rem); } .hdr-end { gap: var(--sp-1); } }
+@media (min-width: 960px) and (max-width: 1099px) { .hdr-end { gap: 0; } }
+
+/* Pictograms on the home page "Go deeper" cards: diagram line art at icon size, no words. */
+.dgm.picto { display: block; width: 5.5rem; height: auto; margin: 0 0 var(--sp-2); overflow: visible; }
+
+/* Home page figures: a large numeral, its label, and the counting conditions folded into a native <details>
+   (closed by default, opens without script, printed open). The condition text itself is unchanged. */
+.stat .v { font-size: var(--fs-2xl); letter-spacing: -0.01em; }
+@media (max-width: 480px) { .stat .v { font-size: var(--fs-xl); } }
+.stat-basis { margin-top: var(--sp-2); }
+.stat-basis summary { display: inline-flex; align-items: center; gap: 0.35rem; min-height: var(--tap); padding: 0 var(--sp-3) 0 0; font-size: var(--fs-sm); font-weight: 600; color: var(--water); cursor: pointer; list-style: none; border-radius: var(--r-sm); }
+.stat-basis summary::-webkit-details-marker { display: none; }
+.stat-basis summary::before { content: "+"; width: 0.9rem; font-family: var(--mono); color: var(--ink-3); }
+.stat-basis[open] summary::before { content: "−"; }
+.stat-basis .cond { margin-top: 0; padding-bottom: var(--sp-2); }
+@media print {
+  .srch, .srch-btn, .msrch { display: none !important; }
+  .stat-basis summary { display: none; }
+  .stat-basis::details-content { content-visibility: visible; display: block; height: auto; }
+}

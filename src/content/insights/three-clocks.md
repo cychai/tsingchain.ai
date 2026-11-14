@@ -12,7 +12,7 @@ related: [/approach/three-clocks, /evidence/leak-points, /tools/leak-checklist]
 <!-- wechat-body -->
 *制造、交付、服役——同一个“漏”字背后，是三个时钟、三类负责人和三套证据。*
 
-![](/wx/three-clocks/01.jpg)
+![机房管道上并排三只表盘，末端接头滴水](/wx/three-clocks/01.jpg)
 
 “漏液”是一个词，干着三份活。
 
@@ -22,7 +22,7 @@ related: [/approach/three-clocks, /evidence/leak-points, /tools/leak-checklist]
 
 **先说清楚边界：这不是按漏点部位做的互斥分类。** 一个接头可以在第一天漏，也可以在第三年漏；腐蚀最后也可能穿透冷板或管壁。我按的是**风险最常暴露的三个时间窗口——制造、交付、服役**。因为这三个窗口对应着**三套证据、三类负责人、三种成本归属**。
 
-![](/wx/three-clocks/02.jpg)
+![制造、交付、服役三个时钟对应的检验与记录示意图](/wx/three-clocks/02.jpg)
 
 ## 第一层｜制造时钟
 
@@ -74,7 +74,7 @@ related: [/approach/three-clocks, /evidence/leak-points, /tools/leak-checklist]
 它必须从三个时钟里拿出来单说。**凝露可能在调试第一天就发生**：供液温度低于局部露点，水就出现在从未被破坏过的表面上。电气后果和漏液一模一样，根因却是温湿度、保温或控制设定。
 解法：控制系统按设计的**露点安全裕量**限制供液温度（不是零裕量），并明确**传感器故障时的保守回退逻辑**；保温与防潮层完整；露点/湿度传感器冗余。检测上要注意：**感液绳分不清凝露和真实泄漏**，需要配合露点与表面温度一起判读。
 
-![](/wx/three-clocks/03.jpg)
+![泄漏检测四步链条示意图：检测、推断、自检、干预](/wx/three-clocks/03.jpg)
 
 ## 检测不是一个传感器，是一条从发现到隔离的链
 
@@ -96,7 +96,7 @@ related: [/approach/three-clocks, /evidence/leak-points, /tools/leak-checklist]
 
 这说明“检测到并报警”已经不够了。**隔离状态本身，正在变成一项要交付的证据。**
 
-![](/wx/three-clocks/04.jpg)
+![液冷泄漏风险三角：概率、严重度、可检测性与证据](/wx/three-clocks/04.jpg)
 
 ## 从二分法升级成三因子
 
@@ -124,7 +124,7 @@ related: [/approach/three-clocks, /evidence/leak-points, /tools/leak-checklist]
 
 ## 一张表
 
-![](/wx/three-clocks/05.jpg)
+![液冷泄漏三个时钟对照表：制造、交付、服役](/wx/three-clocks/05.jpg)
 
 ## 这篇文章真正想说的
 

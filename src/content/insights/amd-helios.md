@@ -12,7 +12,7 @@ related: [/approach/thermal-path, /tools/approach-temp]
 <!-- wechat-body -->
 这不只是一台新机柜，而是一次AI基础设施产业角色的重构
 
-![](/wx/amd-helios/01.jpg)
+![会场大厅上方悬挂的 Advancing AI 主题横幅](/wx/amd-helios/01.jpg)
 
 AMD Advancing AI 2026活动现场，旧金山
 
@@ -22,7 +22,7 @@ AMD Advancing AI 2026活动现场，旧金山
 
 这与过去围绕单颗芯片展开的竞争，已经不在同一个层面。
 
-![](/wx/amd-helios/02.jpg)
+![AMD 发布会现场，演讲者站在舞台大屏幕前](/wx/amd-helios/02.jpg)
 
 AMD董事长兼CEO Lisa Su在Advancing AI 2026发表主题演讲
 
@@ -48,7 +48,7 @@ AMD当前公布的标准Helios参考设计集成72颗AMD Instinct MI455X GPU、6
 
 四套scale-up cartridges通过UALink over Ethernet（UALoE）连接机柜内GPU，AMD公布的总scale-up带宽最高为260TB/s；基于Pensando的scale-out网络带宽最高为43TB/s。以上均为AMD公布的峰值或理论规格，并不等同于具体模型或生产环境中的实际性能。
 
-![](/wx/amd-helios/03.jpg)
+![展厅中展出的 AMD Helios 机柜与参观人群](/wx/amd-helios/03.jpg)
 
 AMD Helios机柜级系统在Advancing AI 2026现场展出
 
@@ -78,7 +78,7 @@ Helios试图在这一层面建立AMD的回答。它采用Meta提交给Open Compu
 
 这里的“开放”不仅是技术标准，也是一种产业组织方式：AMD定义CPU、GPU、网络和参考架构；大型客户参与标准和工作负载优化；Celestica参与scale-up交换机研发和制造；Sanmina、Wiwynn、Wistron和Inventec等厂商参与系统制造；HPE等OEM把参考架构转化为面向客户的产品。
 
-![](/wx/amd-helios/04.jpg)
+![AMD Helios 整机柜产品渲染图](/wx/amd-helios/04.jpg)
 
 AMD Helios机柜级参考设计。图片来源：AMD
 
