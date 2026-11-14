@@ -20,6 +20,7 @@ const sub = (label: string) => `${label}子菜单`;
             {menu[n.href].map((g) => (
               <div class="dd-g">
                 {g.title && <a class="dd-h" href={g.href} aria-current={here(g.href!)}>{g.title}</a>}
+                {g.lede && <p class="dd-p">{g.lede}</p>}
                 {g.links.map(([href, label]) => <a href={href} aria-current={here(href)}>{label}</a>)}
               </div>
             ))}

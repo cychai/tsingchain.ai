@@ -30,7 +30,8 @@ hdr?.addEventListener('focusout', (e) => {
 });
 matchMedia('(min-width: 960px)').addEventListener('change', (e) => { if (e.matches && isOpen()) setMenu(false); });
 
-// ---- Desktop dropdowns. Hover opens them in CSS; the chevron button, arrow keys and Esc are handled here.
+// ---- Desktop dropdowns. One panel at a time, opened by hover (with intent), by the caret button, or by the arrow keys.
+const nav = $('.nav');
 const items = $$('[data-dd]');
 const shut = (it: HTMLElement, refocus = false) => {
   it.classList.remove('open');
@@ -41,14 +42,41 @@ const shut = (it: HTMLElement, refocus = false) => {
 const show = (it: HTMLElement) => {
   items.forEach((o) => o !== it && shut(o));
   it.classList.add('open');
-  it.classList.remove('off');
   $('button', it)?.setAttribute('aria-expanded', 'true');
 };
+const opened = () => items.find((it) => it.classList.contains('open'));
+// Hover intent. A panel opens 90 ms after the pointer settles on its item and closes 240 ms after it leaves, so a pointer
+// that only crosses the bar opens nothing and a small overshoot does not close what was open. While one panel is open,
+// a pointer heading for it (inside the triangle from its last position to the panel's top corners) may cross a neighbour
+// without switching panels; any other move to a neighbour switches almost at once.
+let tOpen = 0, tShut = 0, prev = [0, 0], cur = [0, 0];
+const side = (a: number[], b: number[], c: number[]) => (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+const aiming = (p: number[]) => {
+  const on = opened();
+  const dd = on && $('.dd', on)?.getBoundingClientRect();
+  if (!dd || p[1] <= prev[1]) return false;
+  const a = [dd.left, dd.top], b = [dd.right, dd.top];
+  const s1 = side(p, prev, a), s2 = side(p, a, b), s3 = side(p, b, prev);
+  return !((s1 < 0 || s2 < 0 || s3 < 0) && (s1 > 0 || s2 > 0 || s3 > 0));
+};
+nav?.classList.add('js');
+nav?.addEventListener('pointermove', (e) => { prev = cur; cur = [e.clientX, e.clientY]; });
 items.forEach((it) => {
-  $('button', it)?.addEventListener('click', () => (it.classList.contains('open') ? shut(it) : show(it)));
+  $('button', it)?.addEventListener('click', () => { clearTimeout(tOpen); if (it.classList.contains('open')) shut(it); else show(it); });
+  it.addEventListener('pointerenter', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    clearTimeout(tShut); clearTimeout(tOpen);
+    const other = opened();
+    if (other === it) return;
+    tOpen = window.setTimeout(() => show(it), !other ? 90 : aiming([e.clientX, e.clientY]) ? 320 : 40);
+  });
+  it.addEventListener('pointerleave', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    clearTimeout(tOpen);
+    tShut = window.setTimeout(() => items.forEach((o) => o.contains(d.activeElement) || shut(o)), 240);
+  });
   it.addEventListener('keydown', (e) => {
     const k = e.key;
-    if (k === 'Escape') { shut(it, it.contains(d.activeElement)); it.classList.add('off'); }
     if (k !== 'ArrowDown' && k !== 'ArrowUp') return;
     e.preventDefault();
     show(it);
@@ -56,10 +84,14 @@ items.forEach((it) => {
     l[(i + (k === 'ArrowDown' ? 1 : l.length - (i < 0 ? 0 : 1))) % l.length].focus();
   });
   it.addEventListener('focusout', (e) => { if (!it.contains(e.relatedTarget as Node)) shut(it); });
-  for (const ev of ['mouseenter', 'mouseleave']) it.addEventListener(ev, () => it.classList.remove('off'));
 });
 d.addEventListener('click', (e) => items.forEach((it) => it.contains(e.target as Node) || shut(it)));
-d.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.preventDefault(); setMenu(false, true); } });
+d.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const on = opened();
+  if (on) { clearTimeout(tOpen); shut(on, on.contains(d.activeElement)); }
+  else if (isOpen()) { e.preventDefault(); setMenu(false, true); }
+});
 
 // ---- Site search: a native <dialog>. Its code and its index are fetched the first time it is opened.
 const sbox = d.getElementById('srch') as HTMLDialogElement | null;
