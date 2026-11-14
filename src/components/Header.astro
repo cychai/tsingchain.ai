@@ -39,12 +39,11 @@ const sub = (label: string) => `${label}子菜单`;
   </div>
   <div class="mnav" id="mnav">
     <div class="wrap">
-      <button type="button" class="msrch" data-search aria-haspopup="dialog" aria-controls="srch"><Icon name="search" />搜索</button>
       {nav.map((n) => menu[n.href] ? (
         <div class="mrow">
           <a href={n.href} aria-current={cur(n.href, isCurrent(n))}>{n.label}</a>
           <details name="mnav" open={isCurrent(n)}>
-            <summary aria-label={sub(n.label)}><Icon name="chevron-down" /></summary>
+            <summary aria-label={sub(n.label)}><Icon name="caret" /></summary>
             <div class="msub">
               {menu[n.href].map((g) => (
                 <>
@@ -58,10 +57,13 @@ const sub = (label: string) => `${label}子菜单`;
       ) : (
         <a href={n.href} aria-current={cur(n.href, isCurrent(n))}>{n.label}</a>
       ))}
-      <a href="/company/contact" aria-current={cur('/company/contact')}>联系我们</a>
+    </div>
+    <div class="mbar">
+      <button type="button" class="msrch" data-search aria-haspopup="dialog" aria-controls="srch"><Icon name="search" />搜索</button>
+      <a class="mcta" href="/company/contact" aria-current={cur('/company/contact')}>联系我们</a>
     </div>
   </div>
-  <div class="mnav-scrim" data-menu-scrim hidden></div>
+  <div class="mnav-scrim" data-menu-scrim></div>
 </header>
 <noscript><style is:inline>[data-search] { display: none !important; }</style></noscript>
 <dialog class="srch" id="srch" aria-label="搜索本站" data-hint="输入关键词。上下方向键选择，回车打开，Esc 关闭。" data-none="没有找到与「{q}」相关的内容。" data-count="共 {n} 条结果" data-error="搜索暂时不可用，请使用菜单或页脚链接。">

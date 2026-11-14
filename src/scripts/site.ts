@@ -6,11 +6,17 @@ const $ = <T extends HTMLElement>(s: string, r: ParentNode = d) => r.querySelect
 const $$ = <T extends HTMLElement>(s: string, r: ParentNode = d) => [...r.querySelectorAll<T>(s)];
 
 // ---- Phone menu: locks page scroll while open; closes on Esc, on a tap outside, when focus leaves the header, and at desktop width.
+// While the analytics banner is showing, the sheet stops above it, so the Search / Contact bar is never covered.
 const btn = $<HTMLButtonElement>('[data-menu]');
 const menu = d.getElementById('mnav');
 const scrim = $('[data-menu-scrim]');
 const hdr = btn?.closest('.hdr');
 const isOpen = () => !!menu?.classList.contains('open');
+const fit = () => {
+  const note = $('.analytics-consent:not([hidden])');
+  if (note) menu?.style.setProperty('--mnav-b', `${Math.max(0, innerHeight - note.getBoundingClientRect().top)}px`);
+};
+addEventListener('resize', () => { if (isOpen()) fit(); });
 const setMenu = (open: boolean, refocus = false) => {
   if (!btn || !menu) return;
   menu.classList.toggle('open', open);
@@ -18,8 +24,7 @@ const setMenu = (open: boolean, refocus = false) => {
   btn.setAttribute('aria-expanded', String(open));
   const label = $('[data-menu-label]', btn);
   if (label) label.textContent = (open ? btn.dataset.labelOpen : btn.dataset.labelClosed) ?? '';
-  if (scrim) scrim.hidden = !open;
-  if (open) $('a', menu)?.focus({ preventScroll: true });
+  if (open) { fit(); $('a', menu)?.focus({ preventScroll: true }); }
   else if (refocus) btn.focus();
 };
 btn?.addEventListener('click', () => setMenu(!isOpen(), true));
@@ -29,6 +34,8 @@ hdr?.addEventListener('focusout', (e) => {
   if (isOpen() && to && !hdr.contains(to)) setMenu(false);
 });
 matchMedia('(min-width: 960px)').addEventListener('change', (e) => { if (e.matches && isOpen()) setMenu(false); });
+// Opening one section closes the others (native `name`), which can move the opened one; keep its row in view.
+if (menu) $$<HTMLDetailsElement>('details', menu).forEach((x) => x.addEventListener('toggle', () => { if (x.open && isOpen()) x.parentElement?.scrollIntoView({ block: 'nearest' }); }));
 
 // ---- Desktop dropdowns. One panel at a time, opened by hover (with intent), by the caret button, or by the arrow keys.
 const nav = $('.nav');
