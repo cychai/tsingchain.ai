@@ -3,7 +3,7 @@ import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Claim from '@/components/Claim.astro';
 import Related from '@/components/Related.astro';
-import { cases, caseFields } from '@/data/cases';
+import { cases, caseFields, NDA_LINE } from '@/data/cases';
 import Faq from '@/components/Faq.astro';
 import { faqs } from '@/data/geo';
 import { caseListLd, faqLd } from '@/lib/ld';
@@ -12,7 +12,7 @@ const qa = faqs[path];
 const ld = [caseListLd(path, cases), faqLd(path, qa)];
 ---
 <Base ld={ld} title="项目案例" description="清链科技液冷与余热利用项目案例：10 MW 极端气候液冷算力中心、25 MW 城镇供热、5 MW 工业楼宇供暖、12 MW 恒温水产养殖。">
-  <PageHero eyebrow="项目案例" title="规模化落地验证" lede="自 2020 年第一代浸没式液冷至 2026 年一季度，累计交付液冷设备近 1000 MW（指设备交付容量，不等于在运容量）。以下为可公开的代表性项目，均位于亚洲，每个项目按同样六栏说明；没有公开的信息注明「签署保密协议后说明」；系统图与验收记录不公开。" />
+  <PageHero eyebrow="项目案例" title="规模化落地验证" lede="自 2020 年第一代浸没式液冷至 2026 年一季度，累计交付液冷设备近 1000 MW（指设备交付容量，不等于在运容量）。以下为可公开的代表性项目，均位于亚洲，每个项目按同样的栏目说明，未公开的信息统一列在每个项目末尾，签署保密协议后说明；系统图与验收记录不公开。" />
   <section class="section">
     <div class="wrap">
       <div class="grid c2">
@@ -22,7 +22,8 @@ const ld = [caseListLd(path, cases), faqLd(path, qa)];
             <div class="body">
               <span class="tag">{c.tag}</span>
               <h3 style="margin:0">{c.title}</h3>
-              <dl class="six">{caseFields.map(([k, l]) => <><dt>{l}</dt><dd>{c[k]}</dd></>)}</dl>
+              <dl class="six">{caseFields.filter(([k]) => c[k]).map(([k, l]) => <><dt>{l}</dt><dd>{c[k]}</dd></>)}</dl>
+              <p class="nda">{NDA_LINE(c.nda)}</p>
             </div>
             <div class="meta"><span>{c.year} 年 · {c.region}</span><span>项目方名称按约定不公开</span></div>
           </div>
@@ -47,6 +48,7 @@ const ld = [caseListLd(path, cases), faqLd(path, qa)];
   .six { margin: 0.5rem 0 0; display: grid; grid-template-columns: 1fr; gap: 0.1rem; font-size: var(--fs-sm); }
   .six dt { color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; }
   .six dd { margin: 0; color: var(--ink-2); }
+  .nda { margin: 0.8rem 0 0; font-size: var(--fs-xs); color: var(--ink-3); line-height: 1.6; }
   .six dd + dt { margin-top: 0.55rem; }
   @media (min-width: 520px) {
     .six { grid-template-columns: minmax(6.5em, 26%) 1fr; gap: 0; border-top: 1px solid var(--line-2); margin-top: 0.8rem; }
