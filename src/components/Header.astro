@@ -15,7 +15,7 @@ const sub = (label: string) => `${label}子菜单`;
       {nav.map((n, i) => menu[n.href] ? (
         <div class="nav-item" data-dd>
           <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
-          <button type="button" class="dd-btn" aria-expanded="false" aria-controls={`dd-${i}`} aria-label={sub(n.label)}><Icon name="chevron-down" /></button>
+          <button type="button" class="dd-btn" aria-expanded="false" aria-controls={`dd-${i}`} aria-label={sub(n.label)}><Icon name="caret" /></button>
           <div class:list={['dd', menu[n.href].length > 1 && 'mega']} id={`dd-${i}`}>
             {menu[n.href].map((g) => (
               <div class="dd-g">
