@@ -129,12 +129,15 @@ const chain = ['规划', '设计', '预制', '调试', '运维', '余热利用']
   .hero-grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: center; }
   @media (min-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 6fr); gap: 3.5rem; } }
   .hero-fig { margin: 0; }
-  .hero-fig { background: var(--white); border: 1px solid var(--line-2); border-radius: var(--r); padding: clamp(1rem, 2.5vw, 2rem); }
-  .hero-fig img { width: 100%; height: auto; }
-  .hero-fig figcaption { font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-top: 0.6rem; }
+  .hero-fig img { width: 100%; height: auto; mix-blend-mode: multiply; }
+  @media (min-width: 900px) { .hero-fig { margin-right: -1rem; } }
+  .hero-fig figcaption { font-size: var(--fs-xs); color: var(--ink-3); margin-top: 0.4rem; text-align: center; }
   .chain { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; margin-top: clamp(1.8rem, 3vw, 2.6rem); padding-top: 1.2rem; border-top: 1px solid var(--line); font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
-  .chain .step { display: inline-flex; gap: 0.9rem; align-items: baseline; }
-  .chain .arrow { color: var(--heat); }
+  .chain { gap: 0.6rem 0; border-top: 0; padding-top: 0; }
+  .chain .step { display: inline-flex; gap: 0; align-items: center; }
+  .chain .step::before { content: ""; flex: none; width: 9px; height: 9px; margin-right: 0.55rem; border: 1.5px solid var(--ink); border-radius: var(--r-pill); background: var(--white); }
+  .chain .step:last-child::before { background: var(--heat); border-color: var(--heat-text); }
+  .chain .arrow { flex: none; width: clamp(0.9rem, 3vw, 2.6rem); height: 1.5px; margin: 0 0.6rem; background: var(--line-strong); color: transparent; line-height: 0; overflow: hidden; }
 
   .lines { display: grid; gap: var(--sp-5); grid-template-columns: 1fr; margin-top: var(--sp-6); }
   @media (min-width: 820px) { .lines { grid-template-columns: 1fr 1fr; } }

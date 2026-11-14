@@ -1,4 +1,6 @@
 ---
+import Gates from '@/components/diagram/Gates.astro';
+import Tiers from '@/components/diagram/Tiers.astro';
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
 import Related from '@/components/Related.astro';
@@ -73,6 +75,7 @@ const levels = [
     <div class="wrap">
       <h2 class="sec-h">调试：四道关口</h2>
       <p class="sec-lede">关口是不可回头的节点，过了它，返工成本急剧上升。每道关口的验收准则在该阶段开工前写好并批准，绝不事后补。</p>
+      <Gates title="调试：四道关口" gates={gates} />
       <div class="grid c2">
         {gates.map((s) => (
           <div class="card">
@@ -91,6 +94,7 @@ const levels = [
     <div class="wrap">
       <h2 class="sec-h">运维：三档</h2>
       <p class="sec-lede">最低一档不是营销用的起步价，而是围绕财产保险方针对液冷机房公布的做法设计的：定期巡检设备间管路，对照设计范围监测冷却液品质，运行团队经过培训并获授权，能在最近的阀门处隔离漏液。建议频次按设备厂商要求、现场风险以及实际采用的合同或保险条件确认，不是通用的保险要求。</p>
+      <Tiers title="运维：三档" tiers={tiers} />
       <div class="grid c3">
         {tiers.map((t) => (
           <div class="card">

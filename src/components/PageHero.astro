@@ -1,8 +1,17 @@
 ---
 interface Props { eyebrow?: string; title: string; lede?: string; crumbs?: [string, string][]; }
 const { eyebrow, title, lede, crumbs = [] } = Astro.props;
+// Section identity (V3): a quiet line motif at the right of the title area and a short colour tab on its lower edge.
+const sec = ({ platform: 'products', services: 'services', solutions: 'solutions', approach: 'resources', evidence: 'resources', tools: 'resources', insights: 'resources', resources: 'resources', company: 'company', cases: 'company' } as Record<string, string>)[Astro.url.pathname.split('/')[1]?.replace(/\.html$/, '')] ?? 'company';
+const motifs: Record<string, string> = {
+  products: 'M4 8H236' + [0, 1, 2, 3, 4, 5].map((i) => `M${10 + i * 38} 22h30v108h-30z` + [0, 1, 2, 3].map((k) => `M${15 + i * 38} ${42 + k * 22}h20`).join('')).join(''),
+  services: 'M4 112H236' + Array.from({ length: 19 }, (_, i) => `M${10 + i * 12} 112v-7`).join('') + [46, 106, 166, 226].map((x) => `M${x - 3} 112V52M${x + 3} 112V52`).join(''),
+  solutions: 'M10 20h220v110h-220zM26 36h70v40h-70zM110 36h104v40h-104zM26 90h120v26h-120zM160 90h54v26h-54z',
+  resources: [0, 1, 2, 3, 4].map((k) => `M4 ${34 + k * 22}C60 ${4 + k * 22} 130 ${74 + k * 22} 236 ${28 + k * 22}`).join(''),
+};
 ---
-<section class="hero">
+<section class="hero" data-sec={sec}>
+  {motifs[sec] && <svg class="hero-motif" viewBox="0 0 240 140" aria-hidden="true" focusable="false"><path d={motifs[sec]} /></svg>}
   <div class="wrap">
     {crumbs.length > 0 && (
       <nav class="crumbs" aria-label="面包屑">

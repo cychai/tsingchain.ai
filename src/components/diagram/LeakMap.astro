@@ -1,0 +1,62 @@
+---
+/**
+ * Diagram 5 — the ten leak points placed on the loop, chip to facility.
+ * Words: `points` is the page's own list (n, group, t). Numbers and group names are printed as given.
+ */
+import Frame from './Frame.astro';
+import { text, line, rect, head, badge, wave, wrap, layer } from './lib';
+interface Props { id?: string; title: string; points: { n: number; group: string; t: string }[]; }
+const { id = 'dgm-leak', title, points } = Astro.props;
+const groups = [...new Set(points.map((p) => p.group))];
+const desc = groups.map((g) => `${g}: ${points.filter((p) => p.group === g).map((p) => `${p.n} ${p.t}`).join('; ')}.`).join(' ');
+const zoneOf = (i: number) => groups.indexOf(points[i].group);
+const span = (g: string) => [points.findIndex((p) => p.group === g), points.length - 1 - [...points].reverse().findIndex((p) => p.group === g)];
+
+function art(us: number[], A: number, B: number, z1: number, z2: number, padA: number, padB: number) {
+  const [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10] = us;
+  const zones = groups.map((g) => { const [a, b] = span(g); return rect(us[a] - padA, z1, us[b] + padB, z2, 'ln zone', 6); }).join('');
+  const boxes = rect(p1 - 14, A - 12, p1 + 12, B + 12) + rect(p7 - 24, A - 18, p7 + 24, B + 18);
+  const pipes = [A, B].map((v) => line(`M${p1 + 12} ${v}H${p2 + 9}${wave(p2 + 9, p3 - 4, v)}M${p3 + 4} ${v}H${p7 + 2}M${p7 + 14} ${v}H${p10 + padB - 6}`, v === A ? 'ret' : 'sup')).join('');
+  const heads = line(head((p8 + p9) / 2, A, 1, 0) + head((p5 + p6) / 2, A, 1, 0), 'ret') + line(head((p8 + p9) / 2, B, -1, 0) + head((p5 + p6) / 2, B, -1, 0), 'sup');
+  const glyphs = [
+    line(`M${p1 - 5} ${A - 6}V${B + 6}`, 'thin dash'),
+    ...[A, B].flatMap((v) => {
+      const out = v === A ? -1 : 1;
+      return [
+        rect(p2 - 7, v - 5, p2 - 1, v + 5, 'ln box', 1), rect(p2 + 1, v - 5, p2 + 7, v + 5, 'ln box', 1),
+        rect(p3 - 4, v - 5, p3 + 4, v + 5, 'ln box', 1), line(`M${p3 - 1.5} ${v - 5}V${v + 5}M${p3 + 1.5} ${v - 5}V${v + 5}`, 'thin'),
+        rect(p4 - 5, v - 15, p4 + 5, v + 15), line(`M${p4 - 5} ${v + out * 10}H${p4 - 14}`),
+        `<circle class="ln box" cx="${p5}" cy="${v}" r="5.5"/><circle class="ln thin" cx="${p5}" cy="${v}" r="2"/>`,
+        rect(p6 - 6, v - 6, p6 + 6, v + 6, 'ln box', 1), line(`M${p6 - 2} ${v - 6}V${v + 6}M${p6 + 2} ${v - 6}V${v + 6}`, 'thin'),
+        line(`M${p8 - 3} ${v - 5}V${v + 5}M${p8} ${v - 5}V${v + 5}M${p8 + 3} ${v - 5}V${v + 5}`),
+        `<path class="ln box" d="M${p9 - 7} ${v - 5}L${p9 + 7} ${v + 5}V${v - 5}L${p9 - 7} ${v + 5}Z"/>`, line(`M${p9} ${v}V${v + out * 10}M${p9 - 4} ${v + out * 10}H${p9 + 4}`),
+        line(`M${p10} ${v}V${v + out * 11}M${p10 - 4} ${v + out * 11}H${p10 + 4}`),
+      ];
+    }),
+    rect(p7 + 2, A - 6, p7 + 14, B + 6), line(`M${p7 + 2} ${A + 6}L${p7 + 14} ${A + 19}L${p7 + 2} ${A + 31}L${p7 + 14} ${B - 6}`, 'thin'),
+    `<circle class="ln box" cx="${p7 - 12}" cy="${B}" r="6"/>`, line(head(p7 - 15, B, -1, 0, 3), 'thin'),
+  ].join('');
+  return zones + boxes + pipes + heads + glyphs;
+}
+
+// Wide: chip on the left, facility on the right.
+const wu = points.map((_, i) => 60 + i * 86 + zoneOf(i) * 20);
+const wA = 106, wB = 156;
+const wide = {
+  w: 960, h: 300,
+  body: layer(art(wu, wA, wB, 34, 192, 34, 34), false)
+    + groups.map((g) => { const [a, b] = span(g); return text((wu[a] + wu[b]) / 2, 22, g, { cls: 't-zone', anchor: 'middle' }); }).join('')
+    + points.map((p, i) => badge(wu[i], 62, String(p.n)) + text(wu[i], 214, wrap(p.t, 82, 12), { cls: 't-sm', anchor: 'middle', lh: 16 })).join(''),
+};
+
+// Narrow: chip at the top, facility at the bottom, labels on the right.
+const nu = points.map((_, i) => 58 + i * 50 + zoneOf(i) * 32);
+const nA = 34, nB = 84;
+const narrow = {
+  w: 340, h: nu[nu.length - 1] + 40,
+  body: layer(art(nu, nA, nB, 6, 334, 40, 28), true)
+    + groups.map((g) => text(116, nu[span(g)[0]] - 23, g, { cls: 't-zone' })).join('')
+    + points.map((p, i) => { const ls = wrap(p.t, 178); return badge(130, nu[i], String(p.n), 12) + text(150, nu[i] + 4.5 - (ls.length - 1) * 8.5, ls); }).join(''),
+};
+---
+<Frame id={id} title={title} desc={desc} wide={wide} narrow={narrow} />

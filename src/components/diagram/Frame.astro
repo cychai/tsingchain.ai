@@ -1,0 +1,19 @@
+---
+/**
+ * Diagram frame: one <figure> holding a wide and a narrow drawing of the same diagram. CSS shows one of them
+ * (wide from 1024 px up). Each <svg> is a self-described image: role="img" + <title> + <desc>. No script.
+ */
+interface Art { w: number; h: number; body: string }
+interface Props { id: string; title: string; desc: string; wide: Art; narrow: Art; }
+const { id, title, desc, wide, narrow } = Astro.props;
+const arts: [string, Art][] = [['w', wide], ['n', narrow]];
+---
+<figure class="dgm" data-dgm={id}>
+  {arts.map(([k, a]) => (
+    <svg class={`dgm-${k}`} xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${a.w} ${a.h}`} width={a.w} height={a.h} role="img" aria-labelledby={`${id}-${k}t ${id}-${k}d`}>
+      <title id={`${id}-${k}t`}>{title}</title>
+      <desc id={`${id}-${k}d`}>{desc}</desc>
+      <Fragment set:html={a.body} />
+    </svg>
+  ))}
+</figure>

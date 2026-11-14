@@ -55,6 +55,8 @@
   --on-ink-muted: #c3cde0;
   --on-ink-dim: #9fb0d0;
   --on-ink-line: rgba(255, 255, 255, 0.65);
+  --on-ink-grid: rgba(255, 255, 255, 0.045);  /* drawing-grid texture on dark sections */
+  --on-ink-rule: rgba(255, 255, 255, 0.16);   /* hairline separators on dark sections */
   --hdr-bg: rgba(255, 255, 255, 0.92);
   --scrim: rgba(11, 38, 87, 0.35);
   --edge-shade: rgba(11, 38, 87, 0.16);

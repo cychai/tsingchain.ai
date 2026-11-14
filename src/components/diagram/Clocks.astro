@@ -1,0 +1,36 @@
+---
+/**
+ * Diagram 4 — three clocks in sequence, each with its owner.
+ * Words: `clocks` are the page's own clock labels (n), names (t) and owner lines (who), in order.
+ */
+import Frame from './Frame.astro';
+import { text, line, head, wrap } from './lib';
+interface Props { id?: string; title: string; clocks: { n: string; t: string; who: string }[]; }
+const { id = 'dgm-clocks', title, clocks } = Astro.props;
+const desc = clocks.map((c) => `${c.n}: ${c.t}. ${c.who}.`).join(' ');
+const n = clocks.length;
+const pt = (cx: number, cy: number, r: number, deg: number) => { const a = (deg - 90) * Math.PI / 180; return `${(cx + r * Math.cos(a)).toFixed(1)} ${(cy + r * Math.sin(a)).toFixed(1)}`; };
+function dial(cx: number, cy: number, r: number, i: number) {
+  const ticks = Array.from({ length: 12 }, (_, k) => `M${pt(cx, cy, r - 4, k * 30)}L${pt(cx, cy, r - (k % 3 ? 8 : 12), k * 30)}`).join('');
+  return `<circle class="ln box" cx="${cx}" cy="${cy}" r="${r}"/>` + line(ticks, 'thin')
+    + line(`M${cx} ${cy}L${pt(cx, cy, r * 0.62, 0)}`) + line(`M${cx} ${cy}L${pt(cx, cy, r * 0.42, 60 + i * 120)}`, 'ret')
+    + `<circle class="dot" cx="${cx}" cy="${cy}" r="2.2"/>`;
+}
+const wx = (i: number) => 160 + (i * 640) / (n - 1);
+const wide = {
+  w: 960, h: 216,
+  body: clocks.map((c, i) => dial(wx(i), 62, 44, i)
+    + (i < n - 1 ? line(`M${wx(i) + 56} 62H${wx(i + 1) - 58}${head(wx(i + 1) - 56, 62, 1, 0)}`, 'frame') : '')
+    + text(wx(i), 134, c.n, { cls: 't-code', anchor: 'middle' }) + text(wx(i), 158, c.t, { cls: 't-h', anchor: 'middle' })
+    + text(wx(i), 180, wrap(c.who, 250, 12), { cls: 't-sub', anchor: 'middle', lh: 16 })).join(''),
+};
+const ny = (i: number) => 48 + i * 108;
+const narrow = {
+  w: 340, h: ny(n - 1) + 56,
+  body: clocks.map((c, i) => dial(46, ny(i), 36, i)
+    + (i < n - 1 ? line(`M46 ${ny(i) + 44}V${ny(i + 1) - 46}${head(46, ny(i + 1) - 44, 0, 1)}`, 'frame') : '')
+    + text(100, ny(i) - 17, c.n, { cls: 't-code' }) + text(100, ny(i) + 8, c.t, { cls: 't-h' })
+    + text(100, ny(i) + 29, wrap(c.who, 230, 12), { cls: 't-sub', lh: 16 })).join(''),
+};
+---
+<Frame id={id} title={title} desc={desc} wide={wide} narrow={narrow} />

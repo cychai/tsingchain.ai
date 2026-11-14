@@ -472,3 +472,78 @@ body:has(.analytics-consent:not([hidden])) .to-top { bottom: 6.5rem; }
   .rv-in { animation: rv 240ms ease-out; }
   @keyframes rv { from { opacity: 0; transform: translateY(12px); } }
 }
+
+/* ---------- V3 visual layer ---------- */
+/* System diagrams (src/components/diagram): inline SVG line art, every colour from tokens, no script.
+   Lines: 1.5 px, round caps. Fluid = solid (supply blue, return green); zone or handover boundary = fine grey dashes;
+   heat leaving the loop = green dots; electrical or signal (reserved) = dash-dot. Labels are 14 px or 12 px in the drawing's own units and never render below 12 px. */
+.dgm { margin: 0 0 var(--sp-6); overflow-x: auto; }
+.dgm svg { display: block; height: auto; }
+.dgm .dgm-w { display: none; width: 100%; }
+.dgm .dgm-n { width: 100%; min-width: 340px; max-width: 30rem; }
+@media (min-width: 1024px) { .dgm .dgm-w { display: block; } .dgm .dgm-n { display: none; } }
+.dgm text { font-family: var(--sans); font-size: 14px; fill: var(--ink); }
+.dgm .t-sm { font-size: 12px; }
+.dgm .t-sub { font-size: 12px; fill: var(--ink-3); }
+.dgm .t-code { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; fill: var(--heat-text); }
+.dgm .t-zone { font-size: 12px; font-weight: 600; fill: var(--heat-text); }
+.dgm .t-h { font-family: var(--font-head); font-size: 20px; font-weight: var(--fw-head); }
+.dgm .ln { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.dgm .box { fill: var(--white); }
+.dgm .chip { fill: var(--paper-3); }
+.dgm .thin { stroke-width: 1; }
+.dgm .dash { stroke-dasharray: 3 3; }
+.dgm .sup { stroke: var(--water); }
+.dgm .ret { stroke: var(--heat-text); }
+.dgm .frame { stroke: var(--line-strong); stroke-width: 1; }
+.dgm .zone { stroke: var(--line-strong); stroke-width: 1; stroke-dasharray: 4 4; }
+.dgm .ht { stroke: var(--heat-text); stroke-dasharray: 1 5; }
+.dgm .ht.solid { stroke-dasharray: none; }
+.dgm .el { stroke: var(--ink-3); stroke-dasharray: 8 3 1 3; }
+.dgm .gate { stroke-width: 3; }
+.dgm .dot { fill: var(--ink); }
+.dgm .nb circle { fill: var(--white); stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.dgm .nb text { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+@media print { .dgm { break-inside: avoid; overflow: visible; } }
+
+/* One icon set: symbols in IconSprite.astro, referenced with <use>. */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ico { display: inline-block; flex: none; width: 1.15em; height: 1.15em; vertical-align: -0.2em; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.dd-btn svg.ico { width: 1rem; height: 1rem; }
+.mrow summary svg.ico { width: 1.25rem; height: 1.25rem; }
+.to-top svg.ico { width: 1.125rem; height: 1.125rem; }
+.bounds .q .ico { margin-right: 0.15em; }
+
+/* Section identity on inner pages: a low-contrast line motif at the right of the title area (wide screens only)
+   and a short colour tab on the hairline under it. Colours per section come from tokens. */
+.hero { position: relative; }
+.hero > .wrap { position: relative; }
+.hero-motif { display: none; }
+.hero[data-sec] { --sec-c: var(--line-strong); --sec-x: calc((100% - min(var(--max), 100% - 3rem)) / 2); }
+.hero[data-sec]::after { content: ""; position: absolute; left: var(--sec-x); right: var(--sec-x); bottom: 0; height: 2px;
+  background: linear-gradient(var(--sec-c), var(--sec-c)) 0 0 / 4rem 2px no-repeat, linear-gradient(var(--line-2), var(--line-2)) 0 100% / 100% 1px no-repeat; }
+.hero[data-sec="products"] { --sec-c: var(--water); }
+.hero[data-sec="services"] { --sec-c: var(--heat); }
+.hero[data-sec="solutions"] { --sec-c: var(--blue-2); }
+.hero[data-sec="resources"] { --sec-c: var(--ink-3); }
+.hero[data-sec]:has(+ .pnav)::after { display: none; }
+.pnav + .definition { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+.hero[data-sec] + .definition { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+@media (min-width: 1100px) {
+  .hero-motif { display: block; position: absolute; right: var(--sec-x); bottom: clamp(2rem, 4vw, 3rem); width: 15rem; height: auto; fill: none; stroke: var(--line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+}
+
+/* Evidence pages: record templates read as sheets of paper; wide tables keep their first column in view on phones. */
+.tpl { box-shadow: var(--shadow-1); }
+.tpl .table-wrap { --tbl-bg: var(--white); }
+@media (max-width: 760px) {
+  .table-wrap .table :is(th, td):first-child { position: sticky; left: 0; z-index: 1; background: var(--tbl-bg, var(--paper)); box-shadow: 1px 0 0 var(--line); }
+}
+
+/* Dark sections: a faint drawing grid over the gradient, hairline edges, selection colour, ghost-button states. */
+.section.ink { background: linear-gradient(var(--on-ink-grid) 1px, transparent 1px) 50% 0 / 32px 32px, linear-gradient(90deg, var(--on-ink-grid) 1px, transparent 1px) 50% 0 / 32px 32px, var(--ink-grad); box-shadow: inset 0 1px 0 var(--on-ink-rule), inset 0 -1px 0 var(--on-ink-rule); }
+.section.ink .btn.ghost:active { background: var(--on-ink-muted); border-color: var(--on-ink-muted); color: var(--ink); }
+.section.ink .btn.ghost:focus-visible { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+::selection { background: var(--blue); color: var(--on-ink); }
+.section.ink ::selection { background: var(--paper); color: var(--ink); }
+@media print { .hero-motif, .sprite { display: none !important; } .hero[data-sec]::after { display: none; } .tpl { box-shadow: none; } .section.ink { box-shadow: none; } }

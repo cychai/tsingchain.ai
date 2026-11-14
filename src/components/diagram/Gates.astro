@@ -1,0 +1,29 @@
+---
+/**
+ * Diagram 2 — commissioning gates on a one-way line.
+ * Words: `gates` are the page's own gate labels (g) and stage names (t), in order.
+ */
+import Frame from './Frame.astro';
+import { text, line, head, wrap } from './lib';
+interface Props { id?: string; title: string; gates: { g: string; t: string }[]; }
+const { id = 'dgm-gates', title, gates } = Astro.props;
+const desc = gates.map((s) => `${s.g}: ${s.t}.`).join(' ');
+const n = gates.length;
+
+const wx = (i: number) => 130 + (i * 700) / (n - 1);
+const wide = {
+  w: 960, h: 138,
+  body: line(`M40 44H918${head(920, 44, 1, 0, 6)}`)
+    + gates.map((s, i) => line(`M${wx(i) - 4} 26V62M${wx(i) + 4} 26V62`, 'gate') + line(head(wx(i) + 20, 44, 1, 0, 4), 'ret')
+      + text(wx(i), 88, s.g, { cls: 't-code', anchor: 'middle' }) + text(wx(i), 108, wrap(s.t, 212), { anchor: 'middle' })).join(''),
+};
+
+const ny = (i: number) => 50 + i * 76;
+const narrow = {
+  w: 340, h: ny(n - 1) + 58,
+  body: line(`M24 12V${ny(n - 1) + 42}${head(24, ny(n - 1) + 44, 0, 1, 6)}`)
+    + gates.map((s, i) => line(`M6 ${ny(i) - 4}H42M6 ${ny(i) + 4}H42`, 'gate') + line(head(24, ny(i) + 20, 0, 1, 4), 'ret')
+      + text(60, ny(i) - 3, s.g, { cls: 't-code' }) + text(60, ny(i) + 16, wrap(s.t, 268))).join(''),
+};
+---
+<Frame id={id} title={title} desc={desc} wide={wide} narrow={narrow} />

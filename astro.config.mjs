@@ -58,9 +58,33 @@ const pageNav = (label) => ({
   },
 });
 
+// One icon set (V3). Text arrows that end a link or a "more" label, lead a previous-article link or a boundary
+// question, are swapped for the sprite's line icons on the built HTML. Arrows inside running sentences stay text.
+const icons = () => ({
+  name: 'icons',
+  hooks: {
+    'astro:build:done': async ({ dir }) => {
+      const root = fileURLToPath(dir);
+      const ico = (n) => `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+      const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${d}${e.name}/`) : e.name.endsWith('.html') ? [`${d}${e.name}`] : []));
+      for (const file of walk(root)) {
+        const html = await readFile(file, 'utf8');
+        const at = html.indexOf('</head>');
+        const body = html.slice(at)
+          .replace(/(\s)→(<\/(?:a|span)>)/g, (m, sp, end) => `${sp}${ico('arrow-right')}${end}`)
+          .replace(/<span aria-hidden="true">→<\/span>/g, ico('arrow-right'))
+          .replace(/(<span class="k"[^>]*>)← /g, (m, open) => `${open}${ico('arrow-left')} `)
+          .replace(/(<p class="q"[^>]*>)→ /g, (m, open) => `${open}${ico('arrow-right')} `)
+          .replace(/(\s)([↓↑])(<\/span>)/g, (m, sp, a, end) => `${sp}${ico(a === '↓' ? 'arrow-down' : 'arrow-up')}${end}`);
+        if (body !== html.slice(at)) await writeFile(file, html.slice(0, at) + body);
+      }
+    },
+  },
+});
+
 export default defineConfig({
   site: 'https://www.tsingchain.cn',
-  integrations: [sitemap(), lazyArticleImages(), pageNav('本页内容')],
+  integrations: [sitemap(), lazyArticleImages(), icons(), pageNav('本页内容')],
   trailingSlash: 'never',
   build: { format: 'file' },
   markdown: { shikiConfig: { theme: 'github-light' } },

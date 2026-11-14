@@ -48,4 +48,11 @@ const ld = [caseListLd(path, cases), faqLd(path, qa)];
   .six dt { color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; }
   .six dd { margin: 0; color: var(--ink-2); }
   .six dd + dt { margin-top: 0.55rem; }
+  @media (min-width: 520px) {
+    .six { grid-template-columns: minmax(6.5em, 26%) 1fr; gap: 0; border-top: 1px solid var(--line-2); margin-top: 0.8rem; }
+    .six dt, .six dd { padding: 0.55rem 0; border-bottom: 1px solid var(--line-2); }
+    .six dt { padding-right: 1em; line-height: 1.75; }
+    .six dd + dt { margin-top: 0; }
+    .six dt:last-of-type, .six dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  }
 </style>

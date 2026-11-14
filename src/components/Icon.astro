@@ -1,0 +1,9 @@
+---
+/**
+ * The site's one icon set (V3): 24 px grid, 1.75 px round strokes, currentColor. Symbols live once per page in
+ * IconSprite.astro; this component (and the build step in astro.config.mjs) only references them.
+ */
+interface Props { name: 'arrow-right' | 'arrow-left' | 'arrow-up' | 'arrow-down' | 'chevron-down'; }
+const { name } = Astro.props;
+---
+<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href={`#i-${name}`} /></svg>

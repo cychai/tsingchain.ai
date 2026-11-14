@@ -1,0 +1,25 @@
+---
+/**
+ * Diagram 3 — operations tiers as a staircase: each tier stands on the one below it.
+ * Words: `tiers` are the page's own tier names (n) and one-line scopes (p), lowest first.
+ */
+import Frame from './Frame.astro';
+import { text, rect, wrap } from './lib';
+interface Props { id?: string; title: string; tiers: { n: string; p: string }[]; }
+const { id = 'dgm-tiers', title, tiers } = Astro.props;
+const desc = tiers.map((t) => `${t.n}: ${t.p}.`).join(' ');
+const n = tiers.length;
+function stairs(x0: number, x1: number, step: number, h: number, top: number, pad: number) {
+  return tiers.map((t, i) => {
+    const x = x0 + i * step, y = top + (n - 1 - i) * h;
+    const room = x1 - x - pad * 2;
+    return rect(x, y, x1, y + h) + text(x + pad, y + 24, t.n, { cls: 't-code' }) + text(x + pad, y + 44, wrap(t.p, room));
+  }).join('');
+}
+const wide = { w: 960, h: 232, body: stairs(40, 920, 290, 64, 20, 18) };
+const narrow = { w: 340, h: 222, body: (() => tiers.map((t, i) => {
+  const x = 1 + i * 36, y = 3 + (n - 1 - i) * 72;
+  return rect(x, y, 339, y + 72) + text(x + 14, y + 25, t.n, { cls: 't-code' }) + text(x + 14, y + 45, wrap(t.p, 339 - x - 28));
+}).join(''))() };
+---
+<Frame id={id} title={title} desc={desc} wide={wide} narrow={narrow} />
