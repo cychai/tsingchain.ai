@@ -12,12 +12,15 @@ const lazyArticleImages = () => ({
   hooks: {
     'astro:build:done': async ({ dir }) => {
       const root = fileURLToPath(new URL('insights/', dir));
+      const sizes = JSON.parse(await readFile(new URL('./src/data/insight-images.json', import.meta.url), 'utf8').catch(() => '{}'));
       for (const f of (await readdir(root).catch(() => [])).filter((n) => n.endsWith('.html'))) {
         const html = await readFile(root + f, 'utf8');
         const at = html.indexOf('article-body');
         if (at < 0) continue;
         const end = html.indexOf('</article>', at);
-        const body = html.slice(at, end < 0 ? undefined : end).replace(/<img\b(?![^>]*\bloading=)/g, '<img loading="lazy" decoding="async"');
+        const body = html.slice(at, end < 0 ? undefined : end).replace(/<img\b(?![^>]*\bloading=)/g, '<img loading="lazy" decoding="async"')
+          // Self-hosted article images (C-13) get their width and height from the manifest written by scripts/localize-insight-images.py.
+          .replace(/<img\b(?![^>]*\bwidth=)([^>]*\bsrc="(\/insights-img\/[^"]+)")/g, (m, rest, src) => (sizes[src] ? `<img width="${sizes[src][0]}" height="${sizes[src][1]}"${rest}` : m));
         const out = html.slice(0, at) + body + (end < 0 ? '' : html.slice(end));
         if (out !== html) await writeFile(root + f, out);
       }

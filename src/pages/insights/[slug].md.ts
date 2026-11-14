@@ -15,7 +15,7 @@ const BYLINE: Record<string, string> = {
 
 export const articleMarkdown = (p: { id: string; body?: string; data: { title: string; subtitle?: string; author?: string; date: Date; updated?: Date; canonical?: string; sourceUrl?: string; source: string; tags: string[] } }) => {
   const d = (x: Date) => x.toISOString().slice(0, 10);
-  const body = (p.body ?? '').replace(/<!--[\s\S]*?-->/g, '').trim();
+  const body = (p.body ?? '').replace(/<!--[\s\S]*?-->/g, '').replace(/\]\(\/insights-img\//g, `](${site.url}/insights-img/`).trim();
   const author = p.data.author ?? '李俊明';
   const meta = [
     `- 作者：${BYLINE[author] ?? author}`,
