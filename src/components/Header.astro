@@ -2,10 +2,11 @@
 import Icon from '@/components/Icon.astro';
 import { nav, site } from '@/data/site';
 import { menu } from '@/data/menu';
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const under = (p: string) => path === p || path.startsWith(p + '/');
 const isCurrent = (n: { href: string; match?: string[] }) => (n.match ?? [n.href]).some(under);
-const here = (href: string) => (href === path ? 'page' : undefined);
+// aria-current: "page" on the link to this very page, "true" on the links to the sections it sits in.
+const cur = (href: string, on = under(href)) => (href === path ? 'page' : on ? 'true' : undefined);
 const sub = (label: string) => `${label}子菜单`;
 ---
 <header class="hdr">
@@ -14,20 +15,20 @@ const sub = (label: string) => `${label}子菜单`;
     <nav class="nav" aria-label="主导航">
       {nav.map((n, i) => menu[n.href] ? (
         <div class="nav-item" data-dd>
-          <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+          <a href={n.href} aria-current={cur(n.href, isCurrent(n))}>{n.label}</a>
           <button type="button" class="dd-btn" aria-expanded="false" aria-controls={`dd-${i}`} aria-label={sub(n.label)}><Icon name="caret" /></button>
           <div class:list={['dd', menu[n.href].length > 1 && 'mega']} id={`dd-${i}`}>
             {menu[n.href].map((g) => (
               <div class="dd-g">
-                {g.title && <a class="dd-h" href={g.href} aria-current={here(g.href!)}>{g.title}</a>}
+                {g.title && <a class="dd-h" href={g.href} aria-current={cur(g.href!)}>{g.title}</a>}
                 {g.lede && <p class="dd-p">{g.lede}</p>}
-                {g.links.map(([href, label]) => <a href={href} aria-current={here(href)}>{label}</a>)}
+                {g.links.map(([href, label]) => <a href={href} aria-current={cur(href)}>{label}</a>)}
               </div>
             ))}
           </div>
         </div>
       ) : (
-        <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+        <a href={n.href} aria-current={cur(n.href, isCurrent(n))}>{n.label}</a>
       ))}
     </nav>
     <div class="hdr-end">
@@ -41,23 +42,23 @@ const sub = (label: string) => `${label}子菜单`;
       <button type="button" class="msrch" data-search aria-haspopup="dialog" aria-controls="srch"><Icon name="search" />搜索</button>
       {nav.map((n) => menu[n.href] ? (
         <div class="mrow">
-          <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+          <a href={n.href} aria-current={cur(n.href, isCurrent(n))}>{n.label}</a>
           <details name="mnav" open={isCurrent(n)}>
             <summary aria-label={sub(n.label)}><Icon name="chevron-down" /></summary>
             <div class="msub">
               {menu[n.href].map((g) => (
                 <>
-                  {g.title && <a class="msub-h" href={g.href} aria-current={here(g.href!)}>{g.title}</a>}
-                  {g.links.map(([href, label]) => <a href={href} aria-current={here(href)}>{label}</a>)}
+                  {g.title && <a class="msub-h" href={g.href} aria-current={cur(g.href!)}>{g.title}</a>}
+                  {g.links.map(([href, label]) => <a href={href} aria-current={cur(href)}>{label}</a>)}
                 </>
               ))}
             </div>
           </details>
         </div>
       ) : (
-        <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+        <a href={n.href} aria-current={cur(n.href, isCurrent(n))}>{n.label}</a>
       ))}
-      <a href="/company/contact" aria-current={under('/company/contact') ? 'page' : undefined}>联系我们</a>
+      <a href="/company/contact" aria-current={cur('/company/contact')}>联系我们</a>
     </div>
   </div>
   <div class="mnav-scrim" data-menu-scrim hidden></div>

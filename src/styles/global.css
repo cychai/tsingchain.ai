@@ -90,7 +90,7 @@ small, sub, sup { font-size: var(--fs-xs); }
 @media (min-width: 1000px) { .grid.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .split { display: grid; gap: var(--sp-7); grid-template-columns: 1fr; align-items: start; }
 @media (min-width: 900px) { .split { grid-template-columns: 5fr 7fr; } .split.even { grid-template-columns: 1fr 1fr; } .split.main { grid-template-columns: 7fr 5fr; } }
-@media (min-width: 900px) { .sticky { position: sticky; top: 5.5rem; } }
+@media (min-width: 900px) { .sticky { position: sticky; top: calc(var(--hdr-h) + 1.3rem); } }
 
 /*
   Cards: one family. `.card` is the text card; modifiers:
@@ -178,15 +178,25 @@ a.card:hover .more { color: var(--heat-text); }
 @media (max-width: 600px) { .buyer { grid-template-columns: 1.6rem 1fr; } .buyer .st { grid-column: 2; max-width: none; text-align: left; margin-top: 0.2rem; } }
 
 /* Header */
-.hdr { position: sticky; top: 0; z-index: 50; background: var(--hdr-bg); backdrop-filter: saturate(1.3) blur(10px); border-bottom: 1px solid var(--line-2); }
-.hdr .wrap { display: flex; align-items: center; justify-content: space-between; height: 4.2rem; gap: var(--sp-5); }
+/* The header is 4.2rem tall at the top of a page and 3.5rem once the page has scrolled (html.scrolled, set in site.ts).
+   The bottom margin gives back what the bar gives up, so nothing below it moves when it changes height. Everything that
+   sits under the header (in-page nav, sticky asides, anchor offsets, the phone menu) reads --hdr-h. */
+:root { --hdr-h: 4.2rem; }
+html.scrolled { --hdr-h: 3.5rem; }
+.hdr { position: sticky; top: 0; z-index: 50; margin-bottom: calc(4.2rem - var(--hdr-h)); background: var(--hdr-bg); backdrop-filter: saturate(1.3) blur(10px); border-bottom: 1px solid var(--line-2); }
+.hdr .wrap { display: flex; align-items: center; justify-content: space-between; height: var(--hdr-h); gap: var(--sp-5); }
 .brand { display: flex; align-items: center; min-height: var(--tap); }
-.brand img { height: var(--brand-h); width: auto; display: block; }
-@media (max-width: 480px) { .brand img { height: var(--brand-h-sm); } }
+.brand img { height: min(var(--brand-h), var(--hdr-h) - 0.6rem); width: auto; display: block; }
+html.scrolled .hdr { box-shadow: var(--shadow-1); }
+@media (prefers-reduced-motion: no-preference) { .hdr { transition: margin var(--dur-3, 200ms), box-shadow var(--dur-3, 200ms); } .hdr .wrap, .brand img { transition: height var(--dur-3, 200ms); } }
+@media (max-width: 480px) { .brand img { height: min(var(--brand-h-sm), var(--hdr-h) - 0.6rem); } }
 .nav { display: none; gap: 0.2rem; }
 .nav > a, .nav-item > a { display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 0.7rem; border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight: 500; color: var(--ink-2); }
-.nav > a:hover, .nav > a[aria-current="page"], .nav-item:hover, .nav-item.open, .nav-item:has(> a[aria-current="page"]) { background: var(--paper-2); }
-.nav > a:hover, .nav > a[aria-current="page"], .nav-item:hover > a, .nav-item.open > a, .nav-item > a[aria-current="page"] { color: var(--ink); }
+.nav > a:hover, .nav-item:hover, .nav-item.open { background: var(--paper-2); }
+.nav > a:hover, .nav > a[aria-current], .nav-item:hover > a, .nav-item.open > a, .nav-item > a[aria-current] { color: var(--ink); }
+/* Where you are: a 2 px rule in the brand green under the name of the current section. The pill is kept for hover and open. */
+.nav > a[aria-current], .nav-item > a[aria-current] { font-weight: 600; background: linear-gradient(var(--heat), var(--heat)) no-repeat left var(--nav-pl, 0.7rem) bottom 0.5rem / calc(100% - var(--nav-pl, 0.7rem) - 0.2rem) 2px; }
+.nav > a[aria-current] { background-size: calc(100% - 1.4rem) 2px; }
 /* Dropdown: the primary link stays a link; the chevron button beside it opens the second level.
    Hover opens it in CSS, the button and the arrow keys open it in script, Esc closes it (site.ts). */
 .nav-item { position: relative; display: flex; align-items: center; border-radius: var(--r-pill); }
@@ -206,7 +216,9 @@ a.card:hover .more { color: var(--heat-text); }
 .nav-item.open > .dd, .nav:not(.js) .nav-item:hover > .dd, .nav:not(.js) .nav-item:focus-within > .dd { visibility: visible; opacity: 1; transform: none; }
 .dd a { display: flex; align-items: center; min-height: 2.5rem; padding: 0.3rem 0.75rem; border-radius: var(--r-sm); font-size: var(--fs-sm); line-height: 1.35; color: var(--ink-2); white-space: nowrap; }
 .dd a:hover { background: var(--paper-2); color: var(--ink); }
-.dd a[aria-current="page"], .msub a[aria-current="page"] { color: var(--blue); font-weight: 600; }
+/* In the panel: the page you are on carries the same green mark on its left edge; the group it belongs to is named in blue. */
+.dd a[aria-current], .msub a[aria-current] { color: var(--blue); font-weight: 600; }
+.dd a[aria-current="page"] { background: var(--paper); box-shadow: inset 2px 0 0 var(--heat); }
 .dd .dd-h { font-weight: 600; color: var(--ink); }
 /* Resources: a wide panel, centred under the nav. Each group has its title (a link to the group page), the one line
    that group already carries on /resources, then its pages. Insights sits under Approach to keep three even columns. */
@@ -241,12 +253,12 @@ a.card:hover .more { color: var(--heat-text); }
 .menu-btn[aria-expanded="true"] .menu-ico i:nth-child(3) { bottom: calc(50% - 1px); transform: rotate(-45deg); }
 @media (prefers-reduced-motion: no-preference) { .menu-ico i { transition: transform var(--dur-2), opacity var(--dur-1), top var(--dur-2), bottom var(--dur-2); } }
 @media (min-width: 960px) { .nav { display: flex; } .hdr-cta { display: inline-flex; } .menu-btn { display: none; } }
-@media (min-width: 960px) and (max-width: 1099px) { .hdr .wrap { gap: var(--sp-3); } .nav > a, .nav-item > a { padding-left: 0.55rem; } }
-.mnav { display: none; position: relative; z-index: 2; border-top: 1px solid var(--line-2); background: var(--paper); max-height: calc(100vh - 4.2rem); max-height: calc(100dvh - 4.2rem); overflow-y: auto; overscroll-behavior: contain; }
+@media (min-width: 960px) and (max-width: 1099px) { .hdr .wrap { gap: var(--sp-3); } .nav { --nav-pl: 0.55rem; } .nav > a, .nav-item > a { padding-left: 0.55rem; } }
+.mnav { display: none; position: relative; z-index: 2; border-top: 1px solid var(--line-2); background: var(--paper); max-height: calc(100vh - var(--hdr-h)); max-height: calc(100dvh - var(--hdr-h)); overflow-y: auto; overscroll-behavior: contain; }
 .mnav.open { display: block; }
 .mnav .wrap { display: block; height: auto; padding: var(--sp-1) 0 var(--sp-4); }
 .mnav .wrap > a, .mrow > a { display: flex; align-items: center; min-height: 48px; padding: 0 var(--sp-3); margin-inline: calc(-1 * var(--sp-3)); border-bottom: 1px solid var(--line-2); font-weight: 500; }
-.mnav .wrap > a[aria-current="page"], .mrow > a[aria-current="page"] { color: var(--blue); font-weight: 600; box-shadow: inset 3px 0 0 var(--heat); background: var(--white); }
+.mnav .wrap > a[aria-current], .mrow > a[aria-current] { color: var(--blue); font-weight: 600; box-shadow: inset 3px 0 0 var(--heat); background: var(--white); }
 /* Second level on phones: a native <details> per section (works without script; `name` makes them exclusive).
    The section link keeps the row; the 48 px chevron at its right end is the <summary>. */
 .mrow { position: relative; border-bottom: 1px solid var(--line-2); }
@@ -396,11 +408,11 @@ details.method li { margin-bottom: 0.4rem; }
 
 /* ---------- V2 interaction layer ---------- */
 /* Anchor targets clear the sticky header (and the in-page nav where there is one). */
-:where(main) [id] { scroll-margin-top: 5.5rem; }
-.pnav ~ * [id], .pnav ~ [id] { scroll-margin-top: 8.5rem; }
+:where(main) [id] { scroll-margin-top: calc(var(--hdr-h) + 1.3rem); }
+.pnav ~ * [id], .pnav ~ [id] { scroll-margin-top: calc(var(--hdr-h) + 4.3rem); }
 
 /* In-page nav for long pages: the page's own h2 headings, sticky under the header (built after the build, see astro.config.mjs). */
-.pnav { position: sticky; top: calc(4.2rem + 1px); z-index: 40; background: var(--hdr-bg); backdrop-filter: saturate(1.3) blur(10px); border-block: 1px solid var(--line-2); }
+.pnav { position: sticky; top: calc(var(--hdr-h) + 1px); z-index: 40; background: var(--hdr-bg); backdrop-filter: saturate(1.3) blur(10px); border-block: 1px solid var(--line-2); }
 .pnav .wrap { display: flex; gap: var(--sp-1); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
 .pnav .wrap::-webkit-scrollbar { display: none; }
 .pnav a { flex: 0 0 auto; display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 0.7rem; font-size: var(--fs-sm); font-weight: 500; color: var(--ink-3); white-space: nowrap; box-shadow: inset 0 -2px 0 transparent; }
@@ -437,7 +449,7 @@ body:has(.analytics-consent:not([hidden])) .to-top { bottom: 6.5rem; }
 @media (min-width: 1320px) {
   .article-body { position: relative; }
   .toc-rail { position: absolute; top: 0; bottom: 0; left: calc(100% + 2.5rem); width: 15.5rem; margin: 0; }
-  .toc { position: sticky; top: 6rem; max-height: calc(100vh - 8rem); overflow-y: auto; border: 0; background: none; }
+  .toc { position: sticky; top: calc(var(--hdr-h) + 1.8rem); max-height: calc(100vh - 8rem); overflow-y: auto; border: 0; background: none; }
   .toc summary { min-height: 0; padding: 0 0 var(--sp-2); font-family: var(--mono); font-size: var(--fs-xs); font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); pointer-events: none; }
   .toc summary::before { display: none; }
   .prose .toc ol { padding: 0; }

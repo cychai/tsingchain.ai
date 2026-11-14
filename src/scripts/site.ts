@@ -105,7 +105,7 @@ let shut4print: HTMLDetailsElement[] = [];
 addEventListener('beforeprint', () => { shut4print = $$<HTMLDetailsElement>('details[data-print]:not([open])'); shut4print.forEach((x) => (x.open = true)); });
 addEventListener('afterprint', () => { shut4print.forEach((x) => (x.open = false)); shut4print = []; });
 
-// ---- Scroll-driven bits, one rAF-throttled handler: back-to-top, article reading progress, current-section highlight.
+// ---- Scroll-driven bits, one rAF-throttled handler: the shorter header, back-to-top, article reading progress, current-section highlight.
 const toTop = $('[data-top]');
 const bar = $('[data-progress]');
 const art = bar && $('article');
@@ -114,10 +114,12 @@ const spies = $$('[data-spy]').map((nav) => ({
   cur: null as HTMLElement | null,
   links: $$<HTMLAnchorElement>('a[href^="#"]', nav).map((a) => [a, d.getElementById(decodeURIComponent(a.hash.slice(1)))] as const).filter((x) => x[1]),
 }));
-let queued = 0;
+let queued = 0, small = false;
 const onScroll = () => {
   queued = 0;
   const vh = innerHeight;
+  // The header gets shorter past 72 px and full height again above 24 px; the gap between the two stops it flickering.
+  if (small !== (small = scrollY > (small ? 24 : 72))) d.documentElement.classList.toggle('scrolled', small);
   if (toTop) toTop.hidden = scrollY < vh * 1.5;
   if (bar && art) {
     const r = art.getBoundingClientRect();
@@ -133,10 +135,8 @@ const onScroll = () => {
     if (cur && s.nav.dataset.spy === 'x') { const row = cur.parentElement!; row.scrollLeft = cur.offsetLeft - 16; }
   }
 };
-if (toTop || bar || spies.length) {
-  addEventListener('scroll', () => { queued ||= requestAnimationFrame(onScroll); }, { passive: true });
-  onScroll();
-}
+addEventListener('scroll', () => { queued ||= requestAnimationFrame(onScroll); }, { passive: true });
+onScroll();
 toTop?.addEventListener('click', () => { scrollTo(0, 0); $('#main')?.focus({ preventScroll: true }); });
 
 // ---- Article contents: a collapsed disclosure on phones, opened where it sits beside the text.
