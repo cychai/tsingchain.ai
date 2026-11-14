@@ -9,7 +9,7 @@ import Card from '@/components/Card.astro';
     <Card href="https://sim.nextgenergy.ai/" num="01" title="液冷仿真台" more="打开 sim.nextgenergy.ai">从芯片结温到排热的全回路瞬态热模型：选机柜平台、气候与管路，看结温、流量、压降与 pPUE 如何稳定，再用负荷阶跃、泵故障或结垢去考验它。概念模型，用于规划和比较，不用于验收或性能承诺。界面为英文。</Card>
     <Card href="https://sim.nextgenergy.ai/catalog/" num="02" title="CDU 公开目录" more="打开">三十多家厂商 CDU 的公开规格，每一行链接到厂商资料，额定工况与容量并列，数字才能真正比较。界面为英文。</Card>
   </div>
-  <div class="recruit">
+  <div class="card recruit">
     <div>
       <div class="eyebrow plain">招募首批测试者 · 5 位</div>
       <h2>用一个已知结果的案例，检验液冷模型</h2>
@@ -24,8 +24,8 @@ import Card from '@/components/Card.astro';
   </div></div></section>
 </Base>
 <style>
-  .recruit { margin-top: 1.5rem; padding: 1.8rem 2rem; border: 1px solid var(--line-2); border-left: 4px solid var(--green); border-radius: var(--r); background: var(--white); display: grid; gap: 1rem 2rem; grid-template-columns: 1fr; align-items: center; }
+  .recruit { margin-top: 1.5rem; border-left: 4px solid var(--green); display: grid; gap: 1rem 2rem; grid-template-columns: 1fr; align-items: center; }
   @media (min-width: 900px) { .recruit { grid-template-columns: 1fr auto; } }
-  .recruit h2 { font-size: clamp(1.2rem, 2.2vw, 1.5rem); margin: 0.3rem 0 0.5rem; }
-  .recruit p { margin: 0; color: var(--ink-2); max-width: 40em; }
+  .recruit h2 { font-size: var(--fs-md); margin: 0.3rem 0 0.5rem; }
+  .recruit p { margin: 0; color: var(--ink-2); max-width: var(--measure); }
 </style>

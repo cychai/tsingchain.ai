@@ -32,7 +32,7 @@ const ld = [articleLd(path, { headline: p.data.title, description: p.data.subtit
       <div class="narrow">
         <nav class="crumbs" aria-label="面包屑"><a href="/">首页</a><span><a href="/insights">洞察</a></span></nav>
         <div class="eyebrow">洞察 · <time datetime={p.data.date.toISOString().slice(0, 10)}>{fmt(p.data.date)}</time>{p.data.updated && <> · 更新于 <time datetime={p.data.updated.toISOString().slice(0, 10)}>{fmt(p.data.updated)}</time></>}</div>
-        <h1 style="font-size:clamp(1.7rem,3.6vw,2.6rem)">{p.data.title}</h1>
+        <h1 style="font-size:clamp(var(--fs-lg),7vw,var(--fs-xl))">{p.data.title}</h1>
         {p.data.subtitle && <p class="lede">{p.data.subtitle}</p>}
         {p.data.tags.length > 0 && <div class="tags" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:1rem">{p.data.tags.map((t) => <a class="tag-pill" href={`/insights/tag/${t}`}>{t}</a>)}</div>}
       </div>
@@ -46,8 +46,8 @@ const ld = [articleLd(path, { headline: p.data.title, description: p.data.subtit
   </article>
 </Base>
 <style>
-  .article-body { padding-bottom: 3rem; font-size: 1.05rem; line-height: 1.9; }
-  .article-body :global(h2) { font-size: 1.7rem; }
-  .article-body :global(h3) { font-size: 1.3rem; }
-  .article-body :global(p > em:only-child) { display: block; font-size: 0.85rem; color: var(--ink-3); margin-top: -0.8em; }
+  .article-body { padding-bottom: 3rem; line-height: var(--lh-article); }
+  .article-body :global(h2) { font-size: var(--fs-lg); }
+  .article-body :global(h3) { font-size: var(--fs-md); }
+  .article-body :global(p > em:only-child) { display: block; font-size: var(--fs-sm); color: var(--ink-3); margin-top: -0.8em; }
 </style>

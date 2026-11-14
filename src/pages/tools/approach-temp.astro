@@ -16,8 +16,8 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
       <div class="split">
         <div class="tool" data-at>
           <div class="field"><label for="tsup">机柜所需二次侧供水温度（TCS）</label><div style="display:grid;grid-template-columns:1fr auto;gap:0.6rem;align-items:center"><input type="number" id="tsup" min="15" max="50" step="0.5" value="32" /><span class="mono muted">°C</span></div><p class="small muted" style="margin:0.4rem 0 0">ASHRAE 液冷等级 W32、W40、W45 规定的是声明为该等级的设备可接受的设施供水温度上限 32、40、45 °C，是运行包络而不是设定值。请输入您的机柜实际需要的供水温度。</p></div>
-          <div class="field"><label for="cdu">额定负荷下的 CDU 换热器趋近温差</label><input type="range" id="cdu" min="1" max="10" step="0.5" value="4" /><div class="readout" style="font-size:1.8rem"><span data-out="cdu">4</span> K</div><p class="small muted" style="margin:0.2rem 0 0">请计入污垢裕量。样本上的趋近温差通常是洁净板片值。</p></div>
-          <div class="field"><label for="dc">干冷器对环境干球温度的端差</label><input type="range" id="dc" min="3" max="15" step="0.5" value="8" /><div class="readout" style="font-size:1.8rem"><span data-out="dc">8</span> K</div></div>
+          <div class="field"><label for="cdu">额定负荷下的 CDU 换热器趋近温差</label><input type="range" id="cdu" min="1" max="10" step="0.5" value="4" /><div class="readout"><span data-out="cdu">4</span> K</div><p class="small muted" style="margin:0.2rem 0 0">请计入污垢裕量。样本上的趋近温差通常是洁净板片值。</p></div>
+          <div class="field"><label for="dc">干冷器对环境干球温度的端差</label><input type="range" id="dc" min="3" max="15" step="0.5" value="8" /><div class="readout"><span data-out="dc">8</span> K</div></div>
           <div class="field"><label for="climate">气候区（用于自由冷却小时）</label>
             <select id="climate">
               <option value="beijing">北京</option><option value="shanghai">上海</option><option value="shenzhen">深圳</option><option value="chengdu">成都</option><option value="guiyang">贵阳 / 贵安</option><option value="ulanqab">乌兰察布</option><option value="zhangbei">张北</option><option value="harbin">哈尔滨</option><option value="toronto">多伦多（加拿大）</option>
@@ -25,7 +25,7 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
         </div>
         <div>
           <div class="eyebrow">结果</div>
-          <div class="tool">
+          <div class="tool" aria-live="polite">
             <div class="row"><span>CDU 所需设施供水温度</span><strong><span data-out="fws">—</span> °C</strong></div>
             <div class="row"><span>仅靠干式排热即可维持的环境干球温度上限</span><strong><span data-out="amb">—</span> °C</strong></div>
             <div class="row"><span>每年低于该温度的小时数（示意气候分布，非项目气象年）</span><strong><span data-out="hrs">—</span> h</strong></div>
@@ -56,9 +56,9 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
   <Faq items={qa} alt />
 </Base>
 <style>
-  .row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line-2); font-size: 0.95rem; }
+  .row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line-2); font-size: var(--fs-sm); }
   .row:last-child { border-bottom: 0; }
-  .row strong { font-family: var(--serif); font-size: 1.3rem; white-space: nowrap; }
+  .row strong { font-family: var(--font-figure); font-weight: var(--fw-figure); font-size: var(--fs-md); white-space: nowrap; }
 </style>
 <script>
   // Hours per year with dry-bulb in each 5 K bin, from -30 to 45 °C (bins: [-30,-25) ... [40,45)). Approximate TMY shapes.

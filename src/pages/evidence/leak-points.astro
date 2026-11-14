@@ -29,7 +29,7 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '每个液�
         <div>
           {groups.map((g) => (
             <section id={gid(g)} style="margin-bottom:2.5rem">
-              <h2 style="font-size:0.95rem;letter-spacing:0.1em;color:var(--heat)">{g}</h2>
+              <h2 style="font-size:var(--fs-sm);letter-spacing:0.1em;color:var(--heat-text)">{g}</h2>
               <ol class="bounds">
                 {leakPoints.filter((l) => l.group === g).map((l) => (
                   <li style={`counter-increment: b; counter-set: b ${l.n}`}>
@@ -54,6 +54,7 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '每个液�
 </Base>
 <style>
   .toc { list-style: none; padding: 0; margin: 0; }
-  .toc li { padding: 0.5rem 0; border-bottom: 1px solid var(--line-2); font-weight: 500; }
-  .toc a:hover { color: var(--heat); }
+  .toc li { border-bottom: 1px solid var(--line-2); font-weight: 500; }
+  .toc a { display: flex; align-items: center; min-height: var(--tap); padding: 0.3rem 0; }
+  .toc a:hover { color: var(--heat-text); }
 </style>

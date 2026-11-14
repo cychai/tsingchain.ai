@@ -15,9 +15,9 @@ import { site } from '@/data/site';
           <p><strong>北美平台</strong><br /><a href={site.overseas.url}>NextGenergy</a></p>
           <div class="starts">
             <p class="eyebrow plain" style="margin:0 0 0.6rem">从哪里开始</p>
-            <a class="start" href="?topic=product#form" data-topic="product"><strong>讨论一套冷却配置</strong><span>告诉我们 IT 负荷、场地、时间表和主要约束。</span></a>
-            <a class="start" href="?topic=commissioning#form" data-topic="commissioning"><strong>申请调试审查</strong><span>告诉我们现有哪些记录、系统处于什么状态、哪些可以测试。</span></a>
-            <a class="start" href="?topic=heat#form" data-topic="heat"><strong>评估余热利用潜力</strong><span>告诉我们热源、可能的用热方、距离和温度。</span></a>
+            <a class="card tight start" href="?topic=product#form" data-topic="product"><strong>讨论一套冷却配置</strong><span>告诉我们 IT 负荷、场地、时间表和主要约束。</span></a>
+            <a class="card tight start" href="?topic=commissioning#form" data-topic="commissioning"><strong>申请调试审查</strong><span>告诉我们现有哪些记录、系统处于什么状态、哪些可以测试。</span></a>
+            <a class="card tight start" href="?topic=heat#form" data-topic="heat"><strong>评估余热利用潜力</strong><span>告诉我们热源、可能的用热方、距离和温度。</span></a>
           </div>
           <p class="small muted" style="margin-top:1.2rem"><strong>早期项目也欢迎。</strong>还没有系统图或设备清单也没关系，把您知道的告诉我们，我们帮您把下一步定下来。</p>
           <p class="small muted"><strong>接下来会怎样。</strong>我们在两个工作日内回复，提出问题或建议下一步；基本需求明确后，再给正式的范围与报价。</p>
@@ -154,28 +154,27 @@ import { site } from '@/data/site';
 </script>
 <style>
   .starts { margin-top: 1.6rem; }
-  .start { display: block; padding: 0.8rem 1rem; margin-bottom: 0.6rem; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--white); color: inherit; text-decoration: none; }
-  .start:hover { border-color: var(--water); }
-  .start strong { display: block; color: var(--ink); font-size: 0.98rem; }
-  .start span { display: block; color: var(--ink-3); font-size: 0.88rem; margin-top: 0.15rem; }
+  .start { margin-bottom: var(--sp-2); text-decoration: none; }
+  .start strong { display: block; color: var(--ink); }
+  .start span { display: block; color: var(--ink-3); font-size: var(--fs-sm); margin-top: 0.15rem; }
   .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   .wx { display: flex; align-items: center; gap: 1rem; margin: 0 0 1rem; }
   .wx p { margin: 0; }
-  .wx img { width: 120px; height: 120px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  .wx img { width: 120px; height: 120px; border: 1px solid var(--line); border-radius: var(--r); background: var(--white); }
   .fallback { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.7rem; }
-  .form-status { margin: 0.8rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--blue); background: var(--water-2); font-size: 0.95rem; }
-  .form-status[data-kind="ok"] { border-color: var(--green); background: #e7f6ea; }
-  .form-status[data-kind="error"] { border-color: #b42318; background: #fef3f2; color: #7a271a; }
+  .fallback[hidden] { display: none; }
+  .form-status { margin: 0.8rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--blue); background: var(--water-2); font-size: var(--fs-sm); }
+  .form-status[data-kind="ok"] { border-color: var(--green); background: var(--ok-bg); }
+  .form-status[data-kind="error"] { border-color: var(--danger); background: var(--danger-bg); color: var(--danger-text); }
   .tool select:invalid { color: var(--ink-3); }
   .details { border: 1px solid var(--line-2); border-radius: var(--r); padding: 1rem 1rem 0.2rem; margin: 0 0 1.3rem; min-width: 0; }
   .details legend { padding: 0 0.4rem; font-weight: 600; }
   .details legend span { font-weight: 400; margin-left: 0.3rem; }
   .details .field { margin-bottom: 1rem; }
   .details [hidden] { display: none; }
-  .receipt { margin: 0.8rem 0 0; padding: 0.9rem 1rem; border-left: 3px solid var(--green); background: #e7f6ea; }
+  .receipt { margin: 0.8rem 0 0; padding: 0.9rem 1rem; border-left: 3px solid var(--green); background: var(--ok-bg); }
   .receipt .r-h { margin: 0 0 0.5rem; font-weight: 600; }
-  .receipt dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; margin: 0; font-size: 0.92rem; }
+  .receipt dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; margin: 0; font-size: var(--fs-sm); }
   .receipt dt { color: var(--ink-3); }
   .receipt dd { margin: 0; overflow-wrap: anywhere; }
-  .tool input[type="text"], .tool input[type="email"], .tool textarea { width: 100%; font: inherit; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); color: var(--ink); }
 </style>

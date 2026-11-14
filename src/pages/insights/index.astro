@@ -39,7 +39,7 @@ const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month:
             <article class="post">
               <time datetime={e.date}>{e.date}</time>
               <div>
-                <h3 style="font-size:1.05rem"><a href={e.url} rel="noopener">{e.title}</a></h3>
+                <h3 style="font-size:var(--fs-base)"><a href={e.url} rel="noopener">{e.title}</a></h3>
                 <p>{e.zh}</p>
               </div>
             </article>
@@ -50,6 +50,6 @@ const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month:
   </section>
 </Base>
 <style>
-  .year { font-size: 0.9rem; color: var(--ink-3); margin: 2rem 0 0.3rem; font-weight: 600; letter-spacing: 0.08em; }
+  .year { font-size: var(--fs-sm); color: var(--ink-3); margin: 2rem 0 0.3rem; font-weight: 600; letter-spacing: 0.08em; }
   .year:first-child { margin-top: 0; }
 </style>

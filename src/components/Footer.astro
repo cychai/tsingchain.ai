@@ -8,15 +8,15 @@ const icp = import.meta.env.PUBLIC_ICP_BEIAN;
   <div class="wrap">
     <div class="cols">
       <div>
-        <a href="/" class="brand"><img src="/brand/logo.png" alt="清链科技 Tsingchain Global" width="2020" height="640" /></a>
-        <p style="margin-top:1rem; max-width: 20em;">AI 算力中心预制化液冷：我们规划、设计系统，交付撬块、CDU、机柜与冷却设备，并在现场检测、调试和维护液冷回路。每一个交付边界都附带证据。</p>
-        <p class="small">商务咨询：<a href={`mailto:${site.email}`}>{site.email}</a></p>
-        {site.wechat && <p class="small">微信公众号：{site.wechat}<br /><img src="/wx/wechat-qr.jpg" alt="微信公众号「清链学堂在线」二维码" width="88" height="88" loading="lazy" style="margin-top:0.5rem;border-radius:4px;background:#fff" /></p>}
-        <p class="small">北美平台：<a href={site.overseas.url}>{site.overseas.name}</a> · 英文专栏：<a href={site.substack}>Every Watt Counts</a></p>
+        <a href="/" class="brand"><picture><source type="image/webp" srcset="/brand/logo-360.webp" /><img src="/brand/logo-360.png" alt="清链科技 Tsingchain Global" width="360" height="115" loading="lazy" decoding="async" /></picture></a>
+        <p class="about">AI 算力中心预制化液冷：我们规划、设计系统，交付撬块、CDU、机柜与冷却设备，并在现场检测、调试和维护液冷回路。每一个交付边界都附带证据。</p>
+        <p class="small contact-links">商务咨询：<a href={`mailto:${site.email}`}>{site.email}</a></p>
+        {site.wechat && <p class="small">微信公众号：{site.wechat}<br /><img src="/wx/wechat-qr.jpg" alt="微信公众号「清链学堂在线」二维码" width="88" height="88" loading="lazy" class="qr" /></p>}
+        <p class="small contact-links">北美平台：<a href={site.overseas.url}>{site.overseas.name}</a> · 英文专栏：<a href={site.substack}>Every Watt Counts</a></p>
       </div>
       {footerNav.map((c) => (
         <div>
-          <h4>{c.title}</h4>
+          <h2 class="ftr-h">{c.title}</h2>
           <ul>{c.links.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
         </div>
       ))}

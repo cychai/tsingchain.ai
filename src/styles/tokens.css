@@ -1,0 +1,135 @@
+/*
+  Design tokens — www.tsingchain.cn（清链科技）.
+  This is the ONLY style file allowed to differ between the English site (website/) and the
+  Chinese site (website-cn/). global.css is byte-identical on both sites and reads everything
+  site-specific from here. Every colour used anywhere in src/ must be defined in this file.
+*/
+:root {
+  /* ---- Colour: ink, lines, surfaces (藏青 + 绿，取自清链 logo) ---- */
+  --ink: #0b2657;
+  --ink-2: #2c3d66;
+  --ink-3: #5e6d88;
+  --line: #d4dce8;
+  --line-2: #e4eaf2;
+  --line-strong: #7f8ca6;          /* control boundaries: 3.4:1 on white, 3.2:1 on paper */
+  --paper: #f5f8fc;
+  --paper-2: #eaf1f9;
+  --paper-3: #dce6f3;
+  --white: #ffffff;
+  --black: #000000;
+
+  /* ---- Colour: brand ---- */
+  --green: #2fa84f;                /* brand green: lines, dots, large graphics only */
+  --green-2: #7ed957;
+  --green-text: #1e7a3a;           /* green for small text: 5.4:1 on white, 4.7:1 on paper-2 */
+  --blue: #003880;                 /* 清链 logo 实测主色 */
+  --blue-2: #2f6fd6;
+  --blue-hover: #002a60;
+  --heat: var(--green);
+  --heat-2: var(--green-2);
+  --heat-text: var(--green-text);
+  --water: var(--blue);
+  --water-2: #e2ecfa;
+  --focus: var(--blue);            /* focus ring: 11.2:1 on white; drawn with a white inner ring */
+
+  /* ---- Colour: status ---- */
+  --ok: var(--green);
+  --ok-text: var(--green-text);
+  --ok-bg: #e7f6ea;
+  --warn: #e0a800;
+  --warn-text: #8a6a00;
+  --off: #c9c3b5;
+  --danger: #b42318;
+  --danger-text: #7a271a;
+  --danger-bg: #fef3f2;
+  --notice-bg: #fff6d6;
+  --notice-line: #e8d48a;
+  --notice-text: #5a4500;
+  --draft-text: #9a3412;
+  --draft-bg: #fff7ed;
+  --draft-line: #fed7aa;
+
+  /* ---- Colour: dark sections and overlays ---- */
+  --ink-grad: linear-gradient(135deg, #062052 0%, #003880 100%);
+  --on-ink: #ffffff;
+  --on-ink-muted: #c3cde0;
+  --on-ink-dim: #9fb0d0;
+  --on-ink-line: rgba(255, 255, 255, 0.65);
+  --hdr-bg: rgba(255, 255, 255, 0.92);
+  --scrim: rgba(11, 38, 87, 0.35);
+  --edge-shade: rgba(11, 38, 87, 0.16);
+  --edge-clear: rgba(255, 255, 255, 0);
+  --text-shadow: rgba(0, 0, 0, 0.6);
+
+  /* ---- Colour: device frame around the simulator screenshot ---- */
+  --device-screen: #0b0f17;
+  --device-edge: #36405a;
+  --device-edge-hover: #6f7c9a;
+  --device-base: linear-gradient(#e6eaf1, #b8c1d1 60%, #8f9ab0);
+  --device-notch: #7c879d;
+
+  /* ---- Type families ---- */
+  --sans: "Inter", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", system-ui, sans-serif;
+  --serif: var(--sans);            /* 中文站不用衬线，全站系统黑体 */
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "PingFang SC", monospace;
+  --font-head: var(--sans);
+  --font-figure: var(--sans);      /* large numerals: readouts, claim values */
+
+  /* ---- Type scale: 7 steps (12 / 14 / body / 20 / 24 / 32 / 48 px) ---- */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;                 /* 16 px 正文 */
+  --fs-md: 1.25rem;
+  --fs-lg: 1.5rem;
+  --fs-xl: 2rem;
+  --fs-2xl: 3rem;
+
+  /* ---- Type rhythm ---- */
+  --lh-body: 1.8;
+  --lh-loose: 1.8;                 /* definitions, FAQ answers */
+  --lh-lede: 1.8;
+  --lh-head: 1.3;
+  --lh-h1: 1.25;
+  --lh-article: 1.9;
+  --fw-head: 700;
+  --fw-figure: 700;
+  --ls-head: 0.01em;
+  --quote-font: var(--sans);
+  --quote-size: var(--fs-base);
+  --quote-lh: 1.7;
+
+  /* ---- Measure ---- */
+  --measure: 40em;
+  --measure-lede: 36em;
+  --measure-wide: 44em;           /* cap for small-print paragraphs */
+
+  /* ---- Spacing: 8 steps (4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px) ---- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+
+  /* ---- Radius: 3 steps ---- */
+  --r-sm: 4px;
+  --r: 8px;
+  --r-pill: 999px;
+
+  /* ---- Shadow: 2 steps ---- */
+  --shadow-1: 0 6px 18px -8px rgba(11, 38, 87, 0.22), 0 1px 2px rgba(11, 38, 87, 0.06);
+  --shadow-2: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+
+  /* ---- Motion: 2 steps ---- */
+  --dur-1: 120ms;
+  --dur-2: 160ms;
+
+  /* ---- Layout ---- */
+  --max: 1180px;
+  --sec: clamp(3.5rem, 7vw, 6.5rem);
+  --tap: 44px;                     /* minimum touch target */
+  --brand-h: 3.1rem;
+  --brand-h-sm: 2.5rem;
+}

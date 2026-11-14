@@ -19,9 +19,9 @@ const ld = [softwareLd(path, { name: '交付资料自查', description: '给液�
         <div class="sticky">
           <div class="tool">
             <div class="eyebrow plain">您的得分</div>
-            <div class="readout"><span data-score>0</span> / <span data-max>30</span></div>
+            <div class="readout" aria-live="polite" aria-atomic="true"><span data-score>0</span> / <span data-max>30</span></div>
             <p class="small muted" data-verdict style="margin:0.6rem 0 0">开始勾选。</p>
-            <div style="margin-top:1rem;height:6px;background:var(--line-2);border-radius:3px;overflow:hidden"><div data-bar style="height:100%;width:0;background:var(--heat);transition:width .2s"></div></div>
+            <div class="meter"><div data-bar></div></div>
             <div class="gaps" data-gaps hidden><div class="eyebrow plain" style="margin:0 0 0.4rem">缺口</div><ul data-gaplist></ul></div>
             <div class="btn-row" style="margin-top:1.2rem"><button class="btn" type="button" data-reset>重置</button><button class="btn" type="button" data-export>导出 CSV</button></div>
             <p class="small muted" style="margin:0.8rem 0 0">清单版本：2026-09。标为「不适用」的边界不计入满分。</p>
@@ -32,14 +32,14 @@ const ld = [softwareLd(path, { name: '交付资料自查', description: '给液�
           <p class="table-hint">左右滑动查看全部列。</p>
       <div class="table-wrap">
             <table class="table" data-check>
-              <thead><tr><th>#</th><th>边界</th>{qs.map((q) => <th style="text-align:center">{q}</th>)}<th style="text-align:center">不适用</th></tr></thead>
+              <thead><tr><th>#</th><th>边界</th>{qs.map((q) => <th class="tc">{q}</th>)}<th class="tc">不适用</th></tr></thead>
               <tbody>
                 {leakPoints.map((l) => (
                   <tr data-row={l.n} data-name={l.t}>
                     <td class="mono muted">{String(l.n).padStart(2, '0')}</td>
                     <td><strong>{l.t}</strong><br /><span class="small muted">{l.group}</span></td>
-                    {qs.map((q, j) => <td style="text-align:center"><input type="checkbox" data-k={`${l.n}-${j}`} aria-label={`${l.t}: ${q}`} style="width:1.2rem;height:1.2rem;accent-color:var(--heat)" /></td>)}
-                    <td style="text-align:center"><input type="checkbox" data-na={l.n} aria-label={`${l.t}: 不适用`} style="width:1.2rem;height:1.2rem;accent-color:var(--ink-3)" /></td>
+                    {qs.map((q, j) => <td class="tc"><label class="chk"><input type="checkbox" data-k={`${l.n}-${j}`} aria-label={`${l.t}: ${q}`} /></label></td>)}
+                    <td class="tc"><label class="chk na"><input type="checkbox" data-na={l.n} aria-label={`${l.t}: 不适用`} /></label></td>
                   </tr>
                 ))}
               </tbody>
@@ -122,8 +122,11 @@ const ld = [softwareLd(path, { name: '交付资料自查', description: '给液�
   run();
 </script>
 <style>
+  .meter { margin-top: 1rem; height: 6px; background: var(--line-2); border-radius: 3px; overflow: hidden; }
+  .meter div { height: 100%; width: 0; background: var(--heat); }
+  @media (prefers-reduced-motion: no-preference) { .meter div { transition: width var(--dur-2); } }
   .gaps { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-  .gaps ul { margin: 0; padding-left: 1.1rem; font-size: 0.88rem; color: var(--ink-2); }
+  .gaps ul { margin: 0; padding-left: 1.1rem; font-size: var(--fs-sm); color: var(--ink-2); }
   .gaps li { margin-bottom: 0.2rem; }
   tr.is-na td { color: var(--ink-3); }
   tr.is-na td strong { text-decoration: line-through; font-weight: 500; }

@@ -36,9 +36,9 @@ import { news, fmtNewsDate } from '@/data/news';
   .news-list a.has-cover { flex-direction: row; align-items: flex-start; gap: 1.25rem; }
   .news-list .cover { flex: 0 0 9.5rem; width: 9.5rem; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; background: var(--line); }
   @media (max-width: 560px) { .news-list a.has-cover { flex-direction: column; } .news-list .cover { width: 100%; flex-basis: auto; aspect-ratio: 16 / 9; } }
-  .news-list time { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
-  .news-list .t { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
-  .news-list .s { color: var(--ink-2); font-size: 0.97rem; }
-  .news-list .more { font-size: 0.9rem; font-weight: 600; color: var(--water); }
-  .news-list a:hover .t, .news-list a:hover .more { color: var(--heat); }
+  .news-list time { font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .news-list .t { font-family: var(--font-head); font-size: var(--fs-md); font-weight: var(--fw-head); color: var(--ink); line-height: 1.25; }
+  .news-list .s { color: var(--ink-2); font-size: var(--fs-base); }
+  .news-list .more { font-size: var(--fs-sm); font-weight: 600; color: var(--water); }
+  .news-list a:hover .t, .news-list a:hover .more { color: var(--heat-text); }
 </style>

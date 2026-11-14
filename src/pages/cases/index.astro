@@ -17,7 +17,7 @@ const ld = [caseListLd(path, cases), faqLd(path, qa)];
     <div class="wrap">
       <div class="grid c2">
         {cases.map((c) => (
-          <div class="case">
+          <div class="card stat">
             <div class="kpi"><b>{c.mw}</b><span>MW · {c.type}</span></div>
             <div class="body">
               <span class="tag">{c.tag}</span>
@@ -44,8 +44,8 @@ const ld = [caseListLd(path, cases), faqLd(path, qa)];
 </Base>
 
 <style>
-  .six { margin: 0.5rem 0 0; display: grid; grid-template-columns: 1fr; gap: 0.1rem; font-size: 0.93rem; }
-  .six dt { color: var(--ink-3); font-size: 0.8rem; font-weight: 600; }
+  .six { margin: 0.5rem 0 0; display: grid; grid-template-columns: 1fr; gap: 0.1rem; font-size: var(--fs-sm); }
+  .six dt { color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; }
   .six dd { margin: 0; color: var(--ink-2); }
   .six dd + dt { margin-top: 0.55rem; }
 </style>

@@ -88,16 +88,16 @@ const boundaries = [
 </Base>
 <style>
   .tpl { background: var(--white); border: 1px solid var(--line-2); border-radius: var(--r); padding: 2rem; margin-bottom: 2rem; }
-  .tpl h2 { font-size: 1.4rem; margin: 0.4rem 0 0.4rem; }
-  .tpl .tag { display: inline-block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 999px; padding: 0.2rem 0.7rem; }
+  .tpl h2 { font-size: var(--fs-lg); margin: 0.4rem 0 0.4rem; }
+  .tpl .tag { display: inline-block; font-family: var(--mono); font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--draft-text); background: var(--draft-bg); border: 1px solid var(--draft-line); border-radius: 999px; padding: 0.2rem 0.7rem; }
   .tpl .table td { height: 2.2rem; }
   .hdr-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.5rem 1rem; margin: 1rem 0; }
-  .hdr-fields span { font-size: 0.82rem; color: var(--ink-3); border-bottom: 1px solid var(--line); padding-bottom: 1.2rem; }
+  .hdr-fields span { font-size: var(--fs-sm); color: var(--ink-3); border-bottom: 1px solid var(--line); padding-bottom: 1.2rem; }
   .bd { display: grid; grid-template-columns: 1fr; gap: 0.6rem; margin-top: 1rem; }
   @media (min-width: 900px) { .bd { grid-template-columns: repeat(6, 1fr); } }
   .bd-step { border: 1px solid var(--line); border-top: 3px solid var(--water); border-radius: var(--r); padding: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; background: var(--paper); }
-  .bd-step .n { font-family: var(--mono); color: var(--heat); font-size: 0.8rem; }
-  .bd-step strong { font-size: 0.95rem; }
-  .bd-step .who { font-size: 0.82rem; color: var(--ink-2); }
-  .bd-step .rec { font-size: 0.78rem; color: var(--ink-3); margin-top: auto; }
+  .bd-step .n { font-family: var(--mono); color: var(--heat-text); font-size: var(--fs-xs); }
+  .bd-step strong { font-size: var(--fs-sm); }
+  .bd-step .who { font-size: var(--fs-sm); color: var(--ink-2); }
+  .bd-step .rec { font-size: var(--fs-xs); color: var(--ink-3); margin-top: auto; }
 </style>

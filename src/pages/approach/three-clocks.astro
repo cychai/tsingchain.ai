@@ -26,7 +26,7 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '「漏液�
           <div class="card clock">
             <span class="num">{c.n}</span>
             <h3>{c.t}</h3>
-            <p class="small" style="color:var(--heat);font-weight:600">{c.who}</p>
+            <p class="small" style="color:var(--heat-text);font-weight:600">{c.who}</p>
             <p><strong>长什么样。</strong>{c.ex}</p>
             <p><strong>留下什么证据。</strong>{c.ev}</p>
           </div>
@@ -53,4 +53,4 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '「漏液�
   </section>
   <Faq items={qa} />
 </Base>
-<style>.clock p { font-size: 0.95rem; }</style>
+<style>.clock p { font-size: var(--fs-sm); }</style>

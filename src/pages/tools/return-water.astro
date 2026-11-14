@@ -46,13 +46,13 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
           </div>
           <div class="result">
             <div class="eyebrow plain">年供热量 · <span data-out="case">理论上限情景（全年满额接收）</span></div>
-            <div class="readout"><span data-out="gwh">—</span> GWh<sub>th</sub></div>
+            <div class="readout" aria-live="polite" aria-atomic="true"><span data-out="gwh">—</span> GWh<sub>th</sub></div>
             <p class="small muted" style="margin:0.3rem 0 0">按上述价值约合每年 <span data-out="rev">—</span> 元（按数据中心交出的热量计），是毛收入而非利润，未扣泵送、热泵用电与管网成本。温度匹配只是初筛：流量、温降、容量和季节负荷同时满足，才有工程可行性。</p>
           </div>
         </div>
         <div>
           <div class="eyebrow">各类用户，按温度筛选</div>
-          <div class="tool" style="padding:0.4rem 1.4rem" data-buyers></div>
+          <div class="tool buyers" data-buyers></div>
           <div class="note" style="margin-top:1.2rem">
             <strong>这个工具做什么，不做什么。</strong>它只按交出的温度筛选。真实可行性还取决于买家的负荷曲线与季节、距离与泵送成本、可用率与备用、水力设计，以及商务条款。输出是示意性的筛选估算，不是设备选型、承诺或投资级预测。
           </div>
@@ -81,8 +81,9 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
   <Faq items={qa} alt />
 </Base>
 <style>
-  .input-error { margin: 0 0 1rem; padding: 0.7rem 0.9rem; border-left: 3px solid #b42318; background: #fef3f2; color: #7a271a; font-size: 0.92rem; }
-  input[aria-invalid="true"] { border-color: #b42318 !important; }
+  .input-error { margin: 0 0 1rem; padding: 0.7rem 0.9rem; border-left: 3px solid var(--danger); background: var(--danger-bg); color: var(--danger-text); font-size: var(--fs-sm); }
+  input[aria-invalid="true"] { border-color: var(--danger) !important; }
+  .tool.buyers { padding: var(--sp-2) var(--sp-5); }
   .result { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
 </style>
 <script>

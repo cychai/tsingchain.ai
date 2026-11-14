@@ -42,9 +42,9 @@ const { s } = Astro.props;
 <style>
   .spec { margin: 2.5rem 0 1.5rem; }
   .spec h2 { margin-bottom: 0.5rem; }
-  .spec tbody th { font-weight: 600; text-align: left; min-width: 9em; text-transform: none; letter-spacing: 0; font-size: 0.95rem; color: var(--ink); }
+  .spec tbody th { font-weight: 600; text-align: left; min-width: 9em; text-transform: none; letter-spacing: 0; font-size: var(--fs-sm); color: var(--ink); }
   .spec td.muted { min-width: 9em; }
   .asks { list-style: none; padding: 0; margin: 0.5rem 0 0; }
-  .asks li { padding: 0.6rem 0 0.6rem 1.4rem; border-bottom: 1px solid var(--line-2); font-size: 0.95rem; position: relative; }
+  .asks li { padding: 0.6rem 0 0.6rem 1.4rem; border-bottom: 1px solid var(--line-2); font-size: var(--fs-sm); position: relative; }
   .asks li::before { content: "→"; position: absolute; left: 0; color: var(--heat); }
 </style>

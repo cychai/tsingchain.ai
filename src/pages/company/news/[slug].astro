@@ -19,7 +19,7 @@ const ogImage = n.cover ? { src: n.cover.img, w: n.cover.w, h: n.cover.h, alt: n
       <div class="narrow">
         <nav class="crumbs" aria-label="面包屑"><a href="/">首页</a><span><a href="/company/about">公司</a></span><span><a href="/company/news">新闻</a></span></nav>
         <div class="eyebrow">新闻 · <time datetime={n.date}>{fmtNewsDate(n.date)}</time></div>
-        <h1 style="font-size:clamp(1.9rem,4vw,3rem)">{n.title}</h1>
+        <h1>{n.title}</h1>
         <p class="lede">{n.summary}</p>
       </div>
     </header>
@@ -45,8 +45,8 @@ const ogImage = n.cover ? { src: n.cover.img, w: n.cover.w, h: n.cover.h, alt: n
   </article>
 </Base>
 <style>
-  .news-body { padding-bottom: 3rem; font-size: 1.05rem; }
-  .news-body h2 { font-size: 1.3rem; }
+  .news-body { padding-bottom: 3rem; font-size: var(--fs-base); }
+  .news-body h2 { font-size: var(--fs-md); }
   .news-fig { margin: 1.75rem 0; }
-  .news-fig img { display: block; width: 100%; height: auto; border-radius: 4px; background: var(--line); }
+  .news-fig img { display: block; width: 100%; height: auto; border-radius: var(--r-sm); background: var(--line); }
 </style>

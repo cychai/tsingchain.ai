@@ -19,7 +19,7 @@ const rest = startsWithTerm ? d.text.slice(d.term.length) : `：${d.text}`;
   .definition { padding: 0 0 clamp(2rem, 4vw, 3rem); }
   .def-box { max-width: 44rem; padding: 1.4rem 1.6rem; border-left: 3px solid var(--heat); background: var(--white); border-radius: 0 var(--r) var(--r) 0; box-shadow: 0 1px 0 var(--line-2); }
   .def-box .eyebrow { margin-bottom: 0.5rem; }
-  .def-text { margin: 0; font-size: 1.05rem; line-height: 1.8; color: var(--ink); }
+  .def-text { margin: 0; font-size: var(--fs-base); line-height: 1.8; color: var(--ink); }
   dfn { font-style: normal; font-weight: 700; }
-  .alt { color: var(--ink-3); font-weight: 400; font-size: 0.92em; }
+  .alt { color: var(--ink-3); font-weight: 400; font-size: var(--fs-sm); }
 </style>

@@ -78,7 +78,7 @@ const levels = [
           <div class="card">
             <span class="num">{s.g}</span>
             <h3>{s.t}</h3>
-            <ul style="margin:0.5rem 0 0;padding-left:1.1rem;color:var(--ink-2);font-size:0.95rem">
+            <ul style="margin:0.5rem 0 0;padding-left:1.1rem;color:var(--ink-2);font-size:var(--fs-sm)">
               {s.items.map((it) => <li style="margin-bottom:0.4rem">{it}</li>)}
             </ul>
           </div>
@@ -96,7 +96,7 @@ const levels = [
           <div class="card">
             <span class="num">{t.n}</span>
             <h3>{t.p}</h3>
-            <ul style="margin:0.5rem 0 0;padding-left:1.1rem;color:var(--ink-2);font-size:0.95rem">
+            <ul style="margin:0.5rem 0 0;padding-left:1.1rem;color:var(--ink-2);font-size:var(--fs-sm)">
               {t.i.map((it) => <li style="margin-bottom:0.4rem">{it}</li>)}
             </ul>
           </div>
@@ -171,9 +171,9 @@ const levels = [
 <style>
   .sec-h { margin: 0 0 0.4rem; }
   .sec-lede { color: var(--ink-2); max-width: 62ch; margin: 0 0 1.4rem; }
-  .tbl { width: 100%; border-collapse: collapse; margin: 1rem 0 1.4rem; font-size: 0.95rem; }
+  .tbl { width: 100%; border-collapse: collapse; margin: 1rem 0 1.4rem; font-size: var(--fs-sm); }
   .tbl th, .tbl td { text-align: left; vertical-align: top; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); }
-  .tbl th { font-size: 0.8rem; color: var(--ink-3); font-weight: 600; white-space: nowrap; }
+  .tbl th { font-size: var(--fs-xs); color: var(--ink-3); font-weight: 600; white-space: nowrap; }
   .tbl td { color: var(--ink-2); }
   .table-wrap { max-width: 56rem; }
   @media (max-width: 640px) { .tbl { min-width: 36rem; } }
