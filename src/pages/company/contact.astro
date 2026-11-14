@@ -23,15 +23,15 @@ import { site } from '@/data/site';
           <p class="small muted"><strong>接下来会怎样。</strong>我们在两个工作日内回复，提出问题或建议下一步；基本需求明确后，再给正式的范围与报价。</p>
         </div>
         <form id="form" class="tool" data-contact data-to={site.email} novalidate>
-          <div class="field"><label for="name">姓名</label><input id="name" name="name" type="text" required maxlength="120" autocomplete="name" /></div>
+          <div class="field"><label for="name">姓名<span class="req" data-v2>必填</span></label><input id="name" name="name" type="text" required maxlength="120" autocomplete="name" aria-describedby="name-err" data-req="请填写姓名。" /><p class="field-err" id="name-err" data-v2 hidden></p></div>
           <div class="field"><label for="org">单位</label><input id="org" name="org" type="text" maxlength="160" autocomplete="organization" /></div>
-          <div class="field"><label for="email">邮箱</label><input id="email" name="email" type="email" required maxlength="200" autocomplete="email" /></div>
+          <div class="field"><label for="email">邮箱<span class="req" data-v2>必填</span></label><input id="email" name="email" type="email" required maxlength="200" autocomplete="email" aria-describedby="email-err" data-req="请填写邮箱。" data-fmt="邮箱格式不对，例如 name@company.com。" /><p class="field-err" id="email-err" data-v2 hidden></p></div>
           <div class="field"><label for="phone">电话 / 微信（选填）</label><input id="phone" name="phone" type="text" maxlength="80" autocomplete="tel" /></div>
-          <div class="field"><label for="topic">需求类型</label>
-            <select id="topic" name="topic" required>
+          <div class="field"><label for="topic">需求类型<span class="req" data-v2>必填</span></label>
+            <select id="topic" name="topic" required aria-describedby="topic-err" data-req="请选择主题。">
               <option value="" selected disabled>请选择</option>
               <option>产品咨询或报价</option><option>现场检测或运维</option><option>AI 算力中心新建</option><option>既有数据中心液冷改造</option><option>余热利用</option><option>现有系统的调试或验证</option><option>合作伙伴</option><option>仿真台测试申请</option><option>其他</option>
-            </select></div>
+            </select><p class="field-err" id="topic-err" data-v2 hidden></p></div>
           <fieldset class="details" data-details hidden>
             <legend>项目信息 <span class="small muted">均为选填，粗略的也可以</span></legend>
             <div class="field" data-f="load"><label for="load" data-l>IT 负荷</label><input id="load" name="load" type="text" maxlength="200" /></div>
@@ -40,7 +40,7 @@ import { site } from '@/data/site';
             <div class="field" data-f="water"><label for="water" data-l>供回水条件</label><input id="water" name="water" type="text" maxlength="200" /></div>
             <div class="field" data-f="scope"><label for="scope" data-l>供货范围</label><input id="scope" name="scope" type="text" maxlength="200" /></div>
           </fieldset>
-          <div class="field"><label for="msg">需求描述</label><textarea id="msg" name="message" rows="6" required minlength="10" maxlength="5000"></textarea></div>
+          <div class="field"><label for="msg">需求描述<span class="req" data-v2>必填</span></label><textarea id="msg" name="message" rows="6" required minlength="10" maxlength="5000" aria-describedby="msg-err" data-req="请填写需求描述。" data-short="需求描述至少写 10 个字。"></textarea><p class="field-err" id="msg-err" data-v2 hidden></p></div>
           <div class="hp" aria-hidden="true"><label for="website">请留空</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
           <p class="form-status" data-status role="status" hidden></p>
           <div class="receipt" data-receipt hidden></div>
@@ -120,10 +120,29 @@ import { site } from '@/data/site';
     if (fb) fb.hidden = false;
     say(`未送达：您的留言没有发到我们这里。请发邮件至 ${f.dataset.to}，可以用下面的按钮复制咨询内容，或在邮件客户端里打开草稿。您填写的内容仍保留在表单中。`, 'error');
   }
+  // Field-level validation: the message sits under the field (aria-describedby) and comes from the markup.
+  // A field is checked when it is left with something in it, re-checked while it is being corrected, and all are checked on submit.
+  const need = f ? [...f.querySelectorAll('[required]')] : [];
+  const mark = (el, m) => {
+    const p = document.getElementById(el.id + '-err');
+    if (p) { p.textContent = m; p.hidden = !m; }
+    el.setAttribute('aria-invalid', m ? 'true' : 'false');
+  };
+  const check = (el) => {
+    const v = el.value.trim(), ds = el.dataset;
+    const m = !v ? ds.req : el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? ds.fmt : el.minLength > 0 && v.length < el.minLength ? ds.short : '';
+    mark(el, m);
+    return !m;
+  };
+  need.forEach((el) => {
+    el.addEventListener('blur', () => { if (el.value.trim()) check(el); });
+    el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') check(el); });
+  });
   f?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (receipt) receipt.hidden = true;
-    if (!f.checkValidity()) { f.reportValidity(); say('请把标出的项目填写完整。', 'error'); return; }
+    const bad = need.filter((el) => !check(el));
+    if (bad.length) { bad[0].focus(); say('请把标出的项目填写完整。', 'error'); return; }
     const d = new FormData(f);
     const payload = { name: g(d, 'name'), org: g(d, 'org'), email: g(d, 'email'), phone: g(d, 'phone'), topic: g(d, 'topic'), message: g(d, 'message'), website: g(d, 'website'), elapsed: Date.now() - opened };
     LABELS.forEach(([k]) => { const v = g(d, k); if (v) payload[k] = v; });
@@ -142,7 +161,7 @@ import { site } from '@/data/site';
           receipt.append(dl);
           receipt.hidden = false; receipt.setAttribute('tabindex', '-1'); receipt.focus();
         }
-        f.reset(); applyTopic(); if (fb) fb.hidden = true; btn.disabled = false; return;
+        f.reset(); applyTopic(); need.forEach((el) => mark(el, '')); if (fb) fb.hidden = true; btn.disabled = false; return;
       }
       if (j.error === 'validation') { say('请检查姓名、邮箱、需求类型和需求描述（至少 10 个字），然后再发送。', 'error'); btn.disabled = false; return; }
       notDelivered(d);

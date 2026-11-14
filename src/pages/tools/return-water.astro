@@ -49,6 +49,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
             <div class="readout" aria-live="polite" aria-atomic="true"><span data-out="gwh">—</span> GWh<sub>th</sub></div>
             <p class="small muted" style="margin:0.3rem 0 0">按上述价值约合每年 <span data-out="rev">—</span> 元（按数据中心交出的热量计），是毛收入而非利润，未扣泵送、热泵用电与管网成本。温度匹配只是初筛：流量、温降、容量和季节负荷同时满足，才有工程可行性。</p>
           </div>
+          <div class="share-row" data-v2><button type="button" class="btn" data-share data-done="链接已复制" data-fail="未能复制，链接已写入地址栏。">复制本工况链接</button><span role="status" data-share-status></span></div>
         </div>
         <div>
           <div class="eyebrow">各类用户，按温度筛选</div>
@@ -78,15 +79,18 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
       </div>
     </div>
   </section>
+  <button type="button" class="tbar" data-tbar data-v2 hidden><span data-tbar-text></span><span class="go">看结果 ↓</span></button>
   <Faq items={qa} alt />
 </Base>
 <style>
   .input-error { margin: 0 0 1rem; padding: 0.7rem 0.9rem; border-left: 3px solid var(--danger); background: var(--danger-bg); color: var(--danger-text); font-size: var(--fs-sm); }
   input[aria-invalid="true"] { border-color: var(--danger) !important; }
   .tool.buyers { padding: var(--sp-2) var(--sp-5); }
+  .tool.buyers :global(.tax) { margin: var(--sp-3) 0 var(--sp-1); }
   .result { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
 </style>
 <script>
+  import { restore, share, inRange, resultBar } from '@/scripts/tool';
   const buyers = [
     { name: '传统区域供热（二代/三代管网）', min: 70, max: 95, why: '老管网与散热器按 70–90 °C 供水设计，部分更高。' },
     { name: '吸收式制冷（单效溴化锂）', min: 80, max: 95, why: '热水型单效机组多按 90 °C 热源设计，部分机型可低至 80 °C；请查厂商性能曲线。' },
@@ -111,13 +115,13 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
   const errBox = document.createElement('p');
   errBox.className = 'input-error'; errBox.setAttribute('role', 'alert'); errBox.hidden = true;
   list.parentNode.insertBefore(errBox, list);
+  const ids = ['tret', 'hx', 'mw', 'dt', 'price', 'hrs'];
+  const setBar = resultBar(list);
+  const pc = (v) => Math.max(0, Math.min(100, v));
   function invalid() {
     const bad = [];
     for (const [input, label, lo, hi, unit] of fields) {
-      const raw = input.value.trim(), v = Number(raw);
-      const ok = raw !== '' && Number.isFinite(v) && v >= lo && v <= hi;
-      input.setAttribute('aria-invalid', ok ? 'false' : 'true');
-      if (!ok) bad.push(`${label}：请输入 ${lo}–${hi} ${unit} 之间的数。`);
+      if (!inRange(input, lo, hi, `请输入 ${lo}–${hi} ${unit} 之间的数。`)) bad.push(`${label}：请输入 ${lo}–${hi} ${unit} 之间的数。`);
     }
     return bad;
   }
@@ -125,6 +129,7 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
     const bad = invalid();
     if (bad.length) {
       errBox.textContent = '请修正输入。' + bad.join(' ');
+      setBar('请修正输入。');
       errBox.hidden = false;
       ['tdel', 'flow', 'gwh', 'rev'].forEach((k) => out(k, '—'));
       list.innerHTML = '';
@@ -141,9 +146,13 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
     const gwh = P * H / 1000;
     out('gwh', gwh.toFixed(1));
     out('rev', Math.round(gwh * 1000 * pr).toLocaleString('zh-CN'));
-    list.innerHTML = buyers.map((b) => {
+    // Temperature axis (0–100 °C): one bar per off-taker window, one line at the delivered temperature.
+    const mark = `<line x1="${pc(T)}%" x2="${pc(T)}%" y1="0" y2="10"/>`;
+    const axis = `<svg class="tax" role="img" aria-label="温度轴，0–100 °C。横条是各类用户的供热温度窗口，竖线是买家实际收到的温度。">${[0, 20, 40, 60, 80, 100].map((v) => `<text x="${v}%" y="34" text-anchor="${v ? (v < 100 ? 'middle' : 'end') : 'start'}">${v}${v < 100 ? '' : ' °C'}</text>`).join('')}<line x1="${pc(T)}%" x2="${pc(T)}%" y1="15" y2="21"/><text class="now" x="${pc(T)}%" y="11" text-anchor="${T < 12 ? 'start' : T > 88 ? 'end' : 'middle'}">${T.toFixed(1)} °C</text></svg>`;
+    let n = 0;
+    list.innerHTML = axis + buyers.map((b) => {
       let cls, st, extra = '';
-      if (T >= b.min) { cls = 'ok'; st = '温度匹配'; }
+      if (T >= b.min) { n++; cls = 'ok'; st = '温度匹配'; }
       else if (T >= b.min - 25) {
         cls = 'lift'; st = '需要提升';
         const Th = b.min + 273.15, Tc = T + 273.15;
@@ -151,9 +160,11 @@ const ld = [softwareLd(path, { name: '回水品位 → 余热买家', descriptio
         const elec = P / (cop - 1);
         extra = ` 需提升 ${(b.min - T).toFixed(1)} K；COP ≈ ${cop.toFixed(1)}，吸收 ${P} MW<sub>th</sub> 余热约需 ${elec.toFixed(2)} MW<sub>e</sub> 电功率，向用户供热约 ${(P + elec).toFixed(2)} MW<sub>th</sub>。`;
       } else { cls = 'no'; st = '超出筛选范围'; }
-      return `<div class="buyer ${cls}"><span class="dot"></span><div><div class="name">${b.name}</div><div class="why">${b.why}窗口 ${b.min}–${b.max} °C。${extra}</div></div><span class="st">${st}</span></div>`;
+      return `<div class="buyer ${cls}"><span class="dot"></span><div><div class="name">${b.name}</div><div class="why">${b.why}窗口 ${b.min}–${b.max} °C。${extra}</div></div><span class="st">${st}</span><svg class="trk" aria-hidden="true"><rect class="bg" y="4" width="100%" height="2"/><rect class="win" x="${b.min}%" y="2" width="${b.max - b.min}%" height="6" rx="3"/>${mark}</svg></div>`;
     }).join('');
+    setBar(`买家实际收到 <b>${T.toFixed(1)} °C</b> · ${buyers.length} 类中 <b>${n}</b> 类温度匹配 · <b>${gwh.toFixed(1)}</b> GWh/年`);
   }
   [t, hx, mw, dt, price, hrs].forEach((i) => i.addEventListener('input', run));
+  restore(ids); share(ids);
   run();
 </script>

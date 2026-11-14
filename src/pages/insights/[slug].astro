@@ -5,11 +5,16 @@ import { getCollection, render } from 'astro:content';
 import { site } from '@/data/site';
 import { articleLd } from '@/lib/ld';
 export async function getStaticPaths() {
-  const posts = await getCollection('insights', (p) => !p.data.draft);
-  return posts.map((p) => ({ params: { slug: p.id }, props: { p } }));
+  const posts = (await getCollection('insights', (p) => !p.data.draft)).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+  // Previous = the article dated just before this one, next = the one just after.
+  return posts.map((p, i) => ({ params: { slug: p.id }, props: { p, prev: posts[i - 1], next: posts[i + 1] } }));
 }
-const { p } = Astro.props;
-const { Content } = await render(p);
+const { p, prev, next } = Astro.props;
+const { Content, headings } = await render(p);
+// Contents list: h2 and h3 of the article, shown only on long pieces (three or more h2).
+// A "heading" longer than 80 characters is a paragraph marked up as one in the source (author lines); it is left out.
+const toc = headings.filter((h) => (h.depth === 2 || h.depth === 3) && h.text.length <= 80);
+const showToc = toc.filter((h) => h.depth === 2).length >= 3;
 const fmt = (d: Date) => d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 const defaults: Record<string, { href: string; label: string; kind: 'evidence' | 'tool' | 'approach' | 'insight' }> = {
   '/evidence/leak-points': { href: '/evidence/leak-points', label: '十大漏点', kind: 'evidence' },
@@ -27,6 +32,7 @@ const path = `/insights/${p.id}`;
 const ld = [articleLd(path, { headline: p.data.title, description: p.data.subtitle, published: p.data.date, modified: p.data.updated, author: p.data.author, canonical: p.data.canonical, tags: p.data.tags })];
 ---
 <Base ld={ld} mdAlternate={`${path}.md`} title={p.data.title} description={p.data.subtitle ?? site.description} canonical={p.data.canonical} type="article" published={p.data.date} modified={p.data.updated}>
+  <div class="progress" data-progress data-v2 aria-hidden="true"></div>
   <article>
     <header class="hero">
       <div class="narrow">
@@ -38,10 +44,24 @@ const ld = [articleLd(path, { headline: p.data.title, description: p.data.subtit
       </div>
     </header>
     <div class="narrow prose article-body">
+      {showToc && (
+        <aside class="toc-rail" data-v2>
+          <details class="toc" data-toc>
+            <summary>目录</summary>
+            <nav aria-label="目录" data-spy><ol>{toc.map((h) => <li class={h.depth === 3 ? 'd3' : undefined}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol></nav>
+          </details>
+        </aside>
+      )}
       <Content />
       <hr />
       <p class="small muted">作者：{p.data.author ?? '李俊明'}{(p.data.author ?? '李俊明') === '李俊明' && <>（Jim Li），清链科技联合创始人兼副总裁，NextGenergy 创始人兼 CEO</>}。{p.data.source === 'wechat' && p.data.sourceUrl && <>首发于微信公众号「清链学堂在线」，<a href={p.data.sourceUrl}>原文链接</a>。</>}{p.data.source === 'substack' && p.data.sourceUrl && <>英文版首发于 <a href={p.data.sourceUrl}>Substack</a>。</>}转载请注明出处。 <a href={`${path}.md`}>Markdown 版本</a></p>
       <Related items={related} />
+      {(prev || next) && (
+        <nav class="pn" aria-label="更多文章" data-v2>
+          {prev && <a class="prev" href={`/insights/${prev.id}`}><span class="k">← 上一篇</span><span class="t">{prev.data.title}</span></a>}
+          {next && <a class="next" href={`/insights/${next.id}`}><span class="k">下一篇 →</span><span class="t">{next.data.title}</span></a>}
+        </nav>
+      )}
     </div>
   </article>
 </Base>

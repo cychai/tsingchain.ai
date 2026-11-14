@@ -22,6 +22,7 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
             <select id="climate">
               <option value="beijing">北京</option><option value="shanghai">上海</option><option value="shenzhen">深圳</option><option value="chengdu">成都</option><option value="guiyang">贵阳 / 贵安</option><option value="ulanqab">乌兰察布</option><option value="zhangbei">张北</option><option value="harbin">哈尔滨</option><option value="toronto">多伦多（加拿大）</option>
             </select><p class="small muted" style="margin:0.4rem 0 0">仅为示意的干球温度分布：按各城市气候常值在 5 K 分箱内估计形状并归一到 8760 小时。不是气象站数据，不能作设计依据。设计请换用指定气象站的典型气象年或分箱数据。</p></div>
+          <div class="share-row" data-v2><button type="button" class="btn" data-share data-done="链接已复制" data-fail="未能复制，链接已写入地址栏。">复制本工况链接</button><span role="status" data-share-status></span></div>
         </div>
         <div>
           <div class="eyebrow">结果</div>
@@ -53,6 +54,7 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
       </div>
     </div>
   </section>
+  <button type="button" class="tbar" data-tbar data-v2 hidden><span data-tbar-text></span><span class="go">看结果 ↓</span></button>
   <Faq items={qa} alt />
 </Base>
 <style>
@@ -61,6 +63,7 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
   .row strong { font-family: var(--font-figure); font-weight: var(--fw-figure); font-size: var(--fs-md); white-space: nowrap; }
 </style>
 <script>
+  import { restore, share, inRange, resultBar } from '@/scripts/tool';
   // Hours per year with dry-bulb in each 5 K bin, from -30 to 45 °C (bins: [-30,-25) ... [40,45)). Approximate TMY shapes.
   const bins = [-30,-25,-20,-15,-10,-5,0,5,10,15,20,25,30,35,40];
   const climates = {
@@ -87,7 +90,15 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
     }
     return h;
   }
+  const ids = ['tsup', 'cdu', 'dc', 'climate'];
+  const setBar = resultBar(document.querySelector('.tool[aria-live]'));
   function run() {
+    out('cdu', +cdu.value); out('dc', +dc.value);
+    if (!inRange(tsup, 15, 50, '请输入 15–50 °C 之间的数。')) {
+      ['fws', 'amb', 'hrs', 'pct', 'trim', 'sens'].forEach((k) => out(k, '—'));
+      setBar('请修正输入。');
+      return;
+    }
     const Ts = +tsup.value, a1 = +cdu.value, a2 = +dc.value;
     out('cdu', a1); out('dc', a2);
     const fws = Ts - a1, amb = fws - a2;
@@ -97,7 +108,9 @@ const ld = [softwareLd(path, { name: 'CDU 趋近温差与自由冷却估算', de
     const r100 = (x) => (Math.round(x / 100) * 100).toLocaleString('zh-CN');
     out('hrs', '约 ' + r100(h)); out('pct', (h / 87.6).toFixed(0)); out('trim', '约 ' + r100(8760 - h));
     out('sens', '约 ' + r100(hoursBelow(dist, amb + 1) - h));
+    setBar(`全年完全自由冷却 <b>${(h / 87.6).toFixed(0)} %</b> · 约 <b>${r100(h)}</b> h`);
   }
   [tsup, cdu, dc, cl].forEach((i) => i.addEventListener('input', run));
+  restore(ids); share(ids);
   run();
 </script>

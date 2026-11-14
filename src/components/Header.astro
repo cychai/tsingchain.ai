@@ -1,14 +1,30 @@
 ---
 import { nav, site } from '@/data/site';
+import { menu } from '@/data/menu';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const under = (p: string) => path === p || path.startsWith(p + '/');
 const isCurrent = (n: { href: string; match?: string[] }) => (n.match ?? [n.href]).some(under);
+const here = (href: string) => (href === path ? 'page' : undefined);
+const sub = (label: string) => `${label}子菜单`;
 ---
 <header class="hdr">
   <div class="wrap">
     <a href="/" class="brand" aria-label={`${site.name} home`}><picture><source type="image/webp" srcset="/brand/logo-360.webp" /><img src="/brand/logo-360.png" alt="清链科技 Tsingchain Global" width="360" height="115" /></picture></a>
     <nav class="nav" aria-label="主导航">
-      {nav.map((n) => (
+      {nav.map((n, i) => menu[n.href] ? (
+        <div class="nav-item" data-dd>
+          <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+          <button type="button" class="dd-btn" aria-expanded="false" aria-controls={`dd-${i}`} aria-label={sub(n.label)}><svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" /></svg></button>
+          <div class:list={['dd', menu[n.href].length > 1 && 'mega']} id={`dd-${i}`}>
+            {menu[n.href].map((g) => (
+              <div class="dd-g">
+                {g.title && <a class="dd-h" href={g.href} aria-current={here(g.href!)}>{g.title}</a>}
+                {g.links.map(([href, label]) => <a href={href} aria-current={here(href)}>{label}</a>)}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
         <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
       ))}
     </nav>
@@ -17,38 +33,29 @@ const isCurrent = (n: { href: string; match?: string[] }) => (n.match ?? [n.href
   </div>
   <div class="mnav" id="mnav">
     <div class="wrap">
-      {nav.map((n) => <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>)}
+      {nav.map((n) => menu[n.href] ? (
+        <div class="mrow">
+          <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+          <details name="mnav" open={isCurrent(n)}>
+            <summary aria-label={sub(n.label)}><svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" /></svg></summary>
+            <div class="msub">
+              {menu[n.href].map((g) => (
+                <>
+                  {g.title && <a class="msub-h" href={g.href} aria-current={here(g.href!)}>{g.title}</a>}
+                  {g.links.map(([href, label]) => <a href={href} aria-current={here(href)}>{label}</a>)}
+                </>
+              ))}
+            </div>
+          </details>
+        </div>
+      ) : (
+        <a href={n.href} aria-current={isCurrent(n) ? 'page' : undefined}>{n.label}</a>
+      ))}
       <a href="/company/contact" aria-current={under('/company/contact') ? 'page' : undefined}>联系我们</a>
     </div>
   </div>
   <div class="mnav-scrim" data-menu-scrim hidden></div>
 </header>
 <script>
-  // Mobile menu: a disclosure that locks page scroll while open, closes on Esc (focus returns to the
-  // button), on a tap outside, when focus leaves the header, and when the viewport grows to desktop.
-  const btn = document.querySelector<HTMLButtonElement>('[data-menu]');
-  const menu = document.getElementById('mnav');
-  const scrim = document.querySelector<HTMLElement>('[data-menu-scrim]');
-  const label = btn?.querySelector('[data-menu-label]');
-  const hdr = btn?.closest('.hdr');
-  if (btn && menu) {
-    const isOpen = () => menu.classList.contains('open');
-    const set = (open: boolean, refocus = false) => {
-      menu.classList.toggle('open', open);
-      document.documentElement.classList.toggle('menu-open', open);
-      btn.setAttribute('aria-expanded', String(open));
-      if (label) label.textContent = (open ? btn.dataset.labelOpen : btn.dataset.labelClosed) ?? '';
-      if (scrim) scrim.hidden = !open;
-      if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
-      else if (refocus) btn.focus();
-    };
-    btn.addEventListener('click', () => set(!isOpen(), true));
-    scrim?.addEventListener('click', () => set(false));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.preventDefault(); set(false, true); } });
-    hdr?.addEventListener('focusout', (e) => {
-      const to = (e as FocusEvent).relatedTarget as Node | null;
-      if (isOpen() && to && !hdr.contains(to)) set(false);
-    });
-    window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => { if (e.matches && isOpen()) set(false); });
-  }
+  import '@/scripts/site';
 </script>
