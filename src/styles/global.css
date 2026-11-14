@@ -209,6 +209,9 @@ html.scrolled .hdr { box-shadow: var(--shadow-1); }
 .nav-item.open .dd-btn svg, .mrow details[open] summary svg { transform: rotate(180deg); }
 .nav:not(.js) .nav-item:hover .dd-btn svg { transform: rotate(180deg); }
 @media (hover: none) { .dd-btn { width: 2rem; justify-content: center; } .nav-item > a { padding-right: 0; } }
+/* With a mouse the caret is a 20 x 28 px button, so its keyboard focus ring is a neat box beside the label, not a 44 px column. */
+@media (hover: hover) { .dd-btn { min-height: 0; height: 1.75rem; margin-right: 0.25rem; border-radius: var(--r-sm); justify-content: center; } .dd-btn:focus-visible { outline-offset: 0; } }
+@media (forced-colors: active) { .nav a[aria-current] { text-decoration: underline; text-underline-offset: 0.35em; } .dd a[aria-current="page"] { outline: 1px solid; } }
 /* The panel. It is opened by script (site.ts): hover with a short intent delay, the caret button, or the arrow keys.
    Until the script has run, and where scripting is off, plain :hover / :focus-within opens it. */
 .dd { position: absolute; z-index: 5; top: calc(100% + 0.5rem); left: -0.5rem; min-width: 15rem; padding: var(--sp-2); background: var(--white); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); visibility: hidden; opacity: 0; transform: translateY(-0.375rem); }

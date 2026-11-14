@@ -82,17 +82,37 @@ items.forEach((it) => {
     clearTimeout(tOpen);
     tShut = window.setTimeout(() => items.forEach((o) => o.contains(d.activeElement) || shut(o)), 240);
   });
+  // Keys. Down / Up open the panel and walk its links (wrapping); Home / End jump to the first / last link in it.
+  // Left / Right move along the bar, or between the groups of the wide panel. Esc is handled once, on the document.
   it.addEventListener('keydown', (e) => {
-    const k = e.key;
-    if (k !== 'ArrowDown' && k !== 'ArrowUp') return;
+    const k = e.key, at = d.activeElement as HTMLElement, l = $$('.dd a', it), i = l.indexOf(at), n = l.length;
+    let to: HTMLElement | undefined;
+    if (k === 'ArrowLeft' || k === 'ArrowRight') {
+      const step = k === 'ArrowRight' ? 1 : -1;
+      if (i < 0) {
+        const tops = $$('.nav > a, .nav-item > a', nav!);
+        to = tops[tops.indexOf($(':scope > a', it)!) + step];
+        if (to) shut(it);
+      } else {
+        const gs = $$('.dd-g', it);
+        to = $('a', gs[gs.indexOf(at.closest<HTMLElement>('.dd-g')!) + step] ?? it) ?? undefined;
+        if (gs.length < 2) to = undefined;
+      }
+    } else {
+      const j = k === 'ArrowDown' ? (i + 1) % n : k === 'ArrowUp' ? (i < 0 ? n : i + n) - 1 : i < 0 ? -1 : k === 'Home' ? 0 : k === 'End' ? n - 1 : -1;
+      if (j < 0) return;
+      show(it);
+      to = l[j];
+    }
+    if (!to) return;
     e.preventDefault();
-    show(it);
-    const l = $$('.dd a', it), i = l.indexOf(d.activeElement as HTMLElement);
-    l[(i + (k === 'ArrowDown' ? 1 : l.length - (i < 0 ? 0 : 1))) % l.length].focus();
+    to.focus();
   });
   it.addEventListener('focusout', (e) => { if (!it.contains(e.relatedTarget as Node)) shut(it); });
 });
 d.addEventListener('click', (e) => items.forEach((it) => it.contains(e.target as Node) || shut(it)));
+// Coming back to a page from the back-forward cache: nothing is left open and the page is not left scroll-locked.
+addEventListener('pageshow', (e) => { if (e.persisted) { setMenu(false); items.forEach((it) => shut(it)); } });
 d.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   const on = opened();
