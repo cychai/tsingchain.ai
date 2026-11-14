@@ -1,11 +1,11 @@
 // Shared by the calculators (identical on both sites; every visible string is passed in or read from the markup):
-// restore inputs from the query string, copy a link to the current inputs, per-field range messages, phone result bar.
+// restore inputs from the URL fragment, copy a link to the current inputs, per-field range messages, phone result bar.
 const d = document;
 const byId = (id: string) => d.getElementById(id) as HTMLInputElement | HTMLSelectElement | null;
 
-/** Set inputs from ?id=value pairs. A value is used only if it is a number, or one of the options of a select. */
+/** Set inputs from #id=value&… pairs (the fragment never reaches the server or analytics). A value is used only if it is a number, or one of the options of a select. */
 export function restore(ids: string[]) {
-  const q = new URLSearchParams(location.search);
+  const q = new URLSearchParams(location.hash.slice(1));
   for (const id of ids) {
     const el = byId(id), v = q.get(id);
     if (!el || v === null || v === '') continue;
@@ -13,12 +13,13 @@ export function restore(ids: string[]) {
   }
 }
 
-/** "Copy link" button: writes the inputs into this page's query string and copies the address. */
+/** "Copy link" button: writes the inputs into this page's URL fragment and copies the address. */
 export function share(ids: string[]) {
   const b = d.querySelector<HTMLElement>('[data-share]'), st = d.querySelector('[data-share-status]');
   b?.addEventListener('click', async () => {
-    const u = new URL(location.pathname, location.origin);
-    ids.forEach((id) => u.searchParams.set(id, byId(id)!.value));
+    const u = new URL(location.pathname, location.origin), q = new URLSearchParams();
+    ids.forEach((id) => q.set(id, byId(id)!.value));
+    u.hash = q.toString();
     history.replaceState(null, '', u);
     let ok = true;
     try { await navigator.clipboard.writeText(u.href); } catch { ok = false; }
