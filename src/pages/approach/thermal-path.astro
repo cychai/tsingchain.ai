@@ -25,7 +25,7 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '从设施�
   <Definition d={d} />
   <section class="section">
     <div class="wrap">
-      <ThermalPath title="从设施水接口到芯片：六个边界" bounds={bounds.map((b) => b.t)} loops={['设施水', '技术冷却回路']} />
+      <ThermalPath title="从设施水接口到芯片：六个边界" bounds={bounds.map((b) => b.t)} loops={['设施水', '技术冷却回路']} fluids={['供液', '回液']} />
       <div class="split">
         <div class="sticky">
           <div class="eyebrow">按下游方向读</div>

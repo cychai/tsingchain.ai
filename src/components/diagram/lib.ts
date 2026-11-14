@@ -58,5 +58,18 @@ export function wave(u1: number, u2: number, v: number, amp = 5) {
   for (let i = 1; i < n; i++) d += `t${st} 0`;
   return d;
 }
+/** Legend for the two fluid lines: a short sample of each line type followed by its name. Names come from the page. */
+export function legend(x: number, y: number, names: [string, string]) {
+  const second = x + 30 + width(names[0], 12) + 22;
+  return line(`M${x} ${y - 4}h22`, 'sup') + text(x + 30, y, names[0], { cls: 't-sub' }) + line(`M${second} ${y - 4}h22`, 'ret') + text(second + 30, y, names[1], { cls: 't-sub' });
+}
+/** Heat exchanger: a plate with one U-turn on each side. The two fluids meet only through the plate; no line crosses it.
+ *  (u, A, B) is where the plate sits between the return line A and the supply line B; `tech` is +1 or -1, the side the technology loop is on. */
+export function exchanger(u: number, A: number, B: number, tech: number) {
+  const m = (A + B) / 2;
+  return rect(u - 14, A - 9, u + 14, B + 9) + line(`M${u} ${A - 9}V${B + 9}`)
+    + line(`M${u + tech * 14} ${A}H${u + tech * 7}V${m}`, 'ret') + line(`M${u + tech * 7} ${m}V${B}H${u + tech * 14}`, 'sup')
+    + line(`M${u - tech * 14} ${B}H${u - tech * 7}V${m}`, 'sup') + line(`M${u - tech * 7} ${m}V${A}H${u - tech * 14}`, 'ret');
+}
 /** Layout switch for the path diagrams: wide draws u→x, v→y; narrow swaps the axes (u→y, v→x). Line art only, no text inside. */
 export const layer = (body: string, swap: boolean) => (swap ? `<g transform="matrix(0 1 1 0 0 0)">${body}</g>` : `<g>${body}</g>`);

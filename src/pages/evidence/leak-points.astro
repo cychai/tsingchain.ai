@@ -20,7 +20,7 @@ const ld = [definedTermLd(path, d), techArticleLd(path, { headline: '每个液�
   <Definition d={d} />
   <section class="section">
     <div class="wrap">
-      <LeakMap title="十大漏点" points={leakPoints} />
+      <LeakMap title="十大漏点" points={leakPoints} fluids={['供液', '回液']} />
       <div class="split">
         <div class="sticky">
           <div class="eyebrow">按在通路上的位置分组</div>
