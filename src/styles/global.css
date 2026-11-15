@@ -277,15 +277,15 @@ body:has(.analytics-consent:not([hidden])) .mnav { max-height: calc(100vh - var(
 .mrow summary::-webkit-details-marker { display: none; }
 .mrow summary::before { content: ""; grid-area: 1 / 1; width: 2rem; height: 2rem; border-radius: var(--r-pill); background: var(--paper-2); }
 .mrow summary:active::before { background: var(--paper-3); }
-.mrow details[open] summary { color: var(--on-ink); }
-.mrow details[open] summary::before { background: var(--blue); }
+.mrow details[open] summary { color: var(--ink); }
+.mrow details[open] summary::before { background: var(--paper-3); }
 .mrow summary svg.ico { grid-area: 1 / 1; width: 0.875rem; height: 0.875rem; stroke-width: 1.5; }
 .msub { display: grid; margin: 0 0 var(--sp-3) var(--sp-1); padding: 0 0 0 var(--sp-4); border-left: 1px solid var(--line); }
 .msub a { display: flex; align-items: center; min-height: var(--tap); margin-left: calc(-1 * var(--sp-4)); padding-left: var(--sp-4); font-size: var(--fs-sm); line-height: 1.35; color: var(--ink-2); }
 .msub a[aria-current="page"] { box-shadow: inset 2px 0 0 var(--heat); margin-left: calc(-1 * var(--sp-4) - 1px); padding-left: calc(var(--sp-4) + 1px); }
 .msub .msub-h { font-weight: 600; color: var(--ink); }
 .msub .msub-h:not(:first-child) { margin-top: var(--sp-2); }
-.mbar { flex: none; display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); padding: var(--sp-3) 1.5rem max(var(--sp-3), env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--white); }
+.mbar { flex: none; display: grid; grid-template-columns: 1fr; gap: var(--sp-3); padding: var(--sp-3) 1.5rem max(var(--sp-3), env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: var(--white); }
 .msrch, .mcta { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: 48px; padding: 0 var(--sp-3); border-radius: var(--r-pill); font: inherit; font-weight: 600; cursor: pointer; }
 .msrch { border: 1px solid var(--line-strong); background: var(--white); color: var(--ink); }
 .msrch:active { background: var(--paper-2); }
