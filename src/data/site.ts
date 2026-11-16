@@ -7,7 +7,7 @@ export const site = {
   headline: 'AI 算力中心预制化液冷与现场服务',
   description:
     '清链科技规划、设计液冷 AI 算力中心，以工厂预制撬块、CDU、ORv3 与 19 英寸机柜和冷却设备交付，并为液冷回路提供现场检测、调试与运维。累计交付液冷设备近 1000 MW；每一个交付边界都附带证据。',
-  email: 'sales@tsingchain.ai',
+  email: 'sales@tsingchain.cn',
   founded: 2018,
   wechat: '清链学堂在线',
   location: '北京',

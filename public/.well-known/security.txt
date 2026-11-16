@@ -1,5 +1,5 @@
 # Security contact for www.tsingchain.cn (RFC 9116)
-Contact: mailto:sales@tsingchain.ai
+Contact: mailto:sales@tsingchain.cn
 Expires: 2027-09-30T00:00:00.000Z
 Preferred-Languages: zh, en
 Canonical: https://www.tsingchain.cn/.well-known/security.txt
