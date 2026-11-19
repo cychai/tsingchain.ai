@@ -23,6 +23,37 @@ export const newsPlain = (n: NewsItem) => n.body.filter(isPara).map((p) => p.rep
 // Keep these first publication dates when making later editorial updates.
 const items: NewsItem[] = [
   {
+    slug: 'commissioning-white-paper',
+    title: '北美平台 NextGenergy 发布《液冷系统调试与现场验收》白皮书（中文版）',
+    date: '2026-11-19',
+    summary: '用证据判断单相冷板系统何时可以承载生产算力。白皮书由清链科技北美平台 NextGenergy 发布，作者王辉、李俊明；中文版登记后免费下载。',
+    cover: { img: '/news/commissioning-white-paper/cover.jpg', alt: '《液冷系统调试与现场验收》白皮书中文版封面', w: 1600, h: 900 },
+    body: [
+      { img: '/news/commissioning-white-paper/cover.jpg', alt: '《液冷系统调试与现场验收：单相冷板系统的接口验证与放行》白皮书中文版封面，作者王辉、李俊明', caption: '《液冷系统调试与现场验收》白皮书中文版封面。来源：NextGenergy。', w: 1600, h: 900 },
+      '清链科技北美平台 NextGenergy 发布白皮书《液冷系统调试与现场验收：单相冷板系统的接口验证与放行》，作者王辉、李俊明。英文版于 2026 年 11 月 18 日在多伦多发布，中文版同步提供。白皮书给出液冷 AI 数据中心项目的调试规划、测试设计、证据审查和移交方法，面向业主、设计方、设备供应商、承包商、集成商、调试团队和运维方。读者在本站<a href="/resources/commissioning-white-paper">登记后可免费下载</a>中文版。',
+      '液冷把调试从项目收尾推到了项目中心。设备到场、管路装好、冷却液分配单元（CDU）运转、服务器上电，是四个不同阶段的四件事。它们都不能说明系统能承载训练任务、能在故障中穿越、能交给运维方接管。白皮书把这些当作不同的问题，逐一回答每个问题需要什么证据。',
+      { h2: '白皮书内容' },
+      '<strong>六个功能边界（B1–B6）。</strong>从设施水接口到冷板接口。每个边界都写明提供方、接收方、测试负责人、见证人和批准人，在采购前就把各供应商之间的接口责任分清。',
+      '<strong>四道闸门（G1–G4）。</strong>分别设在发货前、注液前、生产运行前和移交前。每道闸门都是针对明确范围、依据事先批准的判据签署的决定。',
+      '<strong>受控调试许可。</strong>用于分批给负载模拟器和实际 IT 设备上电，明确不等于放行生产。',
+      '<strong>四类判定：</strong>通过、不通过、未证明、经批准不适用。测量不确定度按事先写明的判定规则处理。',
+      '<strong>仿真的作用与边界。</strong>模型帮助选择测试工况、解释偏差，但不能替代测量；模型证据要附带适用性声明。',
+      '<strong>供项目团队使用的附录。</strong>包括验收判据登记表、模型与数据适用性声明、动态测试与放行记录、最低移交资料包，以及按接口和阶段编排的证据索引。',
+      '白皮书参考了公开的行业成果，包括开放计算项目（OCP）、ASHRAE、能效高性能计算工作组（EE HPC WG）和 DMTF 的指引，以及美国国家实验室公开的案例研究，共引用 21 项来源。它是方法文件，不是标准，也不是现场作业指导书。',
+      { h2: '作者的话' },
+      'NextGenergy 创始人兼首席执行官李俊明表示：「一个液冷机房可以上电、可以通过巡检，却仍然没准备好承载生产。弥合这道差距，靠的是开工前就商定的判据，以及按接口、按批次对照判据收集的证据。我们写这份白皮书，是希望业主、供应商和调试团队在设备到场之前，而不是之后，就对每一次放行需要什么达成一致。」',
+      { h2: '获取方式' },
+      '中文版白皮书（37 页 PDF）可在本站 <a href="/resources/commissioning-white-paper">资源 · 液冷系统调试与现场验收</a> 页面获取，填写姓名、单位和工作邮箱后即可下载；英文版见 <a href="https://nextgenergy.ai/resources/commissioning-white-paper">nextgenergy.ai</a>。',
+    ],
+    links: [
+      ['/resources/commissioning-white-paper', '下载白皮书（中文版）'],
+      ['/evidence/commissioning', '调试与验收准则'],
+      ['/services/field', '现场检测、验证与运维'],
+      ['https://nextgenergy.ai/resources/commissioning-white-paper', '英文版（nextgenergy.ai）'],
+    ],
+    legalAttribution: 'OCP、ASHRAE、DMTF 等名称归各自所有者所有。提及这些名称不代表认可或隶属关系。',
+  },
+  {
     slug: 'gdcc-canada-2026-recap',
     title: '北美平台 NextGenergy 亮相 GDCC 2026',
     date: '2026-10-23',

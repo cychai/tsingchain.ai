@@ -11,6 +11,7 @@ const groups = [
   ] },
   { href: '/evidence', title: '交付证据', lede: '我们交付什么，以及按什么准则测试。', links: [
     ['/evidence/commissioning', '调试与验收准则'],
+    ['/resources/commissioning-white-paper', '白皮书：液冷系统调试与现场验收'],
     ['/evidence/turnover', '交付资料包'],
     ['/evidence/samples', '记录样例（模板）'],
     ['/evidence/leak-points', '十大漏点'],
@@ -30,6 +31,11 @@ const groups = [
   <PageHero eyebrow="资源" title="技术方法、交付证据、工具与洞察。" lede="产品与现场服务背后的思路和记录，以及我们自己在用的工具。" />
   <section class="section">
     <div class="wrap">
+      <a class="card wp-feature" href="/resources/commissioning-white-paper">
+        <span class="eyebrow plain">白皮书 · 中文版</span>
+        <strong>液冷系统调试与现场验收</strong>
+        <span class="muted">单相冷板系统的接口验证与放行。六个功能边界、四道闸门，以及每一次放行需要的证据。登记后免费下载。</span>
+      </a>
       <div class="hub">
         {groups.map((g) => (
           <div class="card hub-card">
@@ -44,6 +50,10 @@ const groups = [
   </section>
 </Base>
 <style>
+  .wp-feature { display: grid; gap: 0.3rem; margin-bottom: 1.5rem; text-decoration: none; border-left: 3px solid var(--water); }
+  .wp-feature .eyebrow { margin: 0; }
+  .wp-feature strong { color: var(--ink); font-size: var(--fs-md); }
+  .wp-feature:hover strong { color: var(--water); }
   .hub { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
   @media (min-width: 800px) { .hub { grid-template-columns: 1fr 1fr; } }
   .hub-card { gap: 0; }

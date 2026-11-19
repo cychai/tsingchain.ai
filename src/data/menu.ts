@@ -20,7 +20,7 @@ export const menu: Record<string, MenuGroup[]> = {
   '/solutions': [{ links: subs('/solutions', solutions) }],
   '/resources': [
     { title: '技术方法', href: '/approach', lede: '我们如何决定造什么、测什么、记什么。', links: corePages[0].pages.map(([h, t]) => [h, t]) },
-    { title: '交付证据', href: '/evidence', lede: '我们交付什么，以及按什么准则测试。', links: foot('交付证据') },
+    { title: '交付证据', href: '/evidence', lede: '我们交付什么，以及按什么准则测试。', links: [...foot('交付证据'), ['/resources/commissioning-white-paper', '调试白皮书'] as Link] },
     { title: '工具', href: '/tools', lede: '在找我们或任何人之前，先自己核一遍数字。', links: foot('工具') },
     { title: '洞察', href: '/insights', lede: '关于电力、液冷与余热利用的长文。', links: [] },
   ],

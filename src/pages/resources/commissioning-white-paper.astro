@@ -1,0 +1,161 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import { site } from '@/data/site';
+// 白皮书留资下载（中文版）。表单提交到 /api/whitepaper，由 ECS 上的 nginx 转给北美平台 NextGenergy 的 Worker
+// （nextgenergy.ai，见 lca/server/deploy/tsingchain.conf）；Worker 按来源把线索发到 sales@tsingchain.cn，
+// 返回 7 天有效的签名链接 /download/commissioning-white-paper-zh，同样经 nginx 转发。
+// 文案取自中文新闻稿《NextGenergy 发布液冷 AI 数据中心调试与现场验收白皮书》，不新增数字。
+const inside: [string, string][] = [
+  ['六个功能边界（B1–B6）。', '从设施水接口到冷板接口。每个边界都写明提供方、接收方、测试负责人、见证人和批准人，在采购前就把各供应商之间的接口责任分清。'],
+  ['四道闸门（G1–G4）。', '分别设在发货前、注液前、生产运行前和移交前。每道闸门都是针对明确范围、依据事先批准的判据签署的决定。'],
+  ['受控调试许可。', '用于分批给负载模拟器和实际 IT 设备上电，明确不等于放行生产。'],
+  ['四类判定：', '通过、不通过、未证明、经批准不适用。测量不确定度按事先写明的判定规则处理。'],
+  ['仿真的作用与边界。', '模型帮助选择测试工况、解释偏差，但不能替代测量；模型证据要附带适用性声明。'],
+  ['供项目团队使用的附录。', '包括验收判据登记表、模型与数据适用性声明、动态测试与放行记录、最低移交资料包，以及按接口和阶段编排的证据索引。'],
+];
+---
+<Base title="液冷系统调试与现场验收（白皮书）" description="白皮书：单相冷板系统的接口验证与放行。六个功能边界、四道闸门、受控调试许可，以及每一次放行需要的证据。中文版，登记后免费下载。">
+  <PageHero eyebrow="白皮书" title="液冷系统调试与现场验收" lede="单相冷板系统的接口验证与放行" crumbs={[['/resources', '资源']]} />
+  <section class="section">
+    <div class="wrap">
+      <div class="split main">
+        <div class="wp-body">
+          <p>液冷把调试从项目收尾推到了项目中心。设备到场、管路装好、冷却液分配单元（CDU）运转、服务器上电，是四个不同阶段的四件事。它们都不能说明系统能承载训练任务、能在故障中穿越、能交给运维方接管。白皮书把这些当作不同的问题，逐一回答每个问题需要什么证据。</p>
+          <p>白皮书给出液冷 AI 数据中心项目的调试规划、测试设计、证据审查和移交方法，面向业主、设计方、设备供应商、承包商、集成商、调试团队和运维方。白皮书由北美平台 NextGenergy 发布，作者王辉、李俊明。</p>
+          <h2>白皮书内容</h2>
+          <ul class="inside">
+            {inside.map(([h, t]) => <li><strong>{h}</strong>{t}</li>)}
+          </ul>
+          <p class="small muted">白皮书参考了公开的行业成果，包括开放计算项目（OCP）、ASHRAE、能效高性能计算工作组（EE HPC WG）和 DMTF 的指引，以及美国国家实验室公开的案例研究，共引用 21 项来源。它是方法文件，不是标准，也不是现场作业指导书。中文版，37 页 PDF。</p>
+          <p class="small muted">OCP、ASHRAE、DMTF 等名称归各自所有者所有。提及这些名称不代表认可或隶属关系。</p>
+          <p class="small">相关：<a href="/evidence/commissioning">调试与验收准则</a> · <a href="/approach/thermal-path">整条热通路：六个边界</a> · <a href="/services/field">现场检测、验证与运维</a></p>
+        </div>
+        <form id="form" class="tool" data-wp data-to={site.email} novalidate>
+          <p class="wp-form-h">下载白皮书（中文版）</p>
+          <p class="small muted" style="margin:0 0 1.2rem">免费。填写下面的信息，页面会直接给出下载链接，同时发到您的邮箱。</p>
+          <div class="field"><label for="name">姓名<span class="req">必填</span></label><input id="name" name="name" type="text" required maxlength="120" autocomplete="name" aria-describedby="name-err" data-req="请填写姓名。" /><p class="field-err" id="name-err" hidden></p></div>
+          <div class="field"><label for="org">单位<span class="req">必填</span></label><input id="org" name="org" type="text" required maxlength="160" autocomplete="organization" aria-describedby="org-err" data-req="请填写单位。" /><p class="field-err" id="org-err" hidden></p></div>
+          <div class="field"><label for="title">职务<span class="req">必填</span></label><input id="title" name="title" type="text" required maxlength="120" autocomplete="organization-title" aria-describedby="title-err" data-req="请填写职务。" /><p class="field-err" id="title-err" hidden></p></div>
+          <div class="field"><label for="email">工作邮箱<span class="req">必填</span></label><input id="email" name="email" type="email" required maxlength="200" autocomplete="email" aria-describedby="email-err" data-req="请填写工作邮箱。" data-fmt="邮箱格式不对，例如 name@company.com。" /><p class="field-err" id="email-err" hidden></p></div>
+          <div class="field"><label for="phone">手机<span class="opt">选填</span></label><input id="phone" name="phone" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" aria-describedby="phone-err" data-fmt="手机号格式不对，只填数字，可带 + 号和空格。" /><p class="field-err" id="phone-err" hidden></p></div>
+          <div class="field"><label for="region">所在地区<span class="req">必填</span></label>
+            <select id="region" name="region" required aria-describedby="region-err" data-req="请选择所在地区。">
+              <option value="" selected disabled>请选择</option><option>中国大陆</option><option>港澳台</option><option>北美</option><option>其他</option>
+            </select><p class="field-err" id="region-err" hidden></p></div>
+          <div class="field"><label for="work">您在做什么项目？<span class="opt">选填</span></label><textarea id="work" name="work" rows="3" maxlength="1000" placeholder="例如：冷板改造，明年做调试"></textarea></div>
+          <div class="consent">
+            <input id="consent" name="consent" type="checkbox" required aria-describedby="consent-err" data-req="请勾选同意，才能获取白皮书。" />
+            <label for="consent">同意 NextGenergy 及清链科技就本白皮书及相关业务与我联系，可随时退订。见<a href="/company/privacy#white-paper">隐私声明</a>。</label>
+          </div>
+          <p class="field-err" id="consent-err" hidden></p>
+          <div class="hp" aria-hidden="true"><label for="website">请留空</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <p class="form-status" data-status role="status" hidden></p>
+          <div class="receipt" data-receipt hidden></div>
+          <div class="btn-row" style="margin-top:0.8rem;align-items:center"><button class="btn primary" type="submit" data-send>获取白皮书</button></div>
+          <p class="small muted" style="margin:1rem 0 0">您填写的信息经 HTTPS 发送，转成一封邮件发给我们的团队，网站不保存。下载链接 7 天内有效。表单有问题，请发邮件到 <a href={`mailto:${site.email}`}>{site.email}</a> 索取。</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  const f = document.querySelector<HTMLFormElement>('[data-wp]');
+  const status = f?.querySelector<HTMLElement>('[data-status]');
+  const btn = f?.querySelector<HTMLButtonElement>('[data-send]');
+  const receipt = f?.querySelector<HTMLElement>('[data-receipt]');
+  const phone = f?.querySelector<HTMLInputElement>('#phone');
+  const opened = Date.now();
+  const to = f?.dataset.to || 'sales@tsingchain.cn';
+  const PHONE_RE = /^[+\d][\d\s()+-]{4,29}$/;
+  const say = (msg: string, kind: string) => { if (!status) return; status.textContent = msg; status.dataset.kind = kind; status.hidden = false; };
+  // 失败：纯文本加 mailto 链接，用 DOM 方法构造（不用 innerHTML）。
+  const fallback = (lead: string) => {
+    if (!status) return;
+    status.replaceChildren(document.createTextNode(`${lead}请发邮件到 `));
+    const a = document.createElement('a'); a.href = `mailto:${to}?subject=${encodeURIComponent('索取白皮书：液冷系统调试与现场验收（中文版）')}`; a.textContent = to;
+    status.append(a, document.createTextNode(' 索取。'));
+    status.dataset.kind = 'error'; status.hidden = false;
+  };
+  const need = f ? [...f.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[required]')] : [];
+  const mark = (el: HTMLElement, m: string) => {
+    const p = document.getElementById(el.id + '-err');
+    if (p) { p.textContent = m; p.hidden = !m; }
+    el.setAttribute('aria-invalid', m ? 'true' : 'false');
+  };
+  const check = (el: HTMLInputElement | HTMLSelectElement) => {
+    const ds = el.dataset;
+    let m = '';
+    if (el instanceof HTMLInputElement && el.type === 'checkbox') m = el.checked ? '' : ds.req || '';
+    else {
+      const v = el.value.trim();
+      m = !v ? ds.req || '' : el instanceof HTMLInputElement && el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? ds.fmt || '' : '';
+    }
+    mark(el, m);
+    return !m;
+  };
+  // 手机选填：留空通过，填了才查格式。
+  const checkPhone = () => { if (!phone) return true; const v = phone.value.trim(); const m = v && !PHONE_RE.test(v) ? phone.dataset.fmt || '' : ''; mark(phone, m); return !m; };
+  need.forEach((el) => {
+    el.addEventListener('blur', () => { if (el.value.trim() && !(el instanceof HTMLInputElement && el.type === 'checkbox')) check(el); });
+    el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') check(el); });
+    el.addEventListener('change', () => { if (el.getAttribute('aria-invalid') === 'true') check(el); });
+  });
+  phone?.addEventListener('blur', checkPhone);
+  phone?.addEventListener('input', () => { if (phone.getAttribute('aria-invalid') === 'true') checkPhone(); });
+  f?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (receipt) receipt.hidden = true;
+    // 按页面顺序逐项检查（必填项和选填的手机），焦点落到第一个出错的项。
+    const all = [...f.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[required], #phone')];
+    const bad = all.filter((el) => (el === phone ? !checkPhone() : !check(el)));
+    if (bad.length) { bad[0].focus(); say('请把标出的项目填写完整。', 'error'); return; }
+    const d = new FormData(f);
+    const g = (k: string) => String(d.get(k) ?? '').trim();
+    const payload = { name: g('name'), org: g('org'), title: g('title'), email: g('email'), phone: g('phone'), region: g('region'), work: g('work'), edition: 'zh', consent: (f.querySelector('#consent') as HTMLInputElement).checked, website: g('website'), elapsed: Date.now() - opened };
+    if (btn) btn.disabled = true;
+    say('正在提交…', 'info');
+    try {
+      const r = await fetch('/api/whitepaper', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.ok && typeof j.link === 'string' && j.link.startsWith('/download/')) {
+        if (status) status.hidden = true;
+        if (receipt) {
+          receipt.replaceChildren();
+          const h = document.createElement('p'); h.className = 'r-h'; h.textContent = '谢谢，白皮书已准备好。'; receipt.append(h);
+          const a = document.createElement('a'); a.className = 'btn primary'; a.href = j.link; a.textContent = '下载 PDF（中文版）'; a.setAttribute('download', ''); receipt.append(a);
+          const n = document.createElement('p'); n.className = 'small';
+          n.textContent = j.mailed ? `链接 7 天内有效，我们也已发送到您的邮箱 ${payload.email}。` : `链接 7 天内有效${j.until ? `（${j.until} 前）` : ''}。`;
+          receipt.append(n);
+          receipt.hidden = false; receipt.setAttribute('tabindex', '-1'); receipt.focus();
+        }
+        f.reset(); need.forEach((el) => mark(el, '')); if (phone) mark(phone, ''); if (btn) btn.disabled = false; return;
+      }
+      if (r.ok && j.ok) fallback('已收到您的申请，但没有生成下载链接。');
+      else if (j.error === 'validation') say('请检查标出的项目后再提交。', 'error');
+      else if (j.error === 'not_configured') fallback('本页暂时无法下载。');
+      else fallback('提交没有成功。');
+    } catch {
+      fallback('提交没有成功。');
+    }
+    if (btn) btn.disabled = false;
+  });
+</script>
+<style>
+  .wp-body h2 { font-size: var(--fs-md); margin-top: 2rem; }
+  .inside { padding-left: 1.1rem; }
+  .inside li { margin-bottom: 0.7rem; }
+  .wp-form-h { font-weight: 600; font-size: var(--fs-md); margin: 0 0 0.3rem; color: var(--ink); }
+  .opt { margin-left: 0.4rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
+  .tool input[type="tel"] { width: 100%; min-height: var(--tap); font: inherit; padding: 0.6rem 0.9rem; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); color: var(--ink); }
+  .consent { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem; align-items: start; margin: 0.4rem 0 0.2rem; }
+  .consent input { width: 1.2rem; height: 1.2rem; margin: 0.15rem 0 0; accent-color: var(--water); }
+  .tool .consent label { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: var(--fs-sm); color: var(--ink); margin: 0; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .form-status { margin: 0.8rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--blue); background: var(--water-2); font-size: var(--fs-sm); }
+  .form-status[data-kind="error"] { border-color: var(--danger); background: var(--danger-bg); color: var(--danger-text); }
+  .tool select:invalid { color: var(--ink-3); }
+  .receipt { margin: 0.8rem 0 0; padding: 0.9rem 1rem; border-left: 3px solid var(--green); background: var(--ok-bg); }
+  .receipt .r-h { margin: 0 0 0.6rem; font-weight: 600; }
+  .receipt p.small { margin: 0.6rem 0 0; }
+</style>

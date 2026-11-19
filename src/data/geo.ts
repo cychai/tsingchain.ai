@@ -106,6 +106,7 @@ export const corePages: { section: string; pages: [string, string, string][] }[]
     ['/evidence/leak-points', '十大漏点', '回路可能泄漏的十个位置，按冷却液流向排列，各自应有的记录。'],
     ['/evidence/turnover', '交付资料包', '十个边界各三问：测了吗、按什么判据、记录在哪。'],
     ['/evidence/commissioning', '调试与验收准则', '从出厂放行到移交的四个关卡，判据在开工前写好。'],
+    ['/resources/commissioning-white-paper', '白皮书：液冷系统调试与现场验收', '单相冷板系统的方法文件，由北美平台 NextGenergy 发布：六个功能边界（B1–B6）、四道闸门（G1–G4）、受控调试许可、四类判定与仿真的边界；中文版 PDF，登记后免费下载。'],
     ['/evidence/samples', '记录样例', '三张可下载的记录模板：出厂测试记录、快插接头登记表、冷却液交付单，字段即交付资料包的字段。'],
     ['/evidence/standards', '我们跟踪的标准', 'YD/T 液冷行业标准、ERF/ERE、EU 2024/1364、ASHRAE W 级与 OCP 草案。'],
   ] },
